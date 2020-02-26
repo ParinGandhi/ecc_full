@@ -1,0 +1,893 @@
+<style>
+  @media screen and (min-width: 1920px) {
+    .dataToAdd {
+      width: 290px;
+    }
+  }
+
+  @media screen and (max-width: 1420px) {
+    .dataToAdd {
+      width: -webkit-fill-available;
+    }
+  }
+
+  @media screen and (min-width: 992px) {
+    .dataToAdd {
+      width: -webkit-fill-available;
+    }
+  }
+
+</style>
+
+<app-dashboard-library>
+  <widget-library>
+    <div class="modal-header">
+      <button title="Cancel" type="button" id="widgetSettingsCloseButton" ng-disabled="showErrorMsg"
+        ng-click="unsavedChanges($event, this, definition)" class="close">
+        <i class="fas fa-times fa-sm" ng-disabled="showErrorMsg"></i>
+        <span class="sr-only">Cancel</span>
+      </button>
+      <h4 class="modal-title ng-binding truncateTitle">Widget settings for
+        <!-- <span ng-bind-html="definition.existingTitle"></span> -->{{definition.title}}
+      </h4>
+    </div>
+    <button aria-controls="widgetTabMenu" aria-expanded="true" aria-hidden="true"
+      aria-label="toggle widget library tabs" class="navbar-toggle" data-target="#widgetTabMenu" data-toggle="collapse"
+      type="button">
+      <span>
+        <i class="fa fa-bars" aria-hidden="true"></i>
+      </span>
+    </button>
+    <nav style="border:none">
+      <ul class="collapse navbar-collapse widgetTabMenu" id="widgetTabMenu" role="tablist"
+        ng-init="widgetFilter.subcategory=''">
+        <li ng-class="{ 'active' :  !content}">
+          <button role="tab" id="menu-btn-0" ng-click="unsavedChanges($event, this, definition)" href="">Widget
+            settings</button>
+        </li>
+        <li ng-show="definition.type === 'myFavorites'" ng-class="{ 'active' :  content}">
+          <button role="tab" id="menu-btn-1" ng-click="unsavedChanges($event, this, definition)" href="">Widget
+            content</button>
+        </li>
+        <li ng-show="definition.type === 'viewCaseDockets'" ng-class="{ 'active' :  content}" role="presentation">
+          <button role="tab" id="menu-btn-2" ng-click="unsavedChanges($event, this, definition)" href="">Show/Hide
+            columns</button>
+        </li>
+        <li ng-show="definition.type === 'assignments' ||definition.type === 'workQueue' "
+          ng-class="{ 'active' :  content}" role="presentation">
+          <button role="tab" id="menu-btn-3" ng-click="unsavedChanges($event, this, definition)" href="">Show/Hide
+            columns</button>
+        </li>
+        <li ng-show="definition.type === 'assignmentBasedDocket'" ng-class="{ 'active' :  content}" role="presentation">
+          <button role="tab" id="menu-btn-4" ng-click="unsavedChanges($event, this, definition)" href="">Show/Hide
+            columns</button>
+        </li>
+        <li ng-show="definition.type === 'masterDocket'" ng-class="{ 'active' :  content}" role="presentation">
+          <button role="tab" id="menu-btn-5" ng-click="unsavedChanges($event, this, definition)" href="">Show/Hide
+            columns</button>
+        </li>
+        <li ng-show="definition.type === 'myCredits'" ng-class="{ 'active' :  content}" role="presentation">
+          <button role="tab" id="menu-btn-5" ng-click="unsavedChanges($event, this, definition)" href="">Show/Hide
+            columns</button>
+        </li>
+      </ul>
+    </nav>
+  </widget-library>
+</app-dashboard-library>
+
+<div style="overflow: auto; border-left: 1px solid #ddd;min-height: 545px; height: 400px;">
+  <div style="opacity: 1; display: inline-block; width: 100%;">
+    <div class="modal-body">
+      <div ng-show="!content">
+        <div class="form-group">
+          <label>
+            <h4>Appearance settings</h4>
+          </label>
+        </div>
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label class="col-md-12" for="widgetTitle">Widget title*</label>
+            <div class="col-md-12">
+              <textarea ng-trim="false" rows="2" maxlength="200" class="form-control" id="widgetTitle"
+                ng-model="definition.title" placeholder="Enter title" required="" aria-invalid="false"
+                ng-class="{'errorMsgInput': definition.title.length <= 0, 'errorMsgInput': showErrorMsg}"
+                ng-keyup="checkForError(definition.title, definition)"></textarea>
+              <span class="help-block pull-right">
+                <strong>{{!definition.title.length ? 0 : definition.title.length}} / 200</strong>
+              </span>
+              <span class="errorMsg" ng-if="showErrorMsg">{{errorMessage}}</span>
+              <span class="help-block">Changes take effect after widget is saved.</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-12">Widget height</label>
+            <span class="help-block">&nbsp; Adjust the vertical height of this widget</span>
+            <ul class="nav list-group heightDiv col-md-12" style="list-style: none">
+              <li style="float: left; margin-right: 15px; margin-top: 5px">
+                <label class="radio-inline" for="height_small">
+                  <button id="small" tabindex="-1" type="button" style="height:20px; margin-top:60px;"
+                    data-ng-click="definition.height = 'widgetHeightSmall';"><span class="sr-only">Small
+                      widget</span></button>
+                  <div class="text-center">
+                    <input type="radio" ng-model="definition.height" id="height_small" value="widgetHeightSmall"
+                      data-ng-click="definition.height = 'widgetHeightSmall';" style="margin-top: 5px;" />
+                    <p style="display:inline-block;">Small</p>
+                  </div>
+                </label>
+              </li>
+              <li style="float: left; margin-right: 15px; margin-top: 5px">
+                <label class="radio-inline" for="height_medium">
+                  <button id="medium" tabindex="-1" type="button" style="height:40px; margin-top:40px;"
+                    data-ng-click="definition.height = 'widgetHeightMedium';"><span class="sr-only">Meduim
+                      widget</span></button>
+                  <div class="text-center" style="margin-left: 12px;">
+                    <input type="radio" ng-model="definition.height" id="height_medium" value="widgetHeightMedium"
+                      data-ng-click="definition.height = 'widgetHeightMedium';" style="margin-top: 5px;" />
+                    <p style="display:inline-block">Medium</p>
+                  </div>
+                </label>
+              </li>
+              <li style="float: left; margin-right: 15px; margin-top: 5px">
+                <label class="radio-inline" for="height_large">
+                  <button id="large" tabindex="-1" type="button" style="height:60px; margin-top:20px;"
+                    data-ng-click="definition.height = 'widgetHeightLarge';"><span class="sr-only">Large
+                      widget</span></button>
+                  <div class="text-center">
+                    <input type="radio" ng-model="definition.height" id="height_large" value="widgetHeightLarge"
+                      data-ng-click="definition.height = 'widgetHeightLarge';" style="margin-top: 5px;" />
+                    <p style="display:inline-block">Large</p>
+                  </div>
+                </label>
+              </li>
+              <li style="float: left; margin-right: 15px; margin-top: 5px">
+                <label class="radio-inline" for="height_xlarge">
+                  <button id="xlarge" tabindex="-1" type="button" style="height:80px;"
+                    data-ng-click="definition.height = 'widgetHeightXlarge';"><span class="sr-only">Extra-large
+                      widget</span></button>
+                  <div class="text-center" style="margin-left: 8px;">
+                    <input type="radio" ng-model="definition.height" id="height_xlarge" value="widgetHeightXlarge"
+                      data-ng-click="definition.height = 'widgetHeightXlarge';" style="margin-top: 5px;" />
+                    <p style="display:inline-block">X-large</p>
+                  </div>
+                </label>
+              </li>
+            </ul>
+          </div>
+          <div class="form-group">
+            <label class="col-md-12">Widget color {{definition.color}}</label>
+            <span class="help-block" style="margin-bottom: 1px;">&nbsp;&nbsp;Choose color to update the header title
+              and bottom border</span>
+            <ul class="nav list-group colorDivision col-md-12" style="list-style:none">
+              <li style="float: left; margin-right: 5px; margin-top: 10px">
+                <label class="radio-inline color-inline" for="red" style="padding-top: 3px">
+                  <button class="widColor" tabindex="-1" id="red" type="button" tooltip-placement="top"
+                    uib-tooltip="Red" style="background-color: #E4002B;border-color:  #E4002B; height: 30px;"
+                    data-ng-click="definition.color ='red';"><span class="sr-only">Red widget</span></button>
+                  <div class="text-center">
+                    <input type="radio" ng-model="definition.color" id="red" value="red"
+                      data-ng-click="definition.color = 'red';" style="margin-left: -10px;" />
+                  </div>
+                </label>
+              </li>
+              <li style="float: left; margin-right: 5px; margin-top: 10px">
+                <label class="radio-inline color-inline" for="yellow" style="padding-top: 3px">
+                  <button class="widColor" tabindex="-1" id="red" type="button" tooltip-placement="top"
+                    uib-tooltip="Yellow" style="background-color: #F3D54E;border-color:  #F3D54E; height: 30px;"
+                    data-ng-click="definition.color ='yellow';"><span class="sr-only">Yellow widget</span></button>
+                  <div class="text-center">
+                    <input type="radio" ng-model="definition.color" id="yellow" value="yellow"
+                      data-ng-click="definition.color = 'yellow';" style="margin-left: -10px;" />
+                  </div>
+                </label>
+              </li>
+              <li style="float: left; margin-right: 5px; margin-top: 10px">
+                <label class="radio-inline color-inline" for="green" style="padding-top: 3px">
+                  <button class="widColor" tabindex="-1" id="green" type="button" tooltip-placement="top"
+                    uib-tooltip="Green" style="background-color: #004C23;border-color:  #004C23; height: 30px;"
+                    data-ng-click="definition.color ='green';"><span class="sr-only">Green widget</span></button>
+                  <div class="text-center">
+                    <input type="radio" ng-model="definition.color" id="green" value="green"
+                      data-ng-click="definition.color = 'green';" style="margin-left: -10px;" />
+                  </div>
+                </label>
+              </li>
+              <li style="float: left; margin-right: 5px; margin-top: 10px">
+                <label class="radio-inline color-inline" for="blue" style="padding-top: 3px">
+                  <button class="widColor" tabindex="-1" id="blue" type="button" tooltip-placement="top"
+                    uib-tooltip="Blue" style="background-color: #004C97;border-color:  #004C97; height: 30px;"
+                    data-ng-click="definition.color ='blue';"><span class="sr-only">Blue widget</span></button>
+                  <div class="text-center">
+                    <input type="radio" ng-model="definition.color" id="blue" value="blue"
+                      data-ng-click="definition.color = 'blue';" style="margin-left: -10px;" />
+                  </div>
+                </label>
+              </li>
+              <li style="float: left; margin-right: 5px; margin-top: 10px">
+                <label class="radio-inline color-inline" for="purple" style="padding-top: 3px">
+                  <button class="widColor" tabindex="-1" id="purple" type="button" tooltip-placement="top"
+                    uib-tooltip="Purple" style="background-color:  #671E75;border-color:   #671E75; height: 30px;"
+                    data-ng-click="definition.color ='purple';"><span class="sr-only">Purple widget</span></button>
+                  <div class="text-center">
+                    <input type="radio" ng-model="definition.color" id="purple" value="purple"
+                      data-ng-click="definition.color = 'purple';" style="margin-left: -10px;" />
+                  </div>
+                </label>
+              </li>
+              <li style="float: left; margin-right: 5px; margin-top: 10px">
+                <label class="radio-inline color-inline" for="blackColor" style="padding-top: 3px">
+                  <button class="widColor" tabindex="-1" id="blackColor" type="button" tooltip-placement="top"
+                    uib-tooltip="Black" style="background-color:  #000000;border-color:   #000000; height: 30px;"
+                    data-ng-click="definition.color ='blackColor';"><span class="sr-only">Black widget</span></button>
+                  <div class="text-center">
+                    <input type="radio" ng-model="definition.color" id="blackColor" value="blackColor"
+                      data-ng-click="definition.color = 'blackColor';" style="margin-left: -10px;" />
+                  </div>
+                </label>
+              </li>
+              <li style="float: left; margin-right: 5px; margin-top: 10px">
+                <label class="radio-inline color-inline" for="gray" style="padding-top: 3px">
+                  <button class="widColor" tabindex="-1" id="gray" type="button" tooltip-placement="top"
+                    uib-tooltip="Gray" style="background-color:   #63666A;border-color:    #63666A; height: 30px;"
+                    data-ng-click="definition.color ='gray';"><span class="sr-only">Gray widget</span></button>
+                  <div class="text-center">
+                    <input type="radio" ng-model="definition.color" id="gray" value="gray"
+                      data-ng-click="definition.color = 'gray';" style="margin-left: -10px;" />
+                  </div>
+                </label>
+              </li>
+            </ul>
+          </div>
+        </form>
+      </div>
+
+      <!-- My Favorites -->
+      <div id="myFavoritesEdit" ng-show="content && definition.type === 'myFavorites'"
+        style="min-height: 350px; max-height: 500px; overflow: auto;">
+        <div ng-class="form-group">
+          <p ng-show="addLink">
+            <a href="" ng-click="showEdit();showList = !showList;show = !show;" aria-expanded="false">
+              <i ng-if="collapse" class="fas fa-angle-right"></i> Add new favorite link
+            </a>
+          </p>
+          <div class="" id="collapseExample" ng-show="show" style="margin-bottom:2em;">
+            <form name="add">
+              <h1 class="sr-only">Add new favorite link</h1>
+              <fieldset>
+                <div class="form-group">
+                  <label for="newLinkName" class="control-label">Name</label>
+                  <input id="newLinkName" aria-required="true" required class="input form-control ng-untouched"
+                    formcontrolname="favoriteName" ng-class="{'errorMsgInput': showNameErrorMsg}"
+                    ng-keyup="checkForFavNameError(favName)" ng-model="favName" id="favorite-name" maxlength="320"
+                    name="favoriteName" type="text">
+                  <span class="errorMsg" ng-show="showNameErrorMsg">{{nameErrorMessage}}</span>
+                </div>
+                <div class="form-group">
+                  <label for="newLinkURL" class="control-label">URL</label>
+                  <input id="newLinkURL" aria-required="true" required class="input form-control ng-untouched"
+                    formcontrolname="favoriteURL" ng-class="{'errorMsgInput': showUrlErrorMsg}"
+                    ng-keyup="checkForFavUrlError(favUrl)" ng-model="favUrl" id="favorite-url" maxlength="2000"
+                    name="favoriteURL" type="text">
+                  <span class="errorMsg" ng-show="showUrlErrorMsg">{{urlErrorMessage}}</span>
+                </div>
+              </fieldset>
+              <div>
+                <button class="btn btn-default" type="button" ng-click="clear()" data-toggle="collapse"
+                  aria-controls="collapseExample" title="Cancel">Cancel</button>
+                <button class="btn btn-primary pull-right" type="button" aria-controls="collapseExample"
+                  ng-click="addFav()"
+                  ng-disabled="favName.length === 0 || favUrl.length === 0 || showUrlErrorMsg || showNameErrorMsg"
+                  title="Add">Add</button>
+              </div>
+            </form>
+          </div>
+          <div ng-show="showUpdate" style="margin-bottom:2em;">
+            <form name="edit">
+              <h1 class="sr-only">Edit link</h1>
+              <fieldset>
+                <div class="form-group">
+                  <label for="editLinkName" class="control-label">Name</label>
+                  <input id="editLinkName" aria-required="true"
+                    class="input form-control ng-untouched ng-pristine ng-invalid" formcontrolname="favoriteName"
+                    ng-class="{'errorMsgInput': editFavName.length <= 0, 'errorMsgInput': showNameMsg}"
+                    ng-keyup="checkValidation()" ng-model="editFavName" id="favorite-name" maxlength="320"
+                    name="favoriteName" type="text">
+                  <span class="errorMsg" ng-if="showNameMsg">{{nameMessage}}</span>
+                </div>
+
+                <div class="form-group">
+                  <label for="editLinkUrl" class="control-label">URL</label>
+                  <input id="editLinkUrl" aria-required="true"
+                    class="input form-control ng-untouched ng-pristine ng-invalid" formcontrolname="favoriteURL"
+                    ng-class="{'errorMsgInput': editFavUrl.length <= 0, 'errorMsgInput': showUrlMsg}"
+                    ng-keyup="checkValidation()" ng-model="editFavUrl" id="favorite-url" maxlength="2000"
+                    name="favoriteURL" ngfocus="clearMessage()" type="text">
+                  <span class="errorMsg" ng-if="showUrlMsg">{{urlMessage}}</span>
+                </div>
+              </fieldset>
+              <div>
+                <button ng-click="clearEdit()" class="btn btn-default" type="button" title="Cancel">Cancel</button>
+                <button ng-click="updateFav($index);showUpdate=false"
+                  ng-disabled="showNameMsg || showUrlMsg|| showFavErrorMsg" class="btn btn-primary pull-right"
+                  type="button" title="Update">Update</button>
+              </div>
+            </form>
+          </div>
+          <ul ng-show="showList" ui-sortable="sortableOptions" id="favList" data-ng-model="favorites"
+            class="edit-favorites-widget-list list-unstyled" role="list">
+            <li ng-repeat="fav in favorites track by $index" class="item editFav-item" role="listitem">
+              <span class="pull-left">
+                <button title="Move down" ng-disabled="$last" ng-click="listItemDown($index)"
+                  class="fav-action-btn unstyled-button" title="Move down" type="button" id="move-dn-btn-{{$index}}">
+                  <span class="fas fa-angle-down"></span>
+                  <span class="sr-only">Move down Private PAIR link.</span>
+                </button>
+                <button title="Move up" ng-disabled="$first" ng-click="listItemUp($index)"
+                  class="fav-action-btn unstyled-button" title="Move up" type="button" id="move-up-btn-{{$index}}">
+                  <span class="fas fa-angle-up"></span>
+                  <span class="sr-only">Move up Private PAIR link.</span>
+                </button>
+                &nbsp;
+              </span>
+              <a style="max-width: 85%;display: inline-block;word-break: break-all; hyphens: auto"
+                title="{{fav.userFavoritesName}}" class="fav-name" target="_blank" href="{{fav.userFavoritesURL}}"
+                id="{{fav.userFavoritesIdentifier}}">{{fav.userFavoritesName}}</a>
+              <span class="pull-right">
+                <button title="Edit link" ng-click="showUpdateScreen($index)" class="fav-action-btn unstyled-button"
+                  type="button" id="fav-edit-btn-{{$index}}">
+                  <span class="fas fa-pencil-alt"></span>
+                  <span class="sr-only">Edit Private PAIR link.</span>
+                </button>
+                <button title="Remove link" class="fav-action-btn unstyled-button" type="button"
+                  id="fav-delete-btn-{{$index}}" ng-click="deleteFav($index)">
+                  <span class="fas fa-times"></span>
+                  <span class="sr-only">Delete Private PAIR link.</span>
+                </button>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- End My Favorites -->
+
+
+      <!-- View Case Docket Show/Hide columns -->
+      <!-- <div ng-if="definition.type === 'viewCaseDockets'"> -->
+      <div id="viewCaseDocketEdit" ng-show="content && definition.type === 'viewCaseDockets'">
+        <h4>Show/hide columns</h4>
+        <div class="col-md-12">
+          <div class="col-md-6">
+            <label for="availableColsId">Available columns</label>
+            &nbsp;<a role="button" title="Add all columns" aria-label="Add all columns" ng-model="selectUnselect"
+              value="{{selectUnselect}}" ng-click="toggleSelectAll(true)">Add all</a>
+          </div>
+          <div class="col-md-6">
+            <label>Selected columns</label>
+            &nbsp;<a title="Remove all (non-mandatory)" role="button" aria-label="Remove all (non-mandatory)"
+              ng-model="selectUnselect" value="{{selectUnselect}}" ng-click="removeAll()">Remove all</a>
+            &nbsp;
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="col-md-5">
+            <div id="myDropdown" class="dropdown-content">
+              <select id="availableColsId" class="dataToAdd" style="height: 400px; overflow-x: auto;" multiple
+                ng-model="clickedColumn"
+                ng-options="column.columnLabel for column in availableCols | orderBy:'columnLabel'"
+                ng-dblclick="moveSourcetoDestination();"></select>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div style="margin-top:5em;"></div>
+            <button class="btn btn-default btn-icon-only" ng-disabled="clickedColumn.length<1"
+              title="Move selected columns" ng-click="moveSourcetoDestination(clickedColumn)">
+              <i class="fa fa-angle-right"></i>
+              <span class="sr-only">Add columns</span>
+            </button>
+            <br>
+            <div style="margin-top:2em;">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div style="min-height: 350px; max-height: 400px; overflow: auto;" id="docketColums">
+              <ul ui-sortable="sortableOptions" ng-model="selectedCols" class="edit-favorites-widget-list list-unstyled"
+                style="padding-top: 10px;">
+                <li ng-repeat="column in selectedCols track by $index" style="cursor: move;">
+                  <span class="pull-left">
+                    <button title="Move down" ng-disabled="$last" ng-click="listItemDown($index)"
+                      class="fav-action-btn unstyled-button" title="Move down" type="button"
+                      id="move-dn-btn-{{$index}}">
+                      <span class="fas fa-angle-down"></span>
+                      <span class="sr-only">Move down</span>
+                    </button>
+                    <button title="Move up" ng-disabled="$first" ng-click="listItemUp($index)"
+                      class="fav-action-btn unstyled-button" title="Move up" type="button" id="move-up-btn-{{$index}}">
+                      <span class="fas fa-angle-up"></span>
+                      <span class="sr-only">Move up Private PAIR link.</span>
+                    </button>
+                    &nbsp;
+                  </span>
+                  <button ng-disabled="column.mandatory" ng-click="moveSourcetoDestinationCancel($index)"
+                    class="fav-action-btn unstyled-button" title="Remove column" type="button" value="false">
+                    <span ng-class="{'disableShowHide': column.mandatory === true}" class="fas fa-times"></span>
+                    <span class="sr-only">Remove column</span>
+                  </button>
+                  &nbsp;
+                  <span ng-class="{'disableShowHide': column.mandatory === true}">&nbsp;{{$index+1}}
+                    {{column.columnLabel}}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- </div> -->
+      <!-- End View Case Docket Show/Hide columns -->
+
+
+      <!-- Assignments Show/Hide columns-->
+      <div id="assignmentsEdit" ng-show="content && definition.type === 'assignments'">
+        <h4>Show/hide columns</h4>
+        <div class="col-md-12">
+          <div class="col-md-6">
+            <label for="availableColsId">Available columns</label>
+            &nbsp;<a role="button" title="Add all columns" aria-label="Add all columns" ng-model="selectUnselect"
+              value="{{selectUnselect}}" ng-click="toggleSelectAll(true)">Add all</a>
+          </div>
+          <div class="col-md-6">
+            <label>Selected columns</label>
+            &nbsp;<a title="Remove all (non-mandatory)" role="button" aria-label="Remove all (non-mandatory)"
+              ng-model="selectUnselect" value="{{selectUnselect}}" ng-click="removeAll()">Remove all</a>
+            &nbsp;
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="col-md-5">
+            <div id="myDropdown" class="dropdown-content">
+              <select id="availableColsId" class="dataToAdd" style="height: 400px; overflow-x: auto;" multiple
+                ng-model="clickedColumn"
+                ng-options="column.columnLabel for column in availableCols | orderBy:'columnLabel'"
+                ng-dblclick="moveSourcetoDestination();"></select>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div style="margin-top:5em;"></div>
+            <button class="btn btn-default btn-icon-only" ng-disabled="clickedColumn.length < 1"
+              title="Move selected columns" ng-click="moveSourcetoDestination(clickedColumn)">
+              <i class="fa fa-angle-right"></i>
+              <span class="sr-only">Add columns</span>
+            </button>
+            <br>
+            <div style="margin-top:2em;">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div style="min-height: 350px; max-height: 400px; overflow: auto;" id="assignColumns">
+              <ul ui-sortable="sortableOptions" ng-model="selectedCols" class="edit-favorites-widget-list list-unstyled"
+                style="padding-top: 10px;">
+                <li ng-repeat="column in selectedCols track by $index" style="cursor: move;">
+                  <span class="pull-left">
+                    <button title="Move down" ng-disabled="$last" ng-click="listItemDown($index)"
+                      class="fav-action-btn unstyled-button" title="Move down" type="button"
+                      id="move-dn-btn-{{$index}}">
+                      <span class="fas fa-angle-down"></span>
+                      <span class="sr-only">Move down</span>
+                    </button>
+                    <button title="Move up" ng-disabled="$first" ng-click="listItemUp($index)"
+                      class="fav-action-btn unstyled-button" title="Move up" type="button" id="move-up-btn-{{$index}}">
+                      <span class="fas fa-angle-up"></span>
+                      <span class="sr-only">Move up Private PAIR link.</span>
+                    </button>
+                    &nbsp;
+                  </span>
+                  <button ng-disabled="column.mandatory" ng-click="moveSourcetoDestinationCancel($index)"
+                    class="fav-action-btn unstyled-button" title="Remove column" type="button" value="false">
+                    <span ng-class="{'disableShowHide': column.mandatory === true}" class="fas fa-times"></span>
+                    <span class="sr-only">Remove column</span>
+                  </button>
+                  &nbsp;
+                  <span ng-class="{'disableShowHide': column.mandatory === true}">&nbsp;{{$index+1}}
+                    {{column.columnLabel}}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Assignments Show/Hide columns-->
+      <!--  Workqueues Show/Hide columns-->
+      <div id="workQueueEdit" ng-show="content && definition.type == 'workQueue'">
+        <h4>Show/hide columns</h4>
+        <div class="col-md-12">
+          <div class="col-md-6">
+            <label for="availableColsId">Available columns</label>
+            &nbsp;<a role="button" title="Add all columns" aria-label="Add all columns" ng-model="selectUnselect"
+              value="{{selectUnselect}}" ng-click="toggleSelectAll(true)">Add all</a>
+          </div>
+          <div class="col-md-6">
+            <label>Selected columns</label>
+            &nbsp;<a title="Remove all (non-mandatory)" role="button" aria-label="Remove all (non-mandatory)"
+              ng-model="selectUnselect" value="{{selectUnselect}}" ng-click="removeAll()">Remove all</a>
+            &nbsp;
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="col-md-5">
+            <div id="myDropdown" class="dropdown-content">
+              <select id="availableColsId" class="dataToAdd" style="height: 400px; overflow-x: auto;" multiple
+                ng-model="clickedColumn"
+                ng-options="column.columnLabel for column in availableCols | orderBy:'columnLabel'"
+                ng-dblclick="moveSourcetoDestination();"></select>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div style="margin-top:5em;"></div>
+            <button class="btn btn-default btn-icon-only" ng-disabled="clickedColumn.length < 1"
+              title="Move selected columns" ng-click="moveSourcetoDestination(clickedColumn)">
+              <i class="fa fa-angle-right"></i>
+              <span class="sr-only">Add columns</span>
+            </button>
+            <br>
+            <div style="margin-top:2em;">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div style="min-height: 350px; max-height: 400px;" id="workQueueColumns">
+              <ul ui-sortable="sortableOptions" ng-model="selectedCols" class="edit-favorites-widget-list list-unstyled"
+                style="padding-top: 10px;">
+                <li ng-repeat="column in selectedCols track by $index" style="cursor: move;">
+                  <span class="pull-left">
+                    <button title="Move down" ng-disabled="$last" ng-click="listItemDown($index)"
+                      class="fav-action-btn unstyled-button" title="Move down" type="button"
+                      id="move-dn-btn-{{$index}}">
+                      <span class="fas fa-angle-down"></span>
+                      <span class="sr-only">Move down</span>
+                    </button>
+                    <button title="Move up" ng-disabled="$first" ng-click="listItemUp($index)"
+                      class="fav-action-btn unstyled-button" title="Move up" type="button" id="move-up-btn-{{$index}}">
+                      <span class="fas fa-angle-up"></span>
+                      <span class="sr-only">Move up Private PAIR link.</span>
+                    </button>
+                    &nbsp;
+                  </span>
+                  <button ng-disabled="column.mandatory" ng-click="moveSourcetoDestinationCancel($index)"
+                    class="fav-action-btn unstyled-button" title="Remove column" type="button" value="false">
+                    <span ng-class="{'disableShowHide': column.mandatory === true}" class="fas fa-times"></span>
+                    <span class="sr-only">Remove column</span>
+                  </button>
+                  &nbsp;
+                  <span ng-class="{'disableShowHide': column.mandatory === true}">&nbsp;{{$index+1}}
+                    {{column.columnLabel}}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Assignments Based Docket Show/Hide columns -->
+      <div id="assignmentsDocketEdit" ng-show="content && definition.type === 'assignmentBasedDocket'">
+        <h4>Show/hide columns</h4>
+        <div class="col-md-12">
+          <div class="col-md-6">
+            <label for="availableColsId">Available columns</label>
+            &nbsp;<a role="button" title="Add all columns" aria-label="Add all columns" ng-model="selectUnselect"
+              value="{{selectUnselect}}" ng-click="toggleSelectAll(true)">Add all</a>
+          </div>
+          <div class="col-md-6">
+            <label>Selected columns</label>
+            &nbsp;<a title="Remove all (non-mandatory)" role="button" aria-label="Remove all (non-mandatory)"
+              ng-model="selectUnselect" value="{{selectUnselect}}" ng-click="removeAll()">Remove all</a>
+            &nbsp;
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="col-md-5">
+            <div id="myDropdown" class="dropdown-content">
+              <select id="availableColsId" class="dataToAdd" style="height: 400px; overflow-x: auto;" multiple
+                ng-model="clickedColumn"
+                ng-options="column.columnLabel for column in availableCols | orderBy:'columnLabel'"
+                ng-dblclick="moveSourcetoDestination();"></select>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div style="margin-top:5em;"></div>
+            <button class="btn btn-default btn-icon-only" ng-disabled="clickedColumn.length < 1"
+              title="Move selected columns" ng-click="moveSourcetoDestination(clickedColumn)">
+              <i class="fa fa-angle-right"></i>
+              <span class="sr-only">Add columns</span>
+            </button>
+            <br>
+            <div style="margin-top:2em;">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div style="min-height: 350px; max-height: 400px; overflow: auto;" id="assignDocketColumns">
+              <ul ui-sortable="sortableOptions" ng-model="selectedCols" class="edit-favorites-widget-list list-unstyled"
+                style="padding-top: 10px;">
+                <li ng-repeat="column in selectedCols track by $index" style="cursor: move;">
+                  <span class="pull-left">
+                    <button title="Move down" ng-disabled="$last" ng-click="listItemDown($index)"
+                      class="fav-action-btn unstyled-button" title="Move down" type="button"
+                      id="move-dn-btn-{{$index}}">
+                      <span class="fas fa-angle-down"></span>
+                      <span class="sr-only">Move down</span>
+                    </button>
+                    <button title="Move up" ng-disabled="$first" ng-click="listItemUp($index)"
+                      class="fav-action-btn unstyled-button" title="Move up" type="button" id="move-up-btn-{{$index}}">
+                      <span class="fas fa-angle-up"></span>
+                      <span class="sr-only">Move up Private PAIR link.</span>
+                    </button>
+                    &nbsp;
+                  </span>
+                  <button ng-disabled="column.mandatory" ng-click="moveSourcetoDestinationCancel($index)"
+                    class="fav-action-btn unstyled-button" title="Remove column" type="button" value="false">
+                    <span ng-class="{'disableShowHide': column.mandatory === true}" class="fas fa-times"></span>
+                    <span class="sr-only">Remove column</span>
+                  </button>
+                  &nbsp;
+                  <span ng-class="{'disableShowHide': column.mandatory === true}">&nbsp;{{$index+1}}
+                    {{column.columnLabel}}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Assignments Based Docket Show/Hide columns -->
+
+
+      <!-- Master Docket Show/Hide columns -->
+      <!-- <div ng-controller="MasterDocketController" id="masterDocketEdit" ng-show="content && definition.type === 'masterDocket'">
+        <div class="row">
+          <h4>Show/hide columns</h4>
+          <input aria-label="Select all" type="checkbox" ng-model="selectUnselect" value="{{selectUnselect}}" ng-click="toggleSelectAll(selectUnselect)">
+          Select all
+        </div>
+        <div style="min-height: 350px; max-height: 400px;" id="masterDocketColums">
+          <ul ui-sortable="masterDocketSortableOptions" ng-model="updatedDocketColumnList" class="edit-favorites-widget-list list-unstyled" style="padding-top: 10px;">
+            <li ng-repeat="column in updatedDocketColumnList track by $index" style="cursor: move;">
+              <span class="pull-left">
+                <button title="Move down" ng-disabled="$last" ng-click="listItemDown($index)" class="fav-action-btn unstyled-button" title="Move down" type="button" id="move-dn-btn-{{$index}}">
+                  <span class="fas fa-angle-down"></span>
+                  <span class="sr-only">Move down.</span>
+                </button>
+                <button title="Move up" ng-disabled="$first" ng-click="listItemUp($index)" class="fav-action-btn unstyled-button" title="Move up" type="button" id="move-up-btn-{{$index}}">
+                  <span class="fas fa-angle-up"></span>
+                  <span class="sr-only">Move up.</span>
+                </button>
+                &nbsp;
+              </span>
+              <input aria-label="Select {{column.columnLabel}}" type="checkbox" style="display: inline;" value="{{column.visible}}" ng-model="column.visible" ng-disabled="column.mandatory" ng-click="areAllSelected()">
+              <span ng-class="{'disableShowHide': column.mandatory === true}">&nbsp;{{$index + 1}}.
+                {{column.columnLabel}}</span>
+            </li>
+          </ul>
+        </div>
+      </div> -->
+      <div id="masterDocketEdit" ng-show="content && definition.type === 'masterDocket'">
+        <h4>Show/hide columns</h4>
+        <div class="col-md-12">
+          <div class="col-md-6">
+            <label for="availableColsId">Available columns</label>
+            &nbsp;<a role="button" title="Add all columns" aria-label="Add all columns" ng-model="selectUnselect"
+              value="{{selectUnselect}}" ng-click="toggleSelectAll(true)">Add all</a>
+          </div>
+          <div class="col-md-6">
+            <label>Selected columns</label>
+            &nbsp;<a title="Remove all (non-mandatory)" role="button" aria-label="Remove all (non-mandatory)"
+              ng-model="selectUnselect" value="{{selectUnselect}}" ng-click="removeAll()">Remove all</a>
+            &nbsp;
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="col-md-5">
+            <div id="myDropdown" class="dropdown-content">
+              <select id="availableColsId" class="dataToAdd" style="height: 400px; overflow-x: auto;" multiple
+                ng-model="clickedColumn"
+                ng-options="column.columnLabel for column in availableCols | orderBy:'columnLabel'"
+                ng-dblclick="moveSourcetoDestination();"></select>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div style="margin-top:5em;"></div>
+            <button class="btn btn-default btn-icon-only" ng-disabled="clickedColumn.length < 1"
+              title="Move selected columns" ng-click="moveSourcetoDestination(clickedColumn)">
+              <i class="fa fa-angle-right"></i>
+              <span class="sr-only">Add columns</span>
+            </button>
+            <br>
+            <div style="margin-top:2em;">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div style="min-height: 350px; max-height: 400px; overflow: auto;" id="masterDocketColumns">
+              <ul ui-sortable="masterDocketSortableOptions" ng-model="selectedCols"
+                class="edit-favorites-widget-list list-unstyled" style="padding-top: 10px;">
+                <li ng-repeat="column in selectedCols track by $index" style="cursor: move;">
+                  <span class="pull-left">
+                    <button title="Move down" ng-disabled="$last" ng-click="listItemDown($index)"
+                      class="fav-action-btn unstyled-button" title="Move down" type="button"
+                      id="move-dn-btn-{{$index}}">
+                      <span class="fas fa-angle-down"></span>
+                      <span class="sr-only">Move down</span>
+                    </button>
+                    <button title="Move up" ng-disabled="$first" ng-click="listItemUp($index)"
+                      class="fav-action-btn unstyled-button" title="Move up" type="button" id="move-up-btn-{{$index}}">
+                      <span class="fas fa-angle-up"></span>
+                      <span class="sr-only">Move up Private PAIR link.</span>
+                    </button>
+                    &nbsp;
+                  </span>
+                  <button ng-disabled="column.mandatory" ng-click="moveSourcetoDestinationCancel($index)"
+                    class="fav-action-btn unstyled-button" title="Remove column" type="button" value="false">
+                    <span ng-class="{'disableShowHide': column.mandatory === true}" class="fas fa-times"></span>
+                    <span class="sr-only">Remove column</span>
+                  </button>
+                  &nbsp;
+                  <span ng-class="{'disableShowHide': column.mandatory === true}">&nbsp;{{$index+1}}
+                    {{column.columnLabel}}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Master Docket Show/Hide columns -->
+
+      <!-- My Credits Show/Hide columns -->
+      <div id="myCreditsEdit" ng-show="content && definition.type === 'myCredits'">
+        <!-- <div class="row">
+          <h4>Show/hide columns</h4>
+          <input aria-label="Select all" type="checkbox" ng-model="selectUnselect" value="{{selectUnselect}}" ng-click="toggleSelectAll(selectUnselect)">
+          Select all
+        </div>
+        <div style="min-height: 350px; max-height: 400px;" id="myCreditsColums">
+          <ul ui-sortable="myCreditsSortableOptions" ng-model="updatedMyCreditsColumnList" class="edit-favorites-widget-list list-unstyled" style="padding-top: 10px;">
+            <li ng-repeat="column in updatedMyCreditsColumnList track by $index" style="cursor: move;">
+              <span class="pull-left">
+                <button title="Move down" ng-disabled="$last" ng-click="listItemDown($index)" class="fav-action-btn unstyled-button" title="Move down" type="button" id="move-dn-btn-{{$index}}">
+                  <span class="fas fa-angle-down"></span>
+                  <span class="sr-only">Move down.</span>
+                </button>
+                <button title="Move up" ng-disabled="$first" ng-click="listItemUp($index)" class="fav-action-btn unstyled-button" title="Move up" type="button" id="move-up-btn-{{$index}}">
+                  <span class="fas fa-angle-up"></span>
+                  <span class="sr-only">Move up.</span>
+                </button>
+                &nbsp;
+              </span>
+              <input aria-label="Select {{column.columnLabel}}" type="checkbox" style="display: inline;" value="{{column.visible}}" ng-model="column.visible" ng-disabled="column.mandatory" ng-click="areAllSelected()">
+              <span ng-class="{'disableShowHide': column.mandatory === true}">&nbsp;{{$index + 1}}.
+                {{column.columnLabel}}</span>
+            </li>
+          </ul>
+        </div> -->
+        <h4>Show/hide columns</h4>
+        <div class="col-md-12">
+          <div class="col-md-6">
+            <label for="availableColsId">Available columns</label>
+            &nbsp;<a role="button" title="Add all columns" aria-label="Add all columns" ng-model="selectUnselect"
+              value="{{selectUnselect}}" ng-click="toggleSelectAll(true)">Add all</a>
+          </div>
+          <div class="col-md-6">
+            <label>Selected columns</label>
+            &nbsp;<a title="Remove all (non-mandatory)" role="button" aria-label="Remove all (non-mandatory)"
+              ng-model="selectUnselect" value="{{selectUnselect}}" ng-click="removeAll()">Remove all</a>
+            &nbsp;
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="col-md-5">
+            <div id="myDropdown" class="dropdown-content">
+              <select id="availableColsId" class="dataToAdd" style="height: 400px; overflow-x: auto;" multiple
+                ng-model="clickedColumn"
+                ng-options="column.columnLabel for column in availableCols | orderBy:'columnLabel'"
+                ng-dblclick="moveSourcetoDestination();"></select>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div style="margin-top:5em;"></div>
+            <button class="btn btn-default btn-icon-only" ng-disabled="clickedColumn.length < 1"
+              title="Move selected columns" ng-click="moveSourcetoDestination(clickedColumn)">
+              <i class="fa fa-angle-right"></i>
+              <span class="sr-only">Add columns</span>
+            </button>
+            <br>
+            <div style="margin-top:2em;">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div style="min-height: 350px; max-height: 400px; overflow: auto;" id="myCreditsColums">
+              <ul ui-sortable="myCreditsSortableOptions" ng-model="selectedCols"
+                class="edit-favorites-widget-list list-unstyled" style="padding-top: 10px;">
+                <li ng-repeat="column in selectedCols track by $index" style="cursor: move;">
+                  <span class="pull-left">
+                    <button title="Move down" ng-disabled="$last" ng-click="listItemDown($index)"
+                      class="fav-action-btn unstyled-button" title="Move down" type="button"
+                      id="move-dn-btn-{{$index}}">
+                      <span class="fas fa-angle-down"></span>
+                      <span class="sr-only">Move down</span>
+                    </button>
+                    <button title="Move up" ng-disabled="$first" ng-click="listItemUp($index)"
+                      class="fav-action-btn unstyled-button" title="Move up" type="button" id="move-up-btn-{{$index}}">
+                      <span class="fas fa-angle-up"></span>
+                      <span class="sr-only">Move up Private PAIR link.</span>
+                    </button>
+                    &nbsp;
+                  </span>
+                  <button ng-disabled="column.mandatory" ng-click="moveSourcetoDestinationCancel($index)"
+                    class="fav-action-btn unstyled-button" title="Remove column" type="button" value="false">
+                    <span ng-class="{'disableShowHide': column.mandatory === true}" class="fas fa-times"></span>
+                    <span class="sr-only">Remove column</span>
+                  </button>
+                  &nbsp;
+                  <span ng-class="{'disableShowHide': column.mandatory === true}">&nbsp;{{$index+1}}
+                    {{column.columnLabel}}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End My Credits Show/Hide columns -->
+
+
+    </div>
+  </div>
+</div>
+<!-- </div> -->
+<div class="modal-footer">
+  <button title="Cancel" id="cancelEditWidgetBtn" type="button" class="btn btn-default btmrgn btnblk pull-left"
+    ng-disabled="showErrorMsg" ng-click="unsavedChanges($event, this, definition)"
+    ng-bind="translate('ADF_COMMON_CANCEL')">Cancel</button>
+  <!-- <button ng-show="definition.type === 'systemStatus'" type="button" class="btn btn-primary" id="save_editWidget" ng-click="customizeWidget(this,definition);checkHeight();closeDialog()" ng-bind="translate('ADF_COMMON_SAVE')">Save</button> -->
+  <button title="Save" id="saveWidgetBtn" ng-show="!content" type="button" class="btn btn-primary btnblk"
+    ng-disabled="showErrorMsg" ng-click="customizeWidget(this,definition)"
+    ng-bind="translate('ADF_COMMON_SAVE')">Save</button>
+  <button title="Save and close" id="saveWidgetBtn" ng-show="!content" type="button" class="btn btn-primary btnblk"
+    ng-disabled="showErrorMsg" ng-click="customizeWidget(this,definition);closeDialog()"
+    ng-bind="translate('ADF_COMMON_SAVE_AND_CLOSE')">Save and
+    close</button>
+  <button title="Save" id="saveMyFavsBtn" ng-show="favSave" ng-disabled="disableSaveFlag" type="button"
+    class="btn btn-primary btnblk saveMyFavsBtn" ng-click="saveFav()"
+    ng-bind="translate('ADF_COMMON_SAVE')">Save</button>
+  <button title="Save and close" id="saveMyFavsBtn" ng-show="favSave" ng-disabled="disableSaveFlag" type="button"
+    class="btn btn-primary btnblk saveMyFavsBtn" ng-click="saveFav();closeDialog()"
+    ng-bind="translate('ADF_COMMON_SAVE_AND_CLOSE')">Save
+    and close</button>
+  <button title="Save" id="showHideBtn" ng-show="showHide" type="button" class="btn btn-primary btnblk"
+    ng-click="saveState()" ng-bind="translate('ADF_COMMON_SAVE')">Save</button>
+  <button title="Save and close" id="showHideBtn" ng-show="showHide" type="button" class="btn btn-primary btnblk"
+    ng-click="saveState();closeDialog()" ng-bind="translate('ADF_COMMON_SAVE_AND_CLOSE')">Save and close</button>
+  <button title="Save" id="showHideBtn" ng-show="assignShowHide && definition.type == 'workQueue'" type="button"
+    class="btn btn-primary btnblk" ng-click="saveState()" ng-bind="translate('ADF_COMMON_SAVE')">Save</button>
+  <button title="Save and close" id="showHideBtn" ng-show="assignShowHide && definition.type == 'workQueue'"
+    type="button" class="btn btn-primary btnblk" ng-click="saveState();closeDialog()"
+    ng-bind="translate('ADF_COMMON_SAVE_AND_CLOSE')">Save and close</button>
+  <button title="Save" id="showHideBtn" ng-show="assignShowHide && definition.type == 'assignments'" type="button"
+    class="btn btn-primary btnblk" ng-click="saveState()" ng-bind="translate('ADF_COMMON_SAVE')">Save</button>
+  <button title="Save and close" id="showHideBtn" ng-show="assignShowHide && definition.type == 'assignments'"
+    type="button" class="btn btn-primary btnblk" ng-click="saveState();closeDialog()"
+    ng-bind="translate('ADF_COMMON_SAVE_AND_CLOSE')">Save and close</button>
+
+  <button title="Save" id="showHideBtn" ng-show="assignDocketShowHide" type="button" class="btn btn-primary btnblk"
+    ng-click="saveState()" ng-bind="translate('ADF_COMMON_SAVE')">Save</button>
+  <button title="Save and close" id="showHideBtn" ng-show="assignDocketShowHide" type="button"
+    class="btn btn-primary btnblk" ng-click="saveState();closeDialog()"
+    ng-bind="translate('ADF_COMMON_SAVE_AND_CLOSE')">Save
+    and close</button>
+  <button title="Save" id="showHideBtn" ng-show="masterDocketShowHide" type="button" class="btn btn-primary btnblk"
+    ng-click="saveState()" ng-bind="translate('ADF_COMMON_SAVE')">Save</button>
+  <button title="Save and close" id="showHideBtn" ng-show="masterDocketShowHide" type="button"
+    class="btn btn-primary btnblk" ng-click="saveState();closeDialog()"
+    ng-bind="translate('ADF_COMMON_SAVE_AND_CLOSE')">Save
+    and close</button>
+  <button title="Save" id="showHideBtn" ng-show="myCreditsShowHide" type="button" class="btn btn-primary btnblk"
+    ng-click="saveGridPreferences()" ng-bind="translate('ADF_COMMON_SAVE')">Save</button>
+  <button title="Save and close" id="showHideBtn" ng-show="myCreditsShowHide" type="button"
+    class="btn btn-primary btnblk" ng-click="saveGridPreferences();closeDialog()"
+    ng-bind="translate('ADF_COMMON_SAVE_AND_CLOSE')">Save
+    and close</button>
+  <!-- <button id="showHideBtn" ng-controller="ViewCaseDocketController" ng-show="showHide" type="button" class="btn btn-primary"
+    ng-click="saveState();closeDialog()" ng-bind="translate('ADF_DASHBOARD_TITLE_TOOLTIP_SAVE')">Persist Width</button> -->
+</div>
+<!-- </form> -->

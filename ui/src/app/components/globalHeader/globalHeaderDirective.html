@@ -1,0 +1,154 @@
+<style>
+  .tab-pane h4 {
+    padding-bottom: 0px;
+  }
+
+  .panel-body {
+    padding-top: 0px;
+  }
+
+  .dlPadding {
+    padding: 0px;
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+  }
+
+  .focusDiv:focus {
+    outline: none;
+  }
+
+  .global-header-accordion>.panel-heading {
+    color: #333;
+    background-color: #f5f5f5 !important;
+    border-color: #ddd;
+    padding-top: 2px;
+    padding-bottom: 0px;
+  }
+
+  dl {
+    margin-bottom: 1px !important;
+  }
+
+</style>
+<script>
+  function openCaseViewers(customdata) {
+    var data = customdata.split('~');
+    window.open("#/caseViewer/" + data[0] + "/" + data[1]);
+  };
+
+</script>
+<div ng-if="customdata.caseNumber != 0">
+  <div class="col-md-12" style="padding-top: 0px;" id="globalHeaderDiv">
+    <div class="tab-pane" style="margin-left: -8px; margin-right: -8px; margin-top: -1px;">
+      <uib-accordion close-others="false">
+        <div uib-accordion-group class="global-header-accordion" is-open="status1.open">
+          <div class="col-md-12">
+            <uib-accordion-heading> &nbsp;
+              <!-- &nbsp; Case # {{customdata.caseNo}} ({{customdata.bhType}})          Application # {{customdata.applicationNo}}                                         Case type {{customdata.caseType}} -->
+              <!--span ng-click="$event.stopPropagation();$event.preventDefault();openCaseViewer($event)">Show button but don't open accordion</span-->
+              <!-- <i class="pull-left fa" ng-class="{'fa-angle-down': status1.open, 'fa-angle-right': !status1.open}"></i> -->
+              <div class="col-md-4">
+                <dl class="dl-horizontal dlPadding">
+                  <dt><button class="btn btn-icon-only btn-xs pull-left" style="background:none;line-height:0.5"
+                      ng-click="toggle($event);"><i class="fa" ng-keyup="callonenter($event);"
+                        ng-class="{'fa-angle-down': status1.open, 'fa-angle-right': !status1.open}"
+                        style="margin-top: 3px;"></i><span class="sr-only">Toggle details</span></button>Case #</dt>
+                  <dd ng-click="$event.stopPropagation();$event.preventDefault();" style="font-weight: 500">
+                    <a id="{{customdata.applicationNumber}}~{{customdata.caseNumber}}" href=""
+                      onclick="openCaseViewers(this.id)" title="Open in Case Viewer">{{customdata.caseNumber}}</a>&nbsp;
+
+                    <a title="Merged case"><img style="width:17px;height:17px;" type="image" alt="Merged"
+                        src="assets/images/icons/blueMerge.png" alt="Merged case" ng-if="customdata.merge" /></a><span
+                      ng-if="customdata.briefHearingType">&nbsp;<span
+                        style="white-space:nowrap;">({{customdata.briefHearingType}})</span>
+                    </span></dd>
+                </dl>
+              </div>
+              <div class="col-md-4 focusDiv" ng-click="$event.stopPropagation();$event.preventDefault();">
+                <dl class="dl-horizontal dlPadding">
+                  <dt>Application #</dt>
+                  <dd style="font-weight: 500;"><span><a id="{{customdata.applicationNumber}}~{{customdata.caseNumber}}"
+                        href="" onclick="openCaseViewers(this.id)"
+                        title="Open in Case Viewer">{{customdata.applicationNumber}}</a></span>
+                    <div ng-click="$event.stopPropagation();" class="btn-group dropdown btn-default" uib-dropdown
+                      is-open="status3.isopen">
+                      <button type="button" class="btn btn-default btn-xs" uib-dropdown-toggle ng-disabled="disabled"
+                        style="border:none;margin-top: -3px;">
+                        <i class="fa fa-info fa-sm"></i>
+                        <span class="caret"></span>
+                        <span class="sr-only">Open application</span>
+                      </button>
+                      <ul role="menubar"
+                        style="width:1em;margin-left: 0px; position: absolute;left: auto; width: inherit;"
+                        class="dropdown-menu" uib-dropdown-menu role="menu">
+
+                        <!-- <li ng-repeat="(key,value) in externalurls">
+                        <a ng-if='key !== "Open in FPNG" && key !== "Open in PTOZone"' href="{{value}}{{customdata.applicationNumber}}"
+                          target="_blank" ng-click="" title="{{key}}">{{key}} <i class="fa fa-external-link-alt"></i></a>
+                        </li> -->
+                        <li role="none" ng-repeat="externalUrl in externalurls">
+                          <!-- <a ng-if='externalUrl !== "Open in FPNG" && externalUrl !== "Open in PTOZone" && externalUrl !== "ptabReadOnlyUser" && externalUrl !== "allowedResourceObjectList"' href="{{externalUrl.url}}{{vm.applicationNumber}}" target="_blank" title="{{externalUrl.description}}">{{externalUrl.description}} <i class="fa fa-external-link-alt"></i></a> -->
+                          <a role="menuitem" href="{{externalUrl.url}}{{customdata.applicationNumber}}" target="_blank"
+                            title="{{externalUrl.description}}">{{externalUrl.description}} <i
+                              class="fa fa-external-link-alt"></i></a>
+                        </li>
+                      </ul>
+                    </div>
+                  </dd>
+
+                </dl>
+              </div>
+              <div class="col-md-3 focusDiv" ng-click="$event.stopPropagation();$event.preventDefault();">
+                <dl class="dl-horizontal dlPadding">
+                  <dt>Case type</dt>
+                  <!-- <dd title="{{customdata.caseType}}" style="margin-bottom: -1px;font-weight: 500;white-space: nowrap;text-overflow: ellipsis;">{{customdata.caseType}}</dd> -->
+                  <dd title="{{customdata.caseType}}"
+                    style="margin-bottom: -1px;font-weight: 500;white-space: nowrap;text-overflow: ellipsis;"><span
+                      ng-repeat="caseType in customdata.caseTypes">{{caseType}}{{$last ? '' : ', '}}</span></dd>
+                </dl>
+              </div>
+              <div style="clear: both;"></div>
+
+            </uib-accordion-heading>
+          </div>
+
+          <div class="col-md-4">
+            <dl class="dl-horizontal" style="margin-bottom: 0;">
+
+
+              <dt>Case status</dt>
+              <dd>&nbsp;{{customdata.caseStatus}}</dd>
+              <dt>Case status date</dt>
+              <dd>{{customdata.caseStatusDate | date:'MM/dd/yyyy'}}</dd>
+            </dl>
+          </div>
+          <div class="col-md-8">
+            <dl class="dl-horizontal" style="margin-bottom: 0;">
+              <dt>Party(ies)</dt>
+              <dd style="overflow-wrap: break-word">{{customdata.parties}}</dd>
+              <dt>Panel</dt>
+              <dd style="overflow-wrap: break-word"><span ng-repeat="panels in customdata.panel"><span
+                    ng-if='panels.rank != 0'>{{panels.employeeName}}&nbsp;<span
+                      ng-if='customdata.checkAttorney.isAttorney && panels.rank == 1'> (
+                      {{customdata.checkAttorney.attorneyName}} )&nbsp;</span>{{$last ? '' : '| '}}</span>
+                </span></dd>
+            </dl>
+          </div>
+          <div class="col-md-12" ng-if="customdata.merge">
+            <dl class="dl-horizontal" style="margin-bottom: 0;">
+              <dt>Merged applications</dt>
+              <!-- <dd ng-click="$event.stopPropagation();$event.preventDefault();" style="font-weight: 500"><span ng-repeat="mergedApp in customdata.mergedApplicationList">{{mergedApp.applicationNumber}}{{$last ? '' : ', '}}</span></dd> -->
+              <dd ng-click="$event.stopPropagation();$event.preventDefault();" style="font-weight: 500"><a
+                  id={{mergedApp.applicationNumber}}~{{customdata.caseNumber}}
+                  ng-repeat="mergedApp in customdata.mergedApplicationList track by $index" href=""
+                  onclick="openCaseViewers(this.id)"
+                  title="Open in Case Viewer">{{mergedApp.applicationNumber}}{{$last ? '' : ', '}}</a></dd>
+            </dl>
+          </div>
+
+
+        </div>
+      </uib-accordion>
+    </div>
+  </div>
+</div>

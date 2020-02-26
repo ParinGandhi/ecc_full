@@ -1,0 +1,40 @@
+<div class="modalWidth">
+  <div class="modal-header">
+    <button title="Cancel" id="cancelDeleteX" type="button" class="close" ng-click="vm.confirmDelete(false)">
+      <i class="fas fa-times fa-sm"></i>
+      <span class="sr-only">Cancel</span>
+    </button>
+    <!-- <button type="button" class="close" ng-click="$dismiss()">&times;</button> -->
+    <h3 class="modal-title truncateTitle" id="modal-title">Delete workspace</h3>
+  </div>
+  <div ng-if="vm.workspace.defaultIndicator === false" class="modal-body" id="modal-body">
+    <h4>Are you sure you want to delete
+      <strong>
+        <em>{{vm.workspace.userWorkspaceName}}</em>
+      </strong>?</h4>
+    <p class="bg-danger">
+      <i class="fas fa-exclamation-triangle"></i> All widgets on
+      <strong>
+        <em>{{vm.workspace.userWorkspaceName}}</em>
+      </strong> will have to be recreated and unsaved information will be lost.</p>
+  </div>
+  <div ng-if="vm.workspace.defaultIndicator === true" class="modal-body" id="modal-body">
+    <h4>Are you sure you want to delete your current landing workspace,
+      <strong>
+        <em>{{vm.workspace.userWorkspaceName}}</em>
+      </strong>?</h4>
+    <p class="bg-danger">
+      <i class="fas fa-exclamation-triangle"></i> If you do continue, then
+      <strong>
+        <em>{{vm.totalWorkspaces[vm.next].userWorkspaceName}}</em>
+      </strong> will become your new landing workspace for future logins. Also, all widgets on
+      <strong>
+        <em>{{vm.workspace.userWorkspaceName}}</em>
+      </strong> will be removed and unsaved information will be lost.</p>
+  </div>
+  <div class="modal-footer">
+    <button title="Cancel" id="cancelDeleteBtn" class="btn btn-default btblk mrgn pull-left" type="button" ng-click="vm.confirmDelete(false)">Cancel</button>
+    <button title="Delete workspace" id="deleteWorkspaceBtn" class="btn btn-danger btblk  " type="button" ng-click="vm.confirmDelete(true)" ng-disabled="!vm.workspace.userWorkspaceName">Delete workspace</button>
+
+  </div>
+</div>

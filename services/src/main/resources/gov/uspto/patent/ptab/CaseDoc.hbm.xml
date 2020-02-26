@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+
+<sql-query name="getCaseDocumentsPaper">
+	<![CDATA[
+SELECT PROCEEDING.PROCEEDING_NO                                              AS "proceedingNumber",
+  STND_ARTIFACT_TYPE.ARTIFACT_TYPE_CD                                        AS "artifactTypeCd",
+  ARTIFACT_SUBMISSION_STATUS.FK_PROXY_SUBMITTER_ROLE_NM                      AS "filingParty", 
+  TRUNC(PROCEEDING_ARTIFACT.FILING_TS)                                      AS "filingDate", 
+  STND_DOCUMENT_TYPE.DOCUMENT_TYPE_NM                                        AS "fileName",
+  PROCEEDING_ARTIFACT.ARTIFACT_NM                                            AS "documentTitle",
+  PROCEEDING_ARTIFACT.FK_AVAILABILITY_CD                                     AS "confidentiality",
+  PROCEEDING_ARTIFACT.CONTENT_MANAGEMENT_ID                                  AS "contentManagementId",
+  DOCUMENT.DOCUMENT_NO                                                       AS "paperNumber",
+  PROCEEDING_ARTIFACT.PAGE_COUNT_QT                                          AS "pageCountQt"
+ FROM PROCEEDING,
+  DOCUMENT,
+  PROCEEDING_ARTIFACT,
+  ARTIFACT_SUBMISSION,
+  ARTIFACT_SUBMISSION_STATUS,
+  STND_DOCUMENT_TYPE,
+  STND_ARTIFACT_TYPE
+WHERE PROCEEDING.PROCEEDING_ID                           = ARTIFACT_SUBMISSION.FK_PROCEEDING_ID
+AND ARTIFACT_SUBMISSION.ARTIFACT_SUBMISSION_ID           = PROCEEDING_ARTIFACT.FK_ARTIFACT_SUBMISSION_ID
+AND ARTIFACT_SUBMISSION_STATUS.FK_ARTIFACT_SUBMISSION_ID = ARTIFACT_SUBMISSION.ARTIFACT_SUBMISSION_ID
+AND PROCEEDING_ARTIFACT.PROCEEDING_ARTIFACT_ID           = DOCUMENT.FK_PROCEEDING_ARTIFACT_ID
+AND DOCUMENT.FK_DOCUMENT_TYPE_ID                         = STND_DOCUMENT_TYPE.DOCUMENT_TYPE_ID
+AND PROCEEDING_ARTIFACT.FK_ARTIFACT_TYPE_ID              = STND_ARTIFACT_TYPE.ARTIFACT_TYPE_ID
+AND proceeding_no= :proceedingNumber
+order by DOCUMENT_NO desc
+
+  ]]>
+
+	</sql-query>
+
+	<sql-query name="getCaseDocumentsExhibit">
+       <![CDATA[
+
+SELECT PROCEEDING.PROCEEDING_NO                                               AS "proceedingNumber",
+  EXHIBIT.EXHIBIT_NO                                                          AS "exhibitNumber",
+  STND_ARTIFACT_TYPE.ARTIFACT_TYPE_CD                                         AS "artifactTypeCd",
+  PROCEEDING_ARTIFACT.CONTENT_MANAGEMENT_ID                                   AS "contentManagementId",
+  ARTIFACT_SUBMISSION_STATUS.FK_PROXY_SUBMITTER_ROLE_NM                       AS "filingParty",
+  TRUNC(PROCEEDING_ARTIFACT.FILING_TS)                                        AS "filingDate",
+  PROCEEDING_ARTIFACT.ARTIFACT_NM                                             AS "documentTitle",
+  PROCEEDING_ARTIFACT.FK_AVAILABILITY_CD                                      AS "availability",
+  PROCEEDING_ARTIFACT.PAGE_COUNT_QT                                           AS "pageCountQt"  
+FROM PROCEEDING,
+  EXHIBIT ,
+  PROCEEDING_ARTIFACT,
+  ARTIFACT_SUBMISSION,
+  ARTIFACT_SUBMISSION_STATUS,
+  STND_ARTIFACT_TYPE
+WHERE PROCEEDING.PROCEEDING_ID                           = ARTIFACT_SUBMISSION.FK_PROCEEDING_ID
+AND ARTIFACT_SUBMISSION.ARTIFACT_SUBMISSION_ID           = PROCEEDING_ARTIFACT.FK_ARTIFACT_SUBMISSION_ID
+AND ARTIFACT_SUBMISSION_STATUS.FK_ARTIFACT_SUBMISSION_ID = ARTIFACT_SUBMISSION.ARTIFACT_SUBMISSION_ID
+AND PROCEEDING_ARTIFACT.PROCEEDING_ARTIFACT_ID           = EXHIBIT.FK_PROCEEDING_ARTIFACT_ID
+AND EXHIBIT.FK_PROCEEDING_ID                             = PROCEEDING.PROCEEDING_ID
+AND PROCEEDING_ARTIFACT.FK_ARTIFACT_TYPE_ID              = STND_ARTIFACT_TYPE.ARTIFACT_TYPE_ID
+AND proceeding_no= :proceedingNumber
+ORDER BY EXHIBIT_NO DESC
+        ]]>
+	</sql-query>
+	
+</hibernate-mapping>
+

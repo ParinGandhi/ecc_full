@@ -1,0 +1,38 @@
+<div class="modal-header">
+  <button title="Cancel" id="cancelManageWorkspaceX" type="button" class="close" ng-click="vm.cancelManageWorkspaceModal()">
+    <i class="fas fa-times fa-sm"></i>
+    <span class="sr-only">Close</span>
+  </button>
+  <h3 class="modal-title truncateTitle" id="modal-title">Manage workspace(s)</h3>
+</div>
+<div class="modal-body" id="modal-body">
+  <div class="col-md-8" style="word-break: break-all;">
+    <label for="workspaceTitle" class="truncateTitle">Workspace titles</label>
+  </div>
+  <br>
+  <div id="workspaceList">
+    <ul ui-sortable="vm.sortableOptionsForManageWorkspace" ng-model="vm.newWorkspaceOrder" class="list-unstyled" style="padding-top: 10px;">
+      <li ng-repeat="workspace in vm.newWorkspaceOrder track by $index" style="cursor: move;">
+        <span class="pull-left">
+          <button title="Move down" ng-disabled="$last" ng-click="vm.listItemDown($index)" class="fav-action-btn unstyled-button" title="Move down"
+            type="button" id="move-dn-btn-{{$index}}">
+            <span class="fas fa-angle-down"></span>
+            <span class="sr-only">Move workspace title down</span>
+          </button>
+          <button title="Move up" ng-disabled="$first" ng-click="vm.listItemUp($index)" class="fav-action-btn unstyled-button" title="Move up"
+            type="button" id="move-up-btn-{{$index}}">
+            <span class="fas fa-angle-up"></span>
+            <span class="sr-only">Move workspace title up</span>
+          </button>
+          &nbsp;
+        </span>
+        <div class="truncateTitle">
+          <i class="fas fa-home" id="defaultWorkspace" ng-show="workspace.defaultIndicator"></i>&nbsp;{{workspace.tooltip}}</div>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="modal-footer">
+  <button title="Cancel" id="cancelManageWorkspaceBtn" class="btn btn-default twoButtonMargin twoButtonBlock pull-left" type="button" ng-click="vm.cancelManageWorkspaceModal()">Cancel</button>
+  <button title="Save" id="saveManageWorkspaceBtn" class="btn btn-primary twoButtonBlock" type="button" ng-click="vm.saveWorkspace()">Save</button>
+</div>

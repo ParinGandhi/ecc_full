@@ -1,0 +1,55 @@
+{
+  "columnDetails":[
+              {
+              "name": "lastName",
+              "displayName": "Last name",
+              "typeDefinition": "String",
+              "width":110,
+              "cellTemplate": "<div class=\"truncateTitle\" style=\"cursor: pointer; margin-left: 8px; padding-top:5px\"><a ng-click=\"grid.appScope.openUserInfo(row)\" target=\"_blank\" class=\"reportListName\" id=\"{{row.entity.lastName}}\" ><i ng-if=\"row.entity.activeIn==='InActive'\"  class=\"fas fa-user-times\"></i>{{row.entity.lastName}}</a></div>"
+              },
+              {
+              "name": "firstName",
+              "displayName": "First name",
+              "typeDefinition": "String",
+              "width":110,
+              "cellTemplate": "<div class=\"truncateTitle\" style=\"cursor: pointer; margin-left: 8px; padding-top:5px\"><a ng-click=\"grid.appScope.openUserInfo(row)\" target=\"_blank\" class=\"reportListName\" id=\"{{row.entity.firstName}}\" >{{row.entity.firstName}}</a></div>"
+              },
+              {
+              "name": "emailAddress",
+              "displayName": "Email address",
+              "width":200,
+              "typeDefinition": "String"
+              },
+              {
+              "name": "userWorkerNumber",
+              "displayName": "Employee #",
+              "width":100,
+              "typeDefinition": "String"
+              },
+              {
+              "name": "loginId",
+              "displayName": " login Id",
+              "width":80,
+              "typeDefinition": "String"
+              },
+              {
+              "name": "jobClassificationCode",
+              "displayName": "Job class code",
+              "width":250,
+              "typeDefinition": "String"
+              },
+              {
+              "name": "disiplanceCd",
+              "displayName": "Discipline",
+              "width":150,
+              "typeDefinition": "String"
+              },
+              {
+              "name": "actions",
+              "displayName": "Actions",
+              "typeDefinition": "String",
+              "width":100,
+              "cellTemplate": "<div class=\"ui-grid-cell-contents\" ng-click=\"grid.appScope.openUserInfo(row)\" style=\"cursor: pointer; margin-left: 8px; padding-top:5px\"><i class=\"fa fa-info\" aria-hidden=\"true\"></i></div>"
+              }
+              ]
+}

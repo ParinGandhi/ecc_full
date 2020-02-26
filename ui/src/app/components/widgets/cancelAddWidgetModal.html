@@ -1,0 +1,20 @@
+<div class="modalWidth">
+  <div class="modal-body" id="modal-body">
+    <button title="Cancel" id="cancelAddWidgetX" type="button" class="close" ng-click="vm.confirmCancel(false)">
+      <i class="fas fa-times fa-sm"></i>
+      <span class="sr-only">Cancel</span>
+    </button>
+    <h4 class="abandonTitle">
+      <strong>
+        Abandon changes?
+      </strong>
+    </h4>
+    <p>You have unsaved changes. Your changes will be lost.</p>
+  </div>
+  <div class="modal-footer">
+    <button title="Cancel" id="cancelAddWidgetBtn" class="btn btn-default pull-left" type="button" ng-click="vm.confirmCancel(false)">Cancel</button>
+    <button title="Abandon changes" id="confirmCancelBtn" class="btn btn-primary" type="button" ng-click="vm.confirmCancel(true)">Abandon
+      changes</button>
+
+  </div>
+</div>

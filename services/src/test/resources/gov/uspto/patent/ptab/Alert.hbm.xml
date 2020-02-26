@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <sql-query name="getAllAlerts">
+    <![CDATA[ 
+       SELECT a.alert_id                      AS "alertIdentifier",
+              a.fk_ptab_assignment_id         AS "ptabAssignmentId",
+              a.cfk_prcdng_supplementary_id   AS "appealNumber",
+              a.cfk_proceeding_core_id        AS "serialNumber",
+              a.cfk_proceeding_type_ct        AS "proceedingType",
+			  a.message_tx                    AS "messageText",
+			  a.sent_ts                       AS "sentTimeStamp",
+			  a.last_mod_user_id              AS "lastModifiedUserId",
+			  a.last_mod_ts                   AS "lastModifiedTimeStamp",
+			  a.alert_priority_ct             AS "alertPriority",
+		      ar.fk_application_user_id       AS "recipientUserId",
+		      ar.alert_recipient_id           AS "alertRecipientId",
+			  ar.cleared_in                   AS "clearIndicator",
+			  ar.read_ts                      AS "readTimestamp"
+		FROM alert a 
+		INNER JOIN alert_recipient ar
+		ON ar.fk_alert_id = a.alert_id
+		WHERE ar.cleared_in = 'N'
+		AND ar.fk_application_user_id = :recipientUserId
+    
+	 ]]>
+	</sql-query>
+	
+	<sql-query name="getAllNewAlerts">
+    <![CDATA[ 
+	SELECT a.alert_id                      AS "alertIdentifier",
+              a.fk_ptab_assignment_id         AS "ptabAssignmentId",
+              a.cfk_prcdng_supplementary_id   AS "appealNumber",
+              a.cfk_proceeding_core_id        AS "serialNumber",
+              a.cfk_proceeding_type_ct        AS "proceedingType",
+			  a.message_tx                    AS "messageText",
+			  a.sent_ts                       AS "sentTimeStamp",
+			  a.last_mod_user_id              AS "lastModifiedUserId",
+			  a.last_mod_ts                   AS "lastModifiedTimeStamp",
+			  a.alert_priority_ct             AS "alertPriority",
+		      ar.fk_application_user_id       AS "recipientUserId",
+		      ar.alert_recipient_id           AS "alertRecipientId",
+			  ar.cleared_in                   AS "clearIndicator",
+			  ar.read_ts                      AS "readTimestamp"
+		FROM alert a 
+		INNER JOIN alert_recipient ar
+		ON ar.fk_alert_id = a.alert_id
+		WHERE ar.cleared_in = 'N'
+        AND ar.read_ts IS NULL
+		AND ar.fk_application_user_id = :recipientUserId		
+			 ]]>
+	</sql-query>
+	
+	<sql-query name="clearAlerts">
+    <![CDATA[ 
+       SELECT a.alert_id                      AS "alertIdentifier",
+              a.fk_ptab_assignment_id         AS "ptabAssignmentId",
+              a.cfk_prcdng_supplementary_id   AS "appealNumber",
+              a.cfk_proceeding_core_id        AS "serialNumber",
+              a.cfk_proceeding_type_ct        AS "proceedingType",
+			  a.message_tx                    AS "messageText",
+			  a.sent_ts                       AS "sentTimeStamp",
+			  a.last_mod_user_id              AS "lastModifiedUserId",
+			  a.last_mod_ts                   AS "lastModifiedTimeStamp",
+			  a.alert_priority_ct             AS "alertPriority",
+		      ar.fk_application_user_id       AS "recipientUserId",
+		      ar.alert_recipient_id           AS "alertRecipientId",
+			  ar.cleared_in                   AS "clearIndicator",
+			  ar.read_ts                      AS "readTimestamp"
+		FROM alert a 
+		INNER JOIN alert_recipient ar
+		ON ar.fk_alert_id = a.alert_id
+		WHERE ar.cleared_in = 'N'    
+	 ]]>
+	</sql-query>
+
+</hibernate-mapping>

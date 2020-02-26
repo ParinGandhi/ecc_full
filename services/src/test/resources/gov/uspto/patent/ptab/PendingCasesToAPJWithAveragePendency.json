@@ -1,0 +1,38 @@
+{
+  "columnDetails":[ {
+      "name": "proceedingId",
+      "label": "Proceeding Identifier ",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",      
+      "selected":false
+    },
+    {
+      "name": "userId",
+      "label": "User Identifier ",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",      
+      "selected":false
+    },
+    {
+      "name": "judgeFullName",
+      "label": "Judges Assigned",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",      
+      "selected":true
+    },
+    {
+      "name": "averagePendency",
+      "label": "Average Pendency",
+      "typeDefinition": "Number",
+      "defaultOrder": "desc",      
+      "selected":true
+    },
+    {
+      "name": "count",
+      "label": "Count of AIA Reviews",
+      "typeDefinition": "Number",
+      "defaultOrder": "desc",      
+      "selected":true
+    }	
+ ]
+}

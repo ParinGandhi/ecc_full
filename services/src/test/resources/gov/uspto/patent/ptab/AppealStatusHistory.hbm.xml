@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+
+	<sql-query name="fetchNextAppealStatusHistorySequenceNumber">
+	<![CDATA[
+	
+	select MAX(SEQUENCE_NO) as "maxSequenceNumber" 
+	from APPEAL_STATUS_HISTORY 
+	where FK_AD_FK_APPEAL_NO = :appealNumber
+	and FK_AD_FK_AA_SERIAL_NO = :applicationNumber
+	and FK_AD_SEQUENCE_NO = :adSequenceNumber
+	and FK_AD_RECONSIDER_SEQUENCE_NO = :reconsiderSequenceNumber
+	
+	 ]]>
+	</sql-query>
+	
+	<sql-query name="fetchCaseMilestoneDates">
+		 <![CDATA[
+			                 select   distinct ( select max(DT) from appeal_status_history where type_cd='NOHM' and fk_ad_fk_aa_serial_no= :serialNumber   ) as "noticeOfHearingMailDate",
+                                                ( select max(DT) from appeal_status_history where type_cd='APAS' and fk_ad_fk_aa_serial_no= :serialNumber   )as "noticeOfAppealDate",
+                                                ( select Description_tx  from  code_reference where value_tx
+                                =(select status_cd from hearing_room_roster where FK_AD_FK_AA_SERIAL_NO = :serialNumber and rowNum=1) and  type_cd='HEARING_STATUS_DESC' and rowNum=1 ) as "hearingStatus",               
+                                                ( select max(DT) from appeal_status_history where type_cd='DNMA' and fk_ad_fk_aa_serial_no= :serialNumber  )as "docketingNoticeDate",
+                                                (select HEARING_DT from HEARING_ROOM_ROSTER where FK_AD_FK_AA_SERIAL_NO = :serialNumber 
+                                                and HRR_SEQUENCE_NO IN (select MAX(HRR_SEQUENCE_NO) from HEARING_ROOM_ROSTER where FK_AD_FK_AA_SERIAL_NO = :serialNumber  )and rowNum=1 ) as "hearingDate"
+
+                                                FROM APpeal_status_history 
+      WHERE
+                                                fk_ad_fk_aa_serial_no = :serialNumber 
+
+		]]>
+	</sql-query>
+
+</hibernate-mapping>
+

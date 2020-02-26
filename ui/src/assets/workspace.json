@@ -1,0 +1,191 @@
+{
+	"ptabReadOnlyUser": true,
+	"applicationUserData": {
+		"firstName": "Charles",
+		"lastName": "Greenhut",
+		"emailAddressText": "charles.greenhut@uspto.gov",
+		"middleName": "N"
+	},
+	"userWorkspaces": [
+		{
+			"userWorkspaceIdentifier": 754,
+			"userWorkspaceWidgetsData": [
+				{
+					"configText": "{\"collapsedIndicator\":false}",
+					"widgetColor": "blue",
+					"widgetCustomName": "Search",
+					"widgetData": {
+						"widgetName": "search",
+						"widgetIdentifier": 34
+					},
+					"userWorkspaceWidgetIdentifier": 3906,
+					"widgetHeightPixelQuality": "widgetHeightMedium",
+					"widgetPositionText": "0||0||0",
+					"zoneWidth": 12,
+					"viewLayoutData": {
+						"viewLayoutIdentifier": 0,
+						"descriptionText": "categoryPending"
+					}
+				},
+				{
+					"configText": "{\"collapsedIndicator\":false}",
+					"widgetColor": "blue",
+					"widgetCustomName": "Chat",
+					"widgetData": {
+						"widgetName": "chat",
+						"widgetIdentifier": 30
+					},
+					"userWorkspaceWidgetIdentifier": 3899,
+					"widgetHeightPixelQuality": "widgetHeightSmall",
+					"widgetPositionText": "1||0||0",
+					"zoneWidth": 4,
+					"viewLayoutData": {
+						"viewLayoutIdentifier": 0,
+						"descriptionText": "categoryPending"
+					}
+				},
+				{
+					"configText": "{\"collapsedIndicator\":false}",
+					"widgetColor": "blue",
+					"widgetCustomName": "Video",
+					"widgetData": {
+						"widgetName": "video",
+						"widgetIdentifier": 31
+					},
+					"userWorkspaceWidgetIdentifier": 3900,
+					"widgetHeightPixelQuality": "widgetHeightSmall",
+					"widgetPositionText": "1||1||0",
+					"zoneWidth": 4,
+					"viewLayoutData": {
+						"viewLayoutIdentifier": 0,
+						"descriptionText": "categoryPending"
+					}
+				},
+				{
+					"configText": "{\"collapsedIndicator\":false}",
+					"widgetColor": "blue",
+					"widgetCustomName": "Data&nbsp;Analytics",
+					"widgetData": {
+						"widgetName": "dataAnalytics",
+						"widgetIdentifier": 32
+					},
+					"userWorkspaceWidgetIdentifier": 3901,
+					"widgetHeightPixelQuality": "widgetHeightSmall",
+					"widgetPositionText": "1||2||0",
+					"zoneWidth": 4,
+					"viewLayoutData": {
+						"viewLayoutIdentifier": 0,
+						"descriptionText": "categoryPending"
+					}
+				},
+				{
+					"configText": "{\"collapsedIndicator\":false}",
+					"widgetColor": "blue",
+					"widgetCustomName": "Web",
+					"widgetData": {
+						"widgetName": "web",
+						"widgetIdentifier": 33
+					},
+					"userWorkspaceWidgetIdentifier": 3886,
+					"widgetHeightPixelQuality": "widgetHeightMedium",
+					"widgetPositionText": "2||0||0",
+					"zoneWidth": 12,
+					"viewLayoutData": {
+						"viewLayoutIdentifier": 0,
+						"descriptionText": "categoryPending"
+					}
+				}
+			],
+			"userWorkspaceName": "Main&nbsp;workspace",
+			"currentWorkspaceOrderNumber": 0,
+			"defaultIndicator": true,
+			"structure": "12-4-4-4-12"
+		},
+		{
+			"userWorkspaceIdentifier": 2920,
+			"userWorkspaceWidgetsData": [
+				{
+					"configText": "{\"collapsedIndicator\":false}",
+					"widgetColor": "blue",
+					"widgetCustomName": "Chat",
+					"widgetData": {
+						"widgetName": "chat",
+						"widgetIdentifier": 30
+					},
+					"userWorkspaceWidgetIdentifier": 3899,
+					"widgetHeightPixelQuality": "widgetHeightSmall",
+					"widgetPositionText": "0||0||0",
+					"zoneWidth": 4,
+					"viewLayoutData": {
+						"viewLayoutIdentifier": 0,
+						"descriptionText": "categoryPending"
+					}
+				},
+				{
+					"configText": "{\"collapsedIndicator\":false}",
+					"widgetColor": "blue",
+					"widgetCustomName": "Video",
+					"widgetData": {
+						"widgetName": "video",
+						"widgetIdentifier": 31
+					},
+					"userWorkspaceWidgetIdentifier": 3900,
+					"widgetHeightPixelQuality": "widgetHeightSmall",
+					"widgetPositionText": "0||1||0",
+					"zoneWidth": 4,
+					"viewLayoutData": {
+						"viewLayoutIdentifier": 0,
+						"descriptionText": "categoryPending"
+					}
+				},
+				{
+					"configText": "{\"collapsedIndicator\":false}",
+					"widgetColor": "blue",
+					"widgetCustomName": "Data&nbsp;Analytics",
+					"widgetData": {
+						"widgetName": "dataAnalytics",
+						"widgetIdentifier": 32
+					},
+					"userWorkspaceWidgetIdentifier": 3901,
+					"widgetHeightPixelQuality": "widgetHeightSmall",
+					"widgetPositionText": "0||2||0",
+					"zoneWidth": 4,
+					"viewLayoutData": {
+						"viewLayoutIdentifier": 0,
+						"descriptionText": "categoryPending"
+					}
+				}
+			],
+			"userWorkspaceName": "Utilities",
+			"currentWorkspaceOrderNumber": 1,
+			"defaultIndicator": false,
+			"structure": "4-4-4"
+		},
+		{
+			"userWorkspaceIdentifier": 2939,
+			"currentWorkspaceOrderNumber": 2,
+			"userWorkspaceWidgetsData": [
+				{
+					"configText": "{\"collapsedIndicator\":false}",
+					"widgetColor": "blue",
+					"widgetCustomName": "Web",
+					"widgetData": {
+						"widgetName": "web",
+						"widgetIdentifier": 33
+					},
+					"userWorkspaceWidgetIdentifier": 3886,
+					"widgetHeightPixelQuality": "widgetHeightMedium",
+					"widgetPositionText": "0||0||0",
+					"zoneWidth": 12,
+					"viewLayoutData": {
+						"viewLayoutIdentifier": 0,
+						"descriptionText": "categoryPending"
+					}
+				}
+			],
+			"defaultIndicator": false,
+			"structure": "12",
+			"userWorkspaceName": "Full&nbsp;view"
+		}
+	]
+}

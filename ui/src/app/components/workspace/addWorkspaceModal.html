@@ -1,0 +1,69 @@
+<style>
+    .selectedImage {
+       border:4px solid; 
+       border-color:#004C97;
+      margin-top:-.7em;
+      width:134px;
+      margin-left:-0.6em;	
+    }
+    
+    /* .unselectedImage {
+    	padding:.9em;
+    
+    } */
+    
+    </style>
+    
+    <div class="modalWidth"></div>
+    <div class="modal-header" ng-init="vm.focus();">
+      <!-- <button type="button" class="close modalClose" ng-click="vm.cancelAddWorkspaceModal()">&times;</button> -->
+      <button id="cancelAddWorkspaceX" type="button" class="close" ng-click="vm.cancelAddWorkspaceModal()">
+        <i class="fas fa-times fa-sm"></i>
+        <span class="sr-only">Close</span>
+      </button>
+      <h3 class="modal-title truncateTitle" id="modal-title">Add workspace</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+    
+      <div class="row">
+        <div class="col-md-10 clearInput"  ng-class="{'has-error':vm.showErrorMsg}">
+          <!-- <span ng-click="vm.clearTitle()">
+            <i class="fas fa-times"></i>
+          </span> -->
+              <label for="dashboardTitle" class="col-md-6 control-label">Workspace title *
+          <input spellcheck="false"  aria-required="true" type="search" class="form-control-width-lg form-control" ng-class="{'errorMsgInput': vm.workspace.userWorkspaceName.length <= 0, 'errorMsgInput': vm.showErrorMsg}"
+            id="dashboardTitle" ng-model="vm.workspace.userWorkspaceName" maxlength="{{maxNumberOfTitleLength}}" ng-keyup="vm.checkLength()" ng-change="vm.checkLength();">
+            
+          <!-- <span class="errorMsg" ng-if="vm.workspace.userWorkspaceName.length <= 0">The workspace title cannot be empty.</span>
+          <span class="errorMsg" ng-if="vm.nonUniqueName">This workspace name already exists</span> -->
+          <span ng-if="vm.showErrorMsg">{{vm.errorMsg}}</span>
+          </label>
+            <div class="col-md-2" style="margin-top: 26px;margin-left:-8px;">{{vm.workspace.userWorkspaceName.length || 0}} / {{maxNumberOfTitleLength}}</div>
+        </div>
+    <!--     <div class="co	l-md-2" style="margin-top: 6px;">{{vm.workspace.userWorkspaceName.length || 0}} / {{maxNumberOfTitleLength}}</div> -->
+    
+      </div>
+      <div class="">
+        <div class="col-md-12">
+          <label>Select workspace zone layout below</label><br>
+    
+          New widgets are added to the bottom of 'Zone' 1
+        </div>
+      </div>
+      <div style="margin-top:70px;"></div>
+      <div class="row" style="margin-left:20px;">
+      <div class="col-sm-2"  ng-repeat="layout in vm.layouts" style="width:150px;height:210px;">
+        
+        <input class="img-responsive" ng-class="{'selectedImage':vm.selectedImage===layout.name,'unselectedImage':vm.selectedImage!==layout.name}" title="Select {{layout.name}}" alt="{{layout.name}}" type="image" src="{{layout.image}}" value="title" ng-click="vm.selectedImage=layout.name;vm.workspace.structure=layout.structure;" />
+        
+        <div ng-if="vm.selectedImage===layout.name" style="font-weight:bold;font-size:14pt;text-align:center;margin-left:-1em;">{{layout.name}}</div>
+        <div style="text-align:center;width:107px;" ng-if="vm.selectedImage!==layout.name">{{layout.name}}</div>
+      </div>
+      </div>
+     </div>
+     
+    <div class="modal-footer">
+      <button id="cancelAddWorkspaceBtn" class="btn btn-default pull-left" type="button" ng-click="vm.cancelAddWorkspaceModal()">Cancel</button>
+      <button id="addNewWorkspaceBtn" class="btn btn-primary" type="button" ng-click="vm.addWorkspace()" ng-disabled="!vm.workspace.userWorkspaceName">Add</button>
+    </div>
+    

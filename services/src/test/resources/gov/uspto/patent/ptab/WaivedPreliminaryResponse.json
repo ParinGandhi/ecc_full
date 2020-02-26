@@ -1,0 +1,123 @@
+{
+  "columnDetails":[ {
+      "name": "proceedingId",
+      "label": "Proceeding Identifier ",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",     
+      "selected":false
+    },
+	{
+      "name": "proceedingNumber",
+      "label": "AIA Review# ",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",      
+      "selected":true
+    },
+    {
+      "name": "patentNumber",
+      "label": "Patent Number",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",      
+      "selected":true
+    },
+    {
+      "name": "petitionerName",
+      "label": "Petitioner Name ",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",      
+      "selected":true
+    }, 
+   	{
+      "name": "patentOwnerName",
+      "label": "Patent Owner Name ",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",     
+      "selected":true
+    },
+    {
+      "name": "techCenter",
+      "label": "Tech Center",
+      "typeDefinition": "Number",
+      "defaultOrder": "desc",     
+      "selected":true
+    },
+    {
+      "name": "petAccordedFilingDate",
+      "label": "Accorded Filing Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",      
+      "selected":false
+    },
+	{
+      "name": "applicationNumber",
+      "label": "Application Number",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",      
+      "selected":false
+    },
+    {
+      "name": "filingDate",
+      "label": "Filing Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",      
+      "selected":false
+    },  
+    {
+      "name": "hearingDate",
+      "label": "Hearing Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",     
+      "selected":false
+    },
+    {
+      "name": "instDecisionDate",
+      "label": "Institution Decision Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",   
+      "selected":false
+    },
+    {
+      "name": "judgesAssigned",
+      "label": "Judges Assigned",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",      
+      "selected":false
+    },
+    {
+      "name": "noticeOfAccordedFilingDate",
+      "label": "Notice of Accorded Filing Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",    
+      "selected":false
+    },
+    {
+      "name": "prelimRespDate",
+      "label": "Preliminary Response Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",     
+      "selected":false
+    },
+    {
+      "name": "prelimRespWaived",
+      "label": "Preliminary Response Waived",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",     
+      "selected":false
+    },
+    {
+      "name": "terminationDate",
+      "label": "Termination Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",      
+      "selected":false
+    },
+    {
+      "name": "totalPendency",
+      "label": "Total Pendency",
+      "typeDefinition": "Number",
+      "defaultOrder": "desc",    
+      "selected":false
+    }
+	
+ ]
+}

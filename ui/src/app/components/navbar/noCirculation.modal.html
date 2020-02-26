@@ -1,0 +1,20 @@
+<div class="modalWidth" style="min-width: 340px;">
+
+  <div class="modal-header">
+    <button aria-hidden="true" autofocus="false" type="button" class="close" ng-click="vm.closeCurrentDialog()">
+      <i class="fas fa-times fa-sm"></i><span class="sr-only"> Cancel</span>
+    </button>
+    <h3 class="modal-title truncateTitle" id="modal-title">No circulation</h3>
+  </div>
+
+  <div class="modal-body" id="modal-body">
+    <p>This case does not have an active circulation, so circulation manager cannot be opened.</p>
+  </div>
+
+  <div class="modal-footer">
+    <div>
+      <button title="No" id="otherNoBtn" aria-label="No" class="btn btn-default pull-left" type="button"
+        ng-click="vm.closeCurrentDialog()">Close</button>
+    </div>
+  </div>
+</div>

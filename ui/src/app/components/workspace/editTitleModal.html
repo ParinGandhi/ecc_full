@@ -1,0 +1,136 @@
+<style>
+    .selectedImage {
+       border:4px solid; 
+       border-color:#004C97;
+      margin-top:-.7em;
+      width:134px;
+      margin-left:-0.6em;	
+    }
+    
+    /* .unselectedImage {
+    	padding:.9em;
+    
+    } */
+    
+    </style>
+    
+    <div class="modalWidth"></div>
+    <app-dashboard-library>
+      <widget-library>
+        <div class="modal-header">
+          <button title="Cancel" type="button" class="close" ng-click="vm.saveChanges($event,this)" id="workspaceCloseButton">
+            <i class="fas fa-times fa-sm"></i>
+            <span class="sr-only">Cancel</span>
+          </button>
+          <h3 class="modal-title truncateTitle" id="modal-title">Workspace settings</h3>
+        </div>
+    
+        <button aria-controls="widgetTabMenu" aria-expanded="true" aria-hidden="true" aria-label="toggle widget library tabs" class="navbar-toggle"
+          data-target="#widgetTabMenu" data-toggle="collapse" type="button">
+          <span>
+            <i class="fa fa-bars" aria-hidden="true"></i>
+          </span>
+        </button>
+        <nav style="border: none">
+          <ul class="collapse navbar-collapse widgetTabMenu" id="widgetTabMenu" role="tablist" ng-init="widgetFilter.subcategory=''">
+            <li ng-class="{ 'active' :  !content}" role="presentation">
+              <button role="tab" ng-click="vm.saveChanges($event, this);" id="menu-btn-0" href="">Title and layout</button>
+            </li>
+            <li ng-disabled="!vm.newTitle.userWorkspaceName || vm.showErrorMsg" ng-class="{ 'active' :  content}">
+              <button role="tab" id="menu-btn-1" ng-disabled="!vm.newTitle.userWorkspaceName || vm.showErrorMsg" ng-click="vm.saveChanges($event, this);vm.getWorkspaceConfig()" href="">Arrange widgets</button>
+            </li>
+          </ul>
+        </nav>
+      </widget-library>
+    </app-dashboard-library>
+    
+    
+    
+    
+    
+    <div style=" min-height: 585px; overflow: auto; border-left: 1px solid #ddd">
+      <div class="modal-body" id="modal-body">
+        <div ng-show="!content" id="workspaceSettings">
+          <form name="workspaceConfig">
+          <div class="row" style="padding-bottom:0px;">
+            <div id="wrkspce-title" class="col-md-10 clearInput"  ng-class="{'has-error':vm.showErrorMsgData}">
+    <!--         <div id="wrkspce-title" class="col-md-4"> -->
+              <label for="dashboardTitle" class="col-md-4 control-label">Workspace title
+                  <input type="search" class="form-control input-md-4" ng-class="{'errorMsgInput': vm.newTitle.userWorkspaceName.length <= 0, 'errorMsgInput': vm.showErrorMsg}"
+                    id="dashboardTitle" ng-model="vm.newTitle.userWorkspaceName" maxlength="{{maxNumberOfTitleLength}}" ng-keyup="vm.checkLength()"
+                    ng-change="vm.checkLength();vm.checkForChange()">
+                 
+                <!-- <span class="errorMsg" ng-if="vm.newTitle.userWorkspaceName.length <= 0">The workspace title cannot be empty.</span> -->
+                <span ng-if="vm.showErrorMsgData">{{vm.errorMsg}}</span>
+                </label>
+    <!--             <div class="col-md-2  columnwid " style="margin-top: 6px;">{{vm.newTitle.userWorkspaceName.length || 0}}/{{maxNumberOfTitleLength}}</div> -->
+                <div class="col-md-2" style="margin-top: 26px;margin-left:-8px;">{{vm.newTitle.userWorkspaceName.length || 0}}/{{maxNumberOfTitleLength}}</div>
+              </div>
+              
+    </div>
+            <div id="wrkspce-title" class="row">
+              <div class="col-md-10">
+                  <label>Select workspace zone layout below</label><br>
+              New widgets are added to the bottom of 'Zone' 1
+                
+              </div>
+            </div>
+            <div>
+    <!--           <ul class="nav list-group" style="list-style: none"> -->
+    <!--             <li style="float: left; margin-right: 15px; margin-top: 5px" ng-repeat="layout in vm.layouts"> -->
+    <!--               <label class="radio-inline"> -->
+    <!--                 <img src="{{layout.image}}" /> -->
+    <!--                 <div style="text-align: center"> -->
+    <!--                   <input type="radio" ng-model="vm.newTitle.structure" value="{{layout.structure}}" ng-change="vm.checkForChange()">{{layout.name}} -->
+    <!--                 </div> -->
+    <!--               </label> -->
+    <!--             </li> -->
+    <!--           </ul> -->
+    <!--   <ul class="nav list-group" style="list-style:none"> -->
+    <!--     <li style="float:left;" ng-repeat="layout in vm.layouts"> -->
+    <!--     <input title="Select {{layout.name}}" alt="{{layout.name}}" ng-show="vm.selectedImage!==layout.name" type="image" src="{{layout.image}}" value="title" ng-click="vm.selectedImage=layout.name;vm.newTitle.structure=layout.structure;vm.checkForStructureChange();" /> -->
+    <!--     <input title="Select {{layout.name}}" alt="{{layout.name}} selected" ng-show="vm.selectedImage===layout.name" type="image" src="{{layout.selectedImage}}" value="title" ng-click="vm.selectedImage=layout.name;vm.newTitle.structure=layout.structure;vm.checkForStructureChange()" /> -->
+    <!--     </li> -->
+    <!--   </ul> -->
+    
+      <div class="row" style="margin-left:20px;">
+      <div class="col-sm-2"  ng-repeat="layout in vm.layouts" style="width:150px;height:210px;">
+        
+        <input class="img-responsive" ng-class="{'selectedImage':vm.selectedImage===layout.name,'unselectedImage':vm.selectedImage!==layout.name}" title="Select {{layout.name}}" alt="{{layout.name}}" type="image" src="{{layout.image}}" value="title" ng-click="vm.selectedImage=layout.name;vm.newTitle.structure=layout.structure;vm.checkForStructureChange();" />
+        
+        <div ng-if="vm.selectedImage===layout.name" style="font-weight:bold;font-size:14pt;text-align:center;margin-left:-1em;">{{layout.name}}</div>
+        <div style="text-align:center;width:107px;" ng-if="vm.selectedImage!==layout.name">{{layout.name}}</div>
+      </div>
+      </div>
+    
+            </div>
+          </form>
+        </div>
+        <div ng-show="content">
+          <div style="padding-left:0px">
+            <label id="wrkspce-title">Arrange widgets on this workspace </label>
+          </div>
+          <div ng-if="vm.newTitle.structure === '4-4-4'" ng-include src="'app/components/workspace/configure/three.html'"></div>
+          <div ng-if="vm.newTitle.structure === '4-8'" ng-include src="'app/components/workspace/configure/right.html'"></div>
+          <div ng-if="vm.newTitle.structure === '8-4'" ng-include src="'app/components/workspace/configure/left.html'"></div>
+          <div ng-if="vm.newTitle.structure === '6-6'" ng-include src="'app/components/workspace/configure/two.html'"></div>
+          <div ng-if="vm.newTitle.structure === '12-4-4-4-12'" ng-include src="'app/components/workspace/configure/five.html'"></div>
+          <div ng-if="vm.newTitle.structure === '12'" ng-include src="'app/components/workspace/configure/full.html'"></div>
+          <div ng-if="vm.newTitle.structure === '12-4-8-12'" ng-include src="'app/components/workspace/configure/four.html'"></div>
+        </div>
+    
+    
+      </div>
+    </div>
+    
+    
+    <div class="modal-footer">
+      <button title="Cancel" class="btn btn-default pull-left btblk mrgn" id="cancelWS" type="button" ng-click="vm.saveChanges($event, this)">Cancel</button>
+      <button title="Save" ng-show="!widgetArrange" id="saveWS" class="btn btn-primary btblk " type="button" ng-click="vm.updateWorkspace('false')"
+        ng-disabled="!vm.newTitle.userWorkspaceName || !vm.changesMade || vm.showErrorMsg">Save</button>
+      <button title="Save" ng-show="widgetArrange" id="saveOrderWS" class="btn btn-primary btblk" type="button" ng-click="vm.saveWorkspaceConfig('false')">Save</button>
+      <button title="Save and close" ng-show="!widgetArrange" id="saveCloseWS" class="btn btn-primary btblk" type="button" ng-click="vm.updateWorkspace('true')"
+        ng-disabled="!vm.newTitle.userWorkspaceName || !vm.changesMade || vm.showErrorMsg">Save and close</button>
+      <button title="Save and close" ng-show="widgetArrange" id="saveCloseOrderWS" class="btn btn-primary btblk" type="button" ng-click="vm.saveWorkspaceConfig('true')">Save and close</button>
+    </div>
+    

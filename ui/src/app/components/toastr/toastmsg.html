@@ -1,0 +1,23 @@
+<!-- <style>
+  .ngdialog.ngdialog-theme-default .ngdialog-close {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    position: absolute;
+    right: 6px;
+    top: 9px;
+}
+</style> -->
+
+
+<div class="{{toastClass}} {{toastType}}" ng-click="tapToast()">
+  <div ng-switch on="allowHtml">
+    <button aria-hidden="true" autofocus="false" type="button" id="toastermsgClose" class="close" ng-click="closeThisDialog()">
+      <i class="fas fa-times fa-sm"></i><span class="sr-only"> close toast message</span>
+    </button>
+    <div ng-switch-default ng-if="title" class="toast-containerData" aria-label="{{title}}">{{title}}</div>
+    <div ng-switch-default class="toast-containerData" aria-label="{{message}}"><span ng-bind-html="message"></span></div>
+    <div ng-switch-when="true" ng-if="title" class="toast-containerData" ng-bind-html="title"></div>
+    <div ng-switch-when="true" class="toast-containerData" ng-bind-html="message"></div>
+  </div>
+</div>

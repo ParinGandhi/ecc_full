@@ -1,0 +1,16 @@
+<div class="modal-body" id="confirmation-modal-body">
+  <button title="Cancel" id="cancelConfirmManageX" type="button" class="close" ng-click="closeThisDialog()">
+    <i class="fas fa-times fa-sm"></i>
+    <span class="sr-only">Cancel</span>
+  </button>
+  <h4 class="abandonTitle">
+    <strong>
+      Abandon changes?
+    </strong>
+  </h4>
+  <p>You have unsaved changes. Your changes will be lost.</p>
+</div>
+<div class="modal-footer">
+  <button title="Cancel" id="noBtn" class="btn btn-default pull-left" type="button" ng-click="closeThisDialog()">Cancel</button>
+  <button title="Abandon changes" id="cancelyesBtn" class="btn btn-primary" type="button" ng-click="vm.confirmCancel()">Abandon changes</button>
+</div>

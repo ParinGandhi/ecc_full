@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<sql-query name="getNextSeqForAppealNoteHistory">
+       <![CDATA[ 
+      select NVL(MAX(SEQUENCE_NO) + 1, 0 ) from APPEAL_NOTE_HISTORY where FK_APPEAL_NO = :appealNumber AND FK_APPEAL_FK_AA_SERIAL_NO = :applicationNumber
+	 ]]>
+	</sql-query>
+
+
+</hibernate-mapping>
+

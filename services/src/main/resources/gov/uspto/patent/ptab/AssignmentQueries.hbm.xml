@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+
+	<sql-query name="getAppealAssigneeAndRoleForEmployeeNumber">
+	<![CDATA[ 
+	select  au.FIRST_NM as "firstName",
+	au.MIDDLE_NM as "middleName",
+	au.LAST_NM as "lastName",
+	au.APPLICATION_USER_ID as "assigneeNumber",
+	au.end_effective_dt as "endDate",
+   sur.user_role_nm as "role",
+  sur.description_tx as "description"
+	from 
+  application_user au,
+  stnd_user_Role sur,
+  application_user_role aur 
+  where 
+aur.FK_USER_ROLE_ID =  sur.user_role_id and
+  aur.FK_APPLICATION_USER_ID = au.application_user_id and
+  au.application_user_id=:employeeNumber
+	 ]]>
+	</sql-query>
+
+
+	
+	
+	<sql-query name="getAssignments">
+	<![CDATA[
+SELECT AA.SEQUENCE_NO             AS "sequenceNumber",
+ -- AA.FK_ASSIGNMENT_TYPE_CD        AS "assignmentTypeCode",
+  AA.ACTIVE_IN                    AS "activeIndicator",
+  AA.ASSIGNED_DT                  AS "assignedDate",
+  AA.COMPLETION_DT                AS "completionDate",
+  AA.PENDING_LOCATION_TX          AS "pendingLocationText",
+  AA.LAST_MODIFIED_TS             AS "lastModifiedTimestamp",
+  AA.LAST_MODIFIED_USER_ID        AS "lastModifiedUserIdentifier",
+  AA.FK_ASSIGNEE_BE_NO            AS "assigneeNumber",
+  AA.FK_AD_FK_APPEAL_NO           AS "appealNumber",
+  AA.FK_AD_FK_AA_SERIAL_NO        AS "serialNumber",
+  AA.FK_AD_SEQUENCE_NO            AS "adSequenceNumber",
+  AA.FK_AD_RECONSIDER_SEQUENCE_NO AS "reconsiderSequenceNumber",
+  AA.PALM_MAILED_DT               AS "mailDate", 
+  AA.TASK_TITLE_TX                AS "assignmentTitleText",
+  AA.TASK_DESC_TX                 AS "assignmentDescriptionText",
+  AA.FK_ASSIGNOR_BE_NO            AS "assignorNumber",
+  AA.CREATOR_USER_ID              AS "createUserIdentifier",
+  AA.CREATE_TS                    AS "createTimestamp",
+  AA.ASSIGNMENT_DUE_DT            AS "assignmentDueDate",
+  AA.FK_ASSIGNMENT_STATUS_CD      AS "assignmentStatusCode",
+  AA.PTAB_ASSIGNMENT_ID           AS "assignmentIdentifier",
+--  AA.FK_TASK_ASSIGNMENT_CT        AS "caseType",
+  AA.FK_TASK_CREATOR_USER_ID      AS "taskCreatorUserIdentifier",
+  AA.TASK_CREATED_TS              AS "taskCreateDate",
+  AA.LOCK_CONTROL_NO              AS "lockControlNumber",
+  AA.COMMENT_TX					  AS "notesText",
+  AA.PRIORITY_IN				  AS "priorityIndicator",
+  AA.FK_PREEXISTENT_ASSIGNMENT_ID AS "preExistentIdentifier",
+  AA.FK_COMPLETER_BE_NO			  AS "completerNumber",
+  AA.FK_ASSIGNMENT_TYPE_ID		  AS "assignmentTypeIdentifier",
+  SAT.DISPLAY_NM            AS  "assignmentTypeDescription"
+  from
+
+ptab_assignment AA,
+stnd_assignment_type sat
+
+where 
+sat.ASSIGNMENT_TYPE_ID = aa.FK_ASSIGNMENT_TYPE_ID and
+AA.PTAB_ASSIGNMENT_ID = :ptabAssignmentId
+	 ]]>
+	</sql-query>
+
+</hibernate-mapping>
+

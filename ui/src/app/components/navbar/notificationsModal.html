@@ -1,0 +1,190 @@
+<style>
+  .bold-alert {
+    font-weight: 700
+  }
+
+  .regular-alert {
+    font-weight: 500
+  }
+
+</style>
+
+<div class="modalWidth">
+  <div class="modal-header">
+    <button id="interferenceModalCloseX" type="button" class="close"
+      ng-click="closeThisDialog(); closeNotification(); allAlertStatus();">
+      <i class="fas fa-times fa-sm"></i>
+    </button>
+    <h4 class="modal-title truncateTitle" id="modal-title">Notifications</h4>
+  </div>
+  <div class="modal-body" id="modal-body" style="margin-bottom: 2em;">
+    <div class="col-lg-12 hidden-sm hidden-xs hidden-md" style="padding-bottom: 1em">
+
+      <div class="col-sm-4">
+        <button ng-disabled=' !getSelectedRows ||  getSelectedRows.length ===0' ng-disabled="disabled"
+          class="pull-left btn btn-default" style="margin-left: -20px" ng-click="importantRows()"> Mark selected as
+          important</button>
+        <button class="btn btn-default" style="
+        margin-left:12px;" ng-disabled=' !getSelectedRows ||  getSelectedRows.length ===0' ng-disabled="disabled"
+          ng-click="deleteRows()">Delete selected</button>&nbsp;
+      </div>
+      <div class="col-sm-1" style="margin-top:6px;">
+        <span>Total</span>
+        <span class="badge">{{countOfAllAlerts}}</span>
+
+
+      </div>
+      <div class="col-sm-1" style="margin-top:6px;">
+        <span>New</span>
+        <span class="badge">{{countOfNewAlerts}}</span>
+
+      </div>
+      <div class="col-sm-5; pull-right">
+        <div>
+          <!-- <button title="Save grid preferences" class="btn"
+            ng-class="{'btn-warning':preferencesChanged, 'btn-default':!preferencesChanged}"
+            ng-click="saveGridPreferences()" ng-disabled="!preferencesChanged" style="margin-bottom: 5px;">
+            &nbsp;Save grid preferences</button> -->
+          <div style="display: inline; margin-right: 15px;">
+            <span ng-if="!refreshFailed">
+              <span style="margin-left: 20px;">Updated: {{lastRefresh | date:'MM/dd h:mma'}}</span>
+              <span ng-show="isLoading">Loading...</span>
+              <button title="Refresh notifications" class="btn btn-default" ng-click="getNotifications()"
+                style="margin-bottom: 5px; margin-right: -8px;">
+                <i class="fas fa-sync-alt" ng-hide="isLoading"></i>
+                <i class="fas fa-spinner fa-spin" ng-show="isLoading"></i>
+                <span class="sr-only">Refresh</span>
+              </button>
+            </span>
+            <span ng-if="refreshFailed">
+              <span>Last update failed: {{lastRefresh | date:'MM/dd h:mma'}}</span>
+              <button title="Refresh notifications" class="btn btn-danger" ng-click="getNotifications()"
+                style="margin-bottom: 5px;margin-right: -8px;">
+                <i class="fas fa-unlink"></i>
+                <span class="sr-only">Refresh</span>
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+
+
+
+
+    <div class="col-md-12 hidden-sm hidden-xs hidden-lg" style="padding-bottom: 1em; margin-bottom: 2em;">
+      <div class="col-sm-2">
+        <button ng-disabled=' !getSelectedRows ||  getSelectedRows.length ===0' ng-disabled="disabled"
+          class="pull-left btn btn-default" style="margin-left: -20px" ng-click="importantRows()"
+          title="Mark selected as important"> <i class="fas fa-exclamation" style="color:red"></i></button>
+        <button class="btn btn-default" style="
+            margin-left:12px;" ng-disabled=' !getSelectedRows ||  getSelectedRows.length ===0' ng-disabled="disabled"
+          ng-click="deleteRows()" title="Delete selected"><i class="fas fa-trash-alt"></i></button>&nbsp;
+      </div>
+      <div class="col-sm-1" style="margin-top:6px;">
+        <span>Total</span>
+        <span class="badge" title="Total">{{countOfAllAlerts}}</span>
+      </div>
+      <div class="col-sm-1" style="margin-top:6px;">
+        <span> New </span>
+        <span class="badge" title="New">{{countOfNewAlerts}}</span>
+
+      </div>
+      <div class="col-sm-6; pull-right">
+        <div>
+          <!-- <button title="Save grid preferences" class="btn"
+            ng-class="{'btn-warning':preferencesChanged, 'btn-default':!preferencesChanged}"
+            ng-click="saveGridPreferences()" ng-disabled="!preferencesChanged" style="margin-bottom: 5px;">
+            &nbsp;<i class="far fa-save"></i></button> -->
+          <div style="display: inline; margin-right: 15px;">
+            <span ng-if="!refreshFailed">
+              <span style="margin-left: 20px;">{{lastRefresh | date:'MM/dd h:mma'}}</span>
+              <span ng-show="isLoading">Loading...</span>
+              <button title="Refresh notifications" class="btn btn-default" ng-click="getNotifications()"
+                style="margin-bottom: 5px; margin-right: -8px;">
+                <i class="fas fa-sync-alt" ng-hide="isLoading"></i>
+                <i class="fas fa-spinner fa-spin" ng-show="isLoading"></i>
+                <span class="sr-only">Refresh</span>
+              </button>
+            </span>
+            <span ng-if="refreshFailed">
+              <span>Failed: {{lastRefresh | date:'MM/dd h:mma'}}</span>
+              <button title="Refresh notifications" class="btn btn-danger" ng-click="getNotifications()"
+                style="margin-bottom: 5px;margin-right: -8px;">
+                <i class="fas fa-unlink"></i>
+                <span class="sr-only">Refresh</span>
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="col-sm-12 hidden-lg hidden-md" style="padding-bottom: 1em">
+      <div class="col-sm-2">
+        <button ng-disabled=' !getSelectedRows ||  getSelectedRows.length ===0' ng-disabled="disabled"
+          class="pull-left btn btn-default" style="margin-left: -20px" ng-click="importantRows()"
+          title="Mark selected as important"> <i class="fas fa-exclamation" style="color:red"></i></button>
+        <button class="btn btn-default" style="
+              margin-left:12px;" ng-disabled=' !getSelectedRows ||  getSelectedRows.length ===0' ng-disabled="disabled"
+          ng-click="deleteRows()" title="Delete selected"><i class="fas fa-trash-alt"></i></button>&nbsp;
+      </div>
+      <div class="col-sm-2">
+        <span class="badge" title="Total">{{countOfAllAlerts}}</span>
+        <span class="badge" title="New">{{countOfNewAlerts}}</span>
+
+      </div>
+      <div class="col-sm-6; pull-right">
+        <div>
+          <!-- <button title="Save grid preferences" class="btn"
+            ng-class="{'btn-warning':preferencesChanged, 'btn-default':!preferencesChanged}"
+            ng-click="saveGridPreferences()" ng-disabled="!preferencesChanged" style="margin-bottom: 5px;">
+            &nbsp;<i class="far fa-save"></i></button> -->
+          <div style="display: inline; margin-right: 15px;">
+            <span ng-if="!refreshFailed">
+              <span style="margin-left: 20px;">{{lastRefresh | date:'MM/dd h:mma'}}</span>
+              <span ng-show="isLoading">Loading...</span>
+              <button title="Refresh notifications" class="btn btn-default" ng-click="getNotifications()"
+                style="margin-bottom: 5px; margin-right: -8px;">
+                <i class="fas fa-sync-alt" ng-hide="isLoading"></i>
+                <i class="fas fa-spinner fa-spin" ng-show="isLoading"></i>
+                <span class="sr-only">Refresh</span>
+              </button>
+            </span>
+            <span ng-if="refreshFailed">
+              <span>Failed: {{lastRefresh | date:'MM/dd h:mma'}}</span>
+              <button title="Refresh notifications" class="btn btn-danger" ng-click="getNotifications()"
+                style="margin-bottom: 5px;margin-right: -8px;">
+                <i class="fas fa-unlink"></i>
+                <span class="sr-only">Refresh</span>
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+
+
+  <div class="col-sm-12" style="margin-bottom: 2em; width: 98%">
+    <div ng-show="isLoading">
+      <grid-loader></grid-loader>
+    </div>
+
+    <div id="notificationGrid" ui-grid="gridOptions" ui-grid-cellnav ui-grid-selection ui-grid-pagnation
+      ui-grid-auto-resize ui-grid-resize-columns ui-grid-move-columns ui-grid-pinning ui-grid-auto-fit-columns
+      ui-grid-exporter class="grid" style="height: 550px; float:auto;">
+    </div>
+  </div>
+  <br>
+</div>
+<div class="modal-footer" style="margin-top: 41em;">
+  <button title="Close dialog" class="btn btn-default pull-left" type="button"
+    ng-click="closeThisDialog();  closeNotification(); allAlertStatus();" style="margin-top: 2em;">Close</button>
+</div>

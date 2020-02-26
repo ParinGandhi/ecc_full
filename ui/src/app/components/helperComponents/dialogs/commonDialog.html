@@ -1,0 +1,21 @@
+
+<h4 id="commonDialogTitle" class="{{vm.dialogInfo.titleType}}">{{vm.dialogInfo.title}}</h4>
+<div ng-bind-html="vm.dialogInfo.content"></div>
+
+<div ng-if="vm.dialogInfo.dialogHtml">
+   <div ng-include="vm.dialogInfo.dialogHtml"></div>
+</div>
+<form class="form-horizontal" name="commonDialogForm" novalidate>
+
+    <div class="keyline-bottom margin-bottom-2"></div>
+    <div class="form-group" >
+        <div class="col-sm-6" >
+	        <div ng-if="vm.dialogInfo.cancelButton" class="pull-left col-sm-6 "><button class="btn btn-default" 
+	        title="Cancel"  id="commonDialogCancelButton" ng-click="closeThisDialog('Select location is cancelled.')">Cancel</button></div>
+        </div>
+        
+        <div class="col-sm-6">
+            <button title="{{vm.dialogInfo.primaryButton}}" id="commonDialogPrimaryButton" class="btn btn-{{vm.dialogInfo.primaryButtonType}} pull-right" 
+         ng-click="confirm(vm.dialogInfo.primaryButton)" >{{vm.dialogInfo.primaryButton}}</button></div>
+    </div>
+</form>

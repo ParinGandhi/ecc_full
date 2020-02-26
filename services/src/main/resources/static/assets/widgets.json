@@ -1,0 +1,57 @@
+[
+	{
+		"identifier": "30",
+		"widgetName": "chat",
+		"noteText": "Chat",
+		"configText": "{\"path\":\"chat.html\",\"showDeleteButton\":\"false\",\"showFullscreenButton\":\"true\",\"showCollapseButton\":\"true\",\"showReloadButton\":\"true\"}",
+		"displayOrder": 1,
+		"subcategoryInfo": {
+			"subcategoryName": "Chat",
+			"subcategoryIdentifier": "1"
+		}
+	},
+	{
+		"identifier": "31",
+		"widgetName": "video",
+		"noteText": "Video",
+		"configText": "{\"path\":\"my-favorites.html\",\"showDeleteButton\":\"false\",\"showFullscreenButton\":\"true\",\"showCollapseButton\":\"true\",\"showReloadButton\":\"true\"}",
+		"displayOrder": 4,
+		"subcategoryInfo": {
+			"subcategoryName": "Video",
+			"subcategoryIdentifier": "1"
+		}
+	},
+	{
+		"identifier": "32",
+		"widgetName": "dataAnalytics",
+		"noteText": "Data analytics",
+		"configText": "{\"path\":\"my-favorites.html\",\"showDeleteButton\":\"false\",\"showFullscreenButton\":\"true\",\"showCollapseButton\":\"true\",\"showReloadButton\":\"true\"}",
+		"displayOrder": 2,
+		"subcategoryInfo": {
+			"subcategoryName": "General",
+			"subcategoryIdentifier": "1"
+		}
+	},
+	{
+		"identifier": "33",
+		"widgetName": "search",
+		"noteText": "Search",
+		"configText": "{\"path\":\"search.html\",\"showDeleteButton\":\"false\",\"showFullscreenButton\":\"true\",\"showCollapseButton\":\"true\",\"showReloadButton\":\"false\"}",
+		"displayOrder": 3,
+		"subcategoryInfo": {
+			"subcategoryName": "Search",
+			"subcategoryIdentifier": "1"
+		}
+	},
+	{
+		"identifier": "34",
+		"widgetName": "web",
+		"noteText": "Web",
+		"configText": "{\"path\":\"web.html\",\"showDeleteButton\":\"false\",\"showFullscreenButton\":\"true\",\"showCollapseButton\":\"true\",\"showReloadButton\":\"true\"}",
+		"displayOrder": 5,
+		"subcategoryInfo": {
+			"subcategoryName": "Search",
+			"subcategoryIdentifier": "1"
+		}
+	}
+]

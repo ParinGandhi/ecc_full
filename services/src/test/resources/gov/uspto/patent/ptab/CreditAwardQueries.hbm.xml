@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<sql-query name="getCreditAwards">
+       <![CDATA[
+       
+SELECT
+  FK_PTAB_ASSIGNMENT_ID          AS "ptabAssignmentIdentifier",
+  DECISIONAL_UNIT_QT             AS "decisionalUnits",
+  ADDITIONAL_DECISIONAL_UNIT_QT  AS "additionalDecisionalUnits",
+  EXTRA_ADDITIONAL_DCSNL_UNIT_QT AS "extraDecisionalUnits",
+  REASON_TX                      AS "reason",
+  LOCK_CONTROL_NO                AS "lockControlNumber",
+  LAST_ACTION_DT                     AS "awardedDate",
+  PRODUCTION_CREDIT_UNIT_QT      AS "productivityCredit",
+  FK_AWARDEE_USER_ID                     AS "applicationUserId",
+  CREDIT_AWARD_ID                AS "creditAwardId"
+FROM CREDIT_AWARD where LAST_ACTION_DT >= :startDate AND LAST_ACTION_DT <= :endDate AND FK_AWARDEE_USER_ID in (:applicationUserId)
+
+      
+       ]]>
+	</sql-query>
+	
+	
+	<sql-query name="getDecisionData">
+       <![CDATA[
+       
+       SELECT ad.final_decision_dt as "finalDecisionDate",
+     ad.decision_due_dt as "appealDueDate",
+       pas.assigned_dt as "assignedDate",
+       pas.PTAB_ASSIGNMENT_ID as "ptabAssignmentIdentifier"
+    FROM ptab_assignment pas,appeal_decision ad,application_user_role aur,application_user au 
+    where pas.fk_ad_fk_appeal_no = :appealNumber and pas.fk_ad_fk_aa_Serial_no = :applicationNumber and pas.FK_ASSIGNEE_BE_NO = :applicationUserId and pas.fk_assignment_type_id in (:assignmentTypeId) and pas.completion_dt is not null and ad.fk_appeal_no = pas.fk_ad_fk_appeal_no
+    and aur.fk_user_role_id in (:userRoleId) and ad.fk_appeal_fk_aa_serial_no = pas.fk_ad_fk_aa_Serial_no and ad.final_decision_dt is not null and pas.completion_dt is not null and  aur.fk_application_user_id = pas.fk_assignee_be_no  
+     and aur.fk_application_user_id = au.application_user_id
+
+
+      
+       ]]>
+	</sql-query>
+		<sql-query name="getPatentAttroneyFullName">
+       <![CDATA[
+       
+SELECT (
+  CASE
+    WHEN trim(AUA.first_nm) IS NOT NULL
+    AND trim(AUA.last_nm)   IS NOT NULL
+    THEN
+      CASE
+        WHEN trim(AUA.middle_nm) IS NOT NULL
+        THEN
+          CASE
+            WHEN LENGTH(trim(AUA.middle_nm))=1
+            THEN AUA.last_nm
+              ||', '
+              ||AUA.first_nm
+              ||' '
+              ||AUA.middle_nm
+              ||'.'
+            ELSE AUA.last_nm
+              ||', '
+              ||AUA.first_nm
+              ||' '
+              ||AUA.middle_nm
+          END
+        ELSE AUA.last_nm
+          ||', '
+          ||AUA.first_nm
+      END
+    ELSE
+      CASE
+        WHEN trim(AUA.first_nm) IS NOT NULL
+        AND trim(AUA.last_nm)   IS NULL
+        THEN
+          CASE
+            WHEN trim(AUA.middle_nm) IS NOT NULL
+            THEN
+              CASE
+                WHEN LENGTH(trim(AUA.middle_nm))=1
+                THEN AUA.first_nm
+                  ||' '
+                  ||AUA.middle_nm
+                  ||'.'
+                ELSE AUA.first_nm
+                  ||' '
+                  ||AUA.middle_nm
+              END
+            ELSE AUA.first_nm
+          END
+        ELSE
+          CASE
+            WHEN trim(AUA.first_nm) IS NULL
+            AND trim(AUA.last_nm)   IS NOT NULL
+            THEN
+              CASE
+                WHEN trim(AUA.middle_nm) IS NOT NULL
+                THEN
+                  CASE
+                    WHEN LENGTH(trim(AUA.middle_nm))=1
+                    THEN AUA.last_nm
+                      ||', '
+                      ||AUA.middle_nm
+                      ||'.'
+                    ELSE AUA.last_nm
+                      ||', '
+                      ||AUA.middle_nm
+                  END
+                ELSE AUA.last_nm
+              END
+            ELSE
+              CASE
+                WHEN trim(AUA.first_nm) IS NULL
+                AND trim(AUA.last_nm)   IS NULL
+                THEN
+                  CASE
+                    WHEN trim(AUA.middle_nm) IS NOT NULL
+                    THEN
+                      CASE
+                        WHEN LENGTH(trim(AUA.middle_nm))=1
+                        THEN AUA.middle_nm
+                          ||'.'
+                        ELSE AUA.middle_nm
+                      END
+                    ELSE NULL
+                  END
+               ELSE NULL
+              END
+          END
+      END
+  END) AS "paName"
+FROM appeal_judge_panel apj1
+LEFT OUTER JOIN APPLICATION_USER AUA
+ON apj1.fk_be_no = AUA.cfk_employee_id
+WHERE (apj1.FK_AD_SEQUENCE_NO, apj1.FK_AD_RECONSIDER_SEQUENCE_NO,apj1.FK_AD_FK_AA_SERIAL_NO,apj1.FK_AD_FK_APPEAL_NO,apj1.ACTIVE_IN,apj1.panel_apj_rank_no) IN
+  (SELECT FK_AD_SEQUENCE_NO,
+    FK_AD_RECONSIDER_SEQUENCE_NO,
+    FK_AD_FK_AA_SERIAL_NO,
+    FK_AD_FK_APPEAL_NO,
+    ACTIVE_IN,
+    panel_apj_rank_no
+  FROM
+    (SELECT apj.*,
+      row_number() over (order by apj.FK_AD_SEQUENCE_NO DESC, apj.FK_AD_RECONSIDER_SEQUENCE_NO DESC) AS seqnum
+    FROM appeal_judge_panel apj
+    WHERE apj.FK_AD_FK_AA_SERIAL_NO= :applicationNumber
+    AND apj.FK_AD_FK_APPEAL_NO     = :appealNumber
+    AND apj.ACTIVE_IN              = 'Y'
+    AND apj.panel_apj_rank_no      in (0,1)
+    )  
+  )
+ORDER BY PANEL_APJ_RANK_NO
+
+
+      
+       ]]>
+	</sql-query>
+
+
+</hibernate-mapping>

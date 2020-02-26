@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<sql-query name="fetchAnnouncementsByuserLoginIdentifier">
+       <![CDATA[
+select A.ANNOUNCEMENT_ID as "announcementId"
+,A.ANNOUNCEMENT_STATUS_CT as "announcementStatusCt"
+,A.ANNOUNCEMENT_TITLE_TX as "announcementTitleTx"
+,A.ANNOUNCEMENT_TX as "announcementTx"
+,A.BEGIN_EFFECTIVE_DT as "beginEffectiveDt"
+,A.CREATE_TS as "createTs"
+,A.CREATE_USER_ID as "createUserId"
+,A.END_EFFECTIVE_DT as "endEffectiveDt"
+,A.FK_ANNOUNCEMENT_TYPE_NM as "fkAnnouncementTypeNm"
+,A.LAST_MOD_TS as "lastModTs"
+,A.LAST_MOD_USER_ID as "lastModUserId"
+,A.LOCK_CONTROL_NO as "lockControlNo"
+from ANNOUNCEMENT A
+join ROLE_ANNOUNCEMENT RA on RA.FK_ANNOUNCEMENT_ID = A.ANNOUNCEMENT_ID and RA.BEGIN_EFFECTIVE_DT <= sysdate and nvl(trunc(RA.END_EFFECTIVE_DT),trunc(sysdate)) >= trunc(sysdate)
+join APPLICATION_USER_ROLE AUR on AUR.FK_USER_ROLE_ID = RA.FK_USER_ROLE_ID 
+join APPLICATION_USER AU on AU.APPLICATION_USER_ID=AUR.FK_APPLICATION_USER_ID and AU.user_id= :userLoginIdentifier
+where A.BEGIN_EFFECTIVE_DT <= sysdate and nvl(trunc(A.END_EFFECTIVE_DT),trunc(sysdate)) >= trunc(sysdate) and A.ANNOUNCEMENT_STATUS_CT = 'Published'
+order by A.ANNOUNCEMENT_ID desc
+        ]]>
+	</sql-query>
+
+	<sql-query name="fetchAnnouncementsByUserRole">
+       <![CDATA[
+select A.ANNOUNCEMENT_ID as "announcementId"
+,A.ANNOUNCEMENT_STATUS_CT as "announcementStatusCt"
+,A.ANNOUNCEMENT_TITLE_TX as "announcementTitleTx"
+,A.ANNOUNCEMENT_TX as "announcementTx"
+,A.BEGIN_EFFECTIVE_DT as "beginEffectiveDt"
+,A.CREATE_TS as "createTs"
+,A.CREATE_USER_ID as "createUserId"
+,A.END_EFFECTIVE_DT as "endEffectiveDt"
+,A.FK_ANNOUNCEMENT_TYPE_NM as "fkAnnouncementTypeNm"
+,A.LAST_MOD_TS as "lastModTs"
+,A.LAST_MOD_USER_ID as "lastModUserId"
+,A.LOCK_CONTROL_NO as "lockControlNo"
+from ANNOUNCEMENT A
+join ROLE_ANNOUNCEMENT RA on RA.FK_ANNOUNCEMENT_ID = A.ANNOUNCEMENT_ID and RA.BEGIN_EFFECTIVE_DT <= sysdate and nvl(trunc(RA.END_EFFECTIVE_DT),trunc(sysdate)) >= trunc(sysdate)
+join stnd_user_role UR on UR.USER_ROLE_ID = RA.FK_USER_ROLE_ID and UR.USER_ROLE_NM = :userRoleName
+where A.BEGIN_EFFECTIVE_DT <= sysdate and nvl(trunc(A.END_EFFECTIVE_DT),trunc(sysdate)) >= trunc(sysdate) and A.ANNOUNCEMENT_STATUS_CT = 'Published'
+order by A.ANNOUNCEMENT_ID desc
+        ]]>
+	</sql-query>
+
+	<sql-query name="getNextSeqForAnnouncement">
+       <![CDATA[ 
+      select ANNOUNCEMENT_SEQ.NEXTVAL from dual
+	 ]]>
+	</sql-query>
+
+	<sql-query name="announcementSearch">
+       <![CDATA[
+select A.ANNOUNCEMENT_ID as "announcementId"
+,A.ANNOUNCEMENT_STATUS_CT as "announcementStatusCt"
+,A.ANNOUNCEMENT_TITLE_TX as "announcementTitleTx"
+,A.ANNOUNCEMENT_TX as "announcementTx"
+,A.BEGIN_EFFECTIVE_DT as "beginEffectiveDt"
+,A.CREATE_TS as "createTs"
+,A.CREATE_USER_ID as "createUserId"
+,A.END_EFFECTIVE_DT as "endEffectiveDt"
+,A.FK_ANNOUNCEMENT_TYPE_NM as "fkAnnouncementTypeNm"
+,A.LAST_MOD_TS as "lastModTs"
+,A.LAST_MOD_USER_ID as "lastModUserId"
+,A.LOCK_CONTROL_NO as "lockControlNo"
+from ANNOUNCEMENT A
+where 
+ A.ANNOUNCEMENT_STATUS_CT <> 'Inactive' and
+
+(REGEXP_LIKE (ANNOUNCEMENT_TITLE_TX  ,:text, 'i')
+ or REGEXP_LIKE (ANNOUNCEMENT_TX          ,:text, 'i'))
+
+order by A.ANNOUNCEMENT_ID desc
+        ]]>
+	</sql-query>
+
+	<sql-query name="getAllAnnouncements">
+    <![CDATA[
+	select 
+A.ANNOUNCEMENT_ID as "announcementId",
+A.ANNOUNCEMENT_STATUS_CT as "announcementStatusCt",
+A.ANNOUNCEMENT_TITLE_TX as "announcementTitleTx",
+A.ANNOUNCEMENT_TX as "announcementTx",
+A.BEGIN_EFFECTIVE_DT as "announcementBeginEffectiveDt",
+A.CREATE_TS as "createTs",
+A.CREATE_USER_ID as "createUserId",
+A.END_EFFECTIVE_DT as "announcementEndEffectiveDt",
+A.FK_ANNOUNCEMENT_TYPE_NM as "fkAnnouncementTypeNm",
+A.LAST_MOD_TS as "lastModTs",
+A.LAST_MOD_USER_ID as "lastModUserId",
+A.LOCK_CONTROL_NO as "lockControlNo",
+ra.fk_user_role_id as "userRoldId",
+sur.user_role_nm as "userRoleName",
+sat.background_config_tx as "backgroundConfigTx",
+sat.display_order_sequence_no as "stndDisplayOrderSeqNo",
+(select user_id from application_user where application_user_id = a.last_mod_user_id) as "lastModUserName",
+(select user_id from application_user where application_user_id = a.create_user_id) as "createUserName"
+    
+    from
+    Announcement A, role_announcement ra, stnd_user_role sur, stnd_announcement_type sat
+	where
+  a.announcement_id  = ra.fk_announcement_id(+) and
+  sat.announcement_type_nm(+) = a.fk_announcement_type_nm and
+  sur.user_role_id(+) = ra.fk_user_role_id and
+   A.ANNOUNCEMENT_STATUS_CT <> 'Inactive'
+   order by a.announcement_id desc, ra.fk_user_role_id
+	]]>
+	</sql-query>
+
+</hibernate-mapping>
+   

@@ -1,0 +1,100 @@
+<div class="modal-header">
+  <button title="Close" id="getGridFilterModalCancelX" type="button" class="close" ng-click="closeThisDialog()">
+    <i class="fas fa-times fa-sm"></i>
+    <span class="sr-only">Close</span>
+  </button>
+  <h4 class="modal-title ng-binding">Filtering operators</h4>
+
+</div>
+
+<div class="modal-body">
+  <table class="table table-info table-condensed table-responsive">
+    <thead>
+      <tr>
+        <th>Text example</th>
+        <th>Operation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1234</td>
+        <td>Contains</td>
+      </tr>
+      <tr>
+        <td>&lt;=1234</td>
+        <td>Less than or equal to</td>
+      </tr>
+      <tr>
+        <td>&gt;=1234</td>
+        <td>Greater than or equal to</td>
+      </tr>
+      <tr>
+        <td>&lt;1234</td>
+        <td>Less than</td>
+      </tr>
+      <tr>
+        <td>&gt;1234</td>
+        <td>Greater than</td>
+      </tr>
+      <tr>
+        <td>&lt;&gt;</td>
+        <td>Not equal to</td>
+      </tr>
+      <tr>
+        <td>!=1234</td>
+        <td>Not equal to</td>
+      </tr>
+      <tr>
+        <td>=1234</td>
+        <td>Exactly equal to (case insensitive)</td>
+      </tr>
+      <tr>
+        <td>12*</td>
+        <td>Starts with</td>
+      </tr>
+      <tr>
+        <td>!=12*</td>
+        <td>Does not start with</td>
+      </tr>
+      <tr>
+        <td>*34</td>
+        <td>Ends with</td>
+      </tr>
+      <tr>
+        <td>[ODD]</td>
+        <td>Ends with an odd number</td>
+      </tr>
+      <tr>
+        <td>[EVEN]</td>
+        <td>Ends with an even number</td>
+      </tr>
+      <tr>
+        <td>[0-4]</td>
+        <td>Ends with a number in the given range</td>
+      </tr>
+      <tr>
+        <td>[00-49]</td>
+        <td>Ends with a numbers in the given range</td>
+      </tr>
+      <tr>
+        <td>[MM/dd/YYYYTOMM/dd/YYYY]</td>
+        <td>Dates between the given date range</td>
+      </tr>
+      <tr>
+        <td>[MM/dd/YYYYTO*]</td>
+        <td>Dates after given date </td>
+      </tr>
+      <tr>
+        <td>?</td>
+        <td>Remove blank cells in column </td>
+      </tr>
+      <tr>
+        <td>/</td>
+        <td>Show only blank cells in column </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="modal-footer">
+  <button title="Close" id="cancelFilterOperatorsBtn" type="button" class="btn btn-default pull-left" ng-click="closeThisDialog()">Close</button>
+</div>

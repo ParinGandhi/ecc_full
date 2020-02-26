@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<sql-query name="getAssignmentType">
+
+<![CDATA[ 
+select distinct assignment_type_Cd as "assignmentTypeCd",DISPLAY_SEQ_NO as "displaySeqNo",DESCRIPTION_TX as "description",DISPLAY_NM as "displayNm" from stnd_assignment_type where TASK_ASSIGNMENT_CT=:categoryType ]]>
+	</sql-query>
+
+
+	<sql-query name="getAssignmentTypes">
+
+<![CDATA[ 
+select SAT.assignment_type_cd as "assignmentTypeCode",
+SAT.display_seq_no as "sequenceNumber",
+SAT.default_desc_tx as "descriptionText",
+SAT.display_nm as "displayName",
+SAT.ASSIGNMENT_TYPE_ID as "assignmentTypeId"
+from stnd_Appeal_State SA,
+stnd_Assignment_type SAT
+where SA.fk_ptab_phase_id = SAT.fk_phase_id 
+and SA.appeal_state_cd =:typeCode
+ 
+]]>
+	</sql-query>
+
+
+	<sql-query name="getAssignmentTypesByPhaseId">
+
+<![CDATA[ 
+select SAT.assignment_type_cd as "assignmentTypeCode",
+SAT.display_seq_no as "sequenceNumber",
+SAT.default_desc_tx as "descriptionText",
+SAT.display_nm as "displayName",
+SAT.ASSIGNMENT_TYPE_ID as "assignmentTypeId"
+from stnd_Appeal_State SA,
+stnd_Assignment_type SAT
+where SA.fk_ptab_phase_id = SAT.fk_phase_id 
+and SAT.FK_PHASE_ID =:phaseId
+ 
+]]>
+	</sql-query>
+
+
+	<sql-query name="getAssignmentTypeByAssignmentId">
+
+<![CDATA[ 
+	select stnd_assignment_type.DESCRIPTION_TX from ptab_Assignment,stnd_Assignment_type
+where ptab_assignment.fk_assignment_type_id=stnd_assignment_type.assignment_type_id and
+ptab_assignment.ptab_assignment_id=:ptabAssignmentId
+ 
+]]>
+	</sql-query>
+
+
+
+
+</hibernate-mapping>	

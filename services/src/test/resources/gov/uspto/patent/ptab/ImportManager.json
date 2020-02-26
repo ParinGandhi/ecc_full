@@ -1,0 +1,204 @@
+{
+  "columnDetails":[ {
+      "name": "serialNumber",
+      "label": "Application #",
+      "typeDefinition": "String",
+      "pinToLeft": "true",
+      "pinToRight": "false",
+      "selected": "true"
+    },
+     {
+      "name": "promote",
+      "label": "Promote?",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true"
+    },
+	{
+      "name": "preAppealSequenceNumber",
+      "label": "Pre-appeal Seq#",
+      "typeDefinition": "Number",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true"
+    },
+    {
+      "name": "applicationStatus",
+      "label": "PALM Status Code",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true"
+    },
+    {
+      "name": "applicationTypeCategory",
+      "label": "Application Type",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true"
+    },
+    {
+      "name": "appealForwardingFeePaid",
+      "label": "Appeal Forwarding Fee Paid?",
+      "typeDefinition": "Boolean",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true"
+    },
+    {
+      "name": "appealBriefFeePaid",
+      "label": "Appeal Brief Fee Paid?",
+      "typeDefinition": "Boolean",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true"
+    },
+    {
+      "name": "respondentBriefFeePaid",
+      "label": "Respondent Brief Fee Paid?",
+      "typeDefinition": "Boolean",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true"
+    },
+	{
+      "name": "examinerAnswerMailDate",
+      "label": "Mail Date of Examiner's answer",
+      "typeDefinition": "Date",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true"
+    },
+	{
+      "name": "replyBriefDueDateExpIndicator",
+      "label": "Reply Brief Due Date Expired",
+      "typeDefinition": "Boolean",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true"
+    },
+	{
+      "name": "replyBriefTimelyFiledIndicator",
+      "label": "Reply Brief Timely Filed",
+      "typeDefinition": "Boolean",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true"
+    },
+	{
+      "name": "petitionsFiledIndicator",
+      "label": "Petition Filed?",
+      "typeDefinition": "Boolean",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true"
+    },
+    {
+      "name": "task",
+      "label": "Actions",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "true",
+      "selected": "true"
+    },
+    {
+      "name": "assigneeFullName",
+      "label": "Assigned To",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true"
+    }, 
+    {
+      "name": "petitionDecisionMessage",
+      "label": "Petition Decided",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false"
+    },   
+    {
+      "name": "applicationFilingDate",
+      "label": "Application Filing Date",
+      "typeDefinition": "Date",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false"
+    },  
+    {
+      "name": "applicationStatusDate",
+      "label": "PALM Status Code Date",
+      "typeDefinition": "Date",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false"
+    }, 
+    {
+      "name": "secrecyCode",
+      "label": "Secrecy Code",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false"
+    }, 
+    {
+      "name": "replyBriefRecordedDate",
+      "label": "Appeal Brief Date",
+      "typeDefinition": "Date",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false"
+    }, 
+    {
+      "name": "groupArtUnitNumber",
+      "label": "GAU",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false"
+    }, 
+    {
+      "name": "techCenter",
+      "label": "Tech Center",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false"
+    }, 
+    {
+      "name": "deliveryMode",
+      "label": "Delivery Mode",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false"
+    }, 
+    {
+      "name": "oralHearingRequested",
+      "label": "Oral Hearing Requested?",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false"
+    }, 
+   	{
+      "name": "petitionFilingDate",
+      "label": "Petition Filing Date",
+      "typeDefinition": "Date",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false"
+    },
+    {
+      "name": "receivedDate",
+      "label": "Import date",
+      "typeDefinition": "Date",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false"
+    }
+	
+ ]
+}

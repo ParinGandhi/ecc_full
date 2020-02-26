@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+<sql-query  name="fetchCreditRule">
+       <![CDATA[
+       
+       
+       SELECT
+		ASSIGNMENT_TYPE_ID           as "assignmentTypeId",
+		USER_ROLE_ID            as "userRoleId",
+		DECISIONAL_UNIT_QT                       as "decisionalUnitQt",
+		PATENT_ATTORNEY_INVOLVED_IN             as "isPA",
+		FK_SPECIAL_TYPE_ID       as "specialTypeId",
+		APPLICATION_TYPE_TX                 as "caseType"
+		from
+		stnd_credit
+		where
+			ASSIGNMENT_TYPE_ID 		= :assignmentTypeId
+		and USER_ROLE_ID 		= :userRoleId
+	    and PATENT_ATTORNEY_INVOLVED_IN 		= :isPA
+	    and nvl(FK_SPECIAL_TYPE_ID,0) = nvl(:specialTypeId,0)
+		and upper(APPLICATION_TYPE_TX) 			= upper(:caseType)     
+       	]]>
+	</sql-query>
+	
+
+	
+</hibernate-mapping>

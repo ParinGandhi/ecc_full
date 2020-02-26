@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+
+
+	<sql-query name="fetchPTABAssignmentHistory">
+	<![CDATA[
+	
+SELECT 
+    AA.END_EFFECTIVE_TS AS "endEffectiveDate",
+    AA.FK_ASSIGNEE_BE_NO AS "assigneeBeNo",
+    AA.COMPLETION_DT AS "completionDt",
+    AA.LAST_MODIFIED_TS  AS "lastModifiedTs",
+    AA.TASK_TITLE_TX AS "taskTitleTx",
+    AA.TASK_DESC_TX AS "taskDescTx",
+    AA.LAST_MODIFIED_USER_ID AS "lastModifiedUserId",
+    AA.ASSIGNMENT_DUE_DT AS "assignmentDueDt",
+    AA.FK_ASSIGNMENT_TYPE_ID AS "assignmentTypeCd",
+    AA.PRIORITY_IN AS "priorityIn",
+    AA.COMMENT_TX AS "commentText",
+    (select FIRST_NM from APPLICATION_USER where APPLICATION_USER_ID= AA.FK_ASSIGNEE_BE_NO and rownum = 1)  as "firstName",
+    (select LAST_NM from APPLICATION_USER where APPLICATION_USER_ID= AA.FK_ASSIGNEE_BE_NO and rownum = 1) as "lastName",
+    (select MIDDLE_NM from APPLICATION_USER where APPLICATION_USER_ID= AA.FK_ASSIGNEE_BE_NO and rownum = 1) as "middleName",
+    (select FIRST_NM from APPLICATION_USER where USER_ID= AA.LAST_MODIFIED_USER_ID and rownum = 1)  as "lastModifierFirstName",
+    (select LAST_NM from APPLICATION_USER where USER_ID= AA.LAST_MODIFIED_USER_ID and rownum = 1) as "lastModifierLastName",
+    (select MIDDLE_NM from APPLICATION_USER where USER_ID=AA. LAST_MODIFIED_USER_ID and rownum = 1) as "lastModifierMiddleName",
+    (select DISPLAY_NM from stnd_Assignment_type where ASSIGNMENT_TYPE_ID= AA.FK_ASSIGNMENT_TYPE_ID and rownum = 1) as "assignmentTypeDescription"
+FROM PTAB_ASSIGNMENT_H AA
+WHERE AA.FK_PTAB_ASSIGNMENT_ID IN :fkPtabAssignmentId and AA.ASSIGNED_DT <= sysdate ORDER BY AA.LAST_MODIFIED_TS desc
+
+ ]]>
+	</sql-query>
+
+
+
+
+</hibernate-mapping>
+

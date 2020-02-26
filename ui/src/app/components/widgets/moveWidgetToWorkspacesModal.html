@@ -1,0 +1,34 @@
+<div class="modalWidth">
+  <div class="modal-header">
+    <button aria-hidden="true" autofocus="false" type="button" id="modalClose" class="close" ng-click="closeThisDialog()">
+      <i class="fas fa-times fa-sm"></i><span class="sr-only"> close copy workspace model</span>
+    </button>
+    <h3 class="modal-title truncateTitle" id="modal-title">Select workspace</h3>
+  </div>
+  <div class="modal-body" id="modal-body">
+    <div class="row widgetRow" ng-repeat="tab in vm.tabs">
+      <div ng-if="tab.index !== vm.getActiveTab()" class="col-md-12 workspaceListModal">
+        <div class="checkbox">
+          <label>
+            <input type="radio" ng-model="vm.selectedTab" ng-click="vm.canBeMoved()" id="{{tab.heading}}optionsCheckbox"
+              ng-value="tab" name="tab.heading">
+            <i ng-if="vm.getDefaultTab() === tab.index" class="fa fa-home"></i> {{tab.heading}}</label>
+        </div>
+        <!--         <label><input ng-model="tab.checked" type="checkbox" ng-change="vm.canBeMoved()"> {{tab.heading}}</label> -->
+      </div>
+      <div ng-if="tab.index === vm.getActiveTab() && vm.selectedWidgetToCopy === undefined" class="col-md-12 workspaceListModal">
+        <!-- <input ng-model="tab.checked" type="checkbox" ng-change="vm.canBeMoved()" ng-checked="tab.index === vm.getActiveTab()" ng-init="tab.checked = true" > {{tab.heading}} -->
+        <div class="checkbox">
+          <label>
+            <input type="radio" ng-model="vm.selectedTab" ng-click="vm.canBeMoved()" id="{{tab.heading}}optionsCheckbox"
+              ng-value="tab" name="tab.heading">
+            <i ng-if="vm.getDefaultTab() === tab.index" class="fa fa-home"></i> {{tab.heading}} (current)</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button id="cancelMoveWidgetBtn" class="btn btn-default pull-left" type="button" ng-click="vm.cancelMoveWidgetToWorkspaceModal()">Cancel</button>
+    <button id="acceptMoveWidgetBtn" class="btn btn-primary" ng-disabled="!vm.isChosen" type="button" ng-click="vm.acceptMoveWidgetToWorkspaceModal()">Move
+      to selected workspace</button>
+  </div>

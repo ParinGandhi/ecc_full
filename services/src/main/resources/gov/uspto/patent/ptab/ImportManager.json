@@ -1,0 +1,213 @@
+{
+  "columnDetails":[ {
+      "name": "serialNumber",
+      "label": "Application #",
+      "typeDefinition": "String",
+      "pinToLeft": "true",
+      "pinToRight": "false",
+      "selected": "true"
+    },
+     {
+      "name": "promote",
+      "label": "Promote?",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true"
+    },
+	{
+      "name": "preAppealSequenceNumber",
+      "label": "Pre-appeal seq#",
+      "typeDefinition": "Number",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false"
+    },
+    {
+      "name": "applicationStatus",
+      "label": "PALM status code",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true"
+    },
+    {
+      "name": "applicationStatusDate",
+      "label": "PALM status code date",
+      "typeDefinition": "Date",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true",
+      "sort": "asc"
+    },
+    {
+      "name": "applicationTypeCategory",
+      "label": "Application type",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "cellTemplate":"<div class=\"ui-grid-cell-contents sentenceCase\">{{COL_FIELD}}</div>",
+      "selected": "true"
+    },
+    {
+      "name": "appealForwardingFeePaid",
+      "label": "Appeal forwarding fee paid?",
+      "typeDefinition": "Boolean",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true",
+      "cellTemplate":"<div ng-if=\"row.entity.appealForwardingFeePaid === false\">No</div><div ng-if=\"row.entity.appealForwardingFeePaid === true\">Yes</div>"
+    },
+    {
+      "name": "appealBriefFeePaid",
+      "label": "Appeal brief fee paid?",
+      "typeDefinition": "Boolean",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false",
+      "cellTemplate":"<div ng-if=\"row.entity.appealBriefFeePaid === false\">No</div><div ng-if=\"row.entity.appealBriefFeePaid === true\">Yes</div>"
+    },
+    {
+      "name": "respondentBriefFeePaid",
+      "label": "Respondent brief fee paid?",
+      "typeDefinition": "Boolean",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false",
+      "cellTemplate":"<div ng-if=\"row.entity.respondentBriefFeePaid === false\">No</div><div ng-if=\"row.entity.respondentBriefFeePaid === true\">Yes</div>"
+    },
+	{
+      "name": "examinerAnswerMailDate",
+      "label": "Mail date of examiner's answer",
+      "typeDefinition": "Date",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true"
+    },
+	{
+      "name": "replyBriefDueDateExpIndicator",
+      "label": "Reply brief due date expired",
+      "typeDefinition": "Boolean",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true",
+      "cellTemplate":"<div ng-if=\"row.entity.replyBriefDueDateExpIndicator === false\">No</div><div ng-if=\"row.entity.replyBriefDueDateExpIndicator === true\">Yes</div>"
+    },
+	{
+      "name": "replyBriefRecordedDate",
+      "label": "Reply brief filed date",
+      "typeDefinition": "Date",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true"
+    },
+	{
+      "name": "petitionsFiledIndicator",
+      "label": "Petition filed?",
+      "typeDefinition": "Boolean",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true",
+      "cellTemplate":"<div ng-if=\"row.entity.petitionsFiledIndicator === false\">No</div><div ng-if=\"row.entity.petitionsFiledIndicator === true\">Yes</div>"
+    },
+    {
+      "name": "task",
+      "label": "Actions",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "true",
+      "selected": "true"
+    },
+    {
+      "name": "assigneeFullName",
+      "label": "Assigned to",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true",
+      "filter": "Import"
+    }, 
+    {
+      "name": "petitionDecisionMessage",
+      "label": "Petition decided",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false"
+    },   
+    {
+      "name": "applicationFilingDate",
+      "label": "Application filing date",
+      "typeDefinition": "Date",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false"
+    },   
+    {
+      "name": "secrecyCode",
+      "label": "Secrecy code",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false"
+    }, 
+    {
+      "name": "appealBriefFiledDate",
+      "label": "Appeal brief date",
+      "typeDefinition": "Date",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false"
+    }, 
+    {
+      "name": "groupArtUnitNumber",
+      "label": "GAU",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false"
+    }, 
+    {
+      "name": "techCenter",
+      "label": "Tech center",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false"
+    }, 
+    {
+      "name": "deliveryMode",
+      "label": "Delivery mode",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false",
+      "cellTemplate":"<div ng-if=\"row.entity.deliveryMode === 'MAIL'\">Paper</div><div ng-if=\"row.entity.deliveryMode === 'EMAIL'\">ELECTRONIC</div>"
+    }, 
+    {
+      "name": "oralHearingRequested",
+      "label": "Oral hearing requested?",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false"
+    }, 
+   	{
+      "name": "petitionFilingDate",
+      "label": "Petition filing date",
+      "typeDefinition": "Date",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false"
+    },
+    {
+      "name": "receivedDate",
+      "label": "Import date",
+      "typeDefinition": "Date",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false"
+    }
+	
+ ]
+}

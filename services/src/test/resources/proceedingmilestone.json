@@ -1,0 +1,171 @@
+{
+    "accordedFilingDateVO": {
+        "ntfList": null,
+        "notificationResponseMsg": null,
+        "doNotNotify": false,
+        "notificationContentOnly": false,
+        "filingDate": "06/06/2018",
+        "accordedFilingDate": "10/03/2018",
+        "noticeAccordedFilingDate": "10/05/2018",
+        "notifyExternalPartes": false,
+        "lockControlNo": 0
+    },
+    "preliminaryResponseVO": {
+        "ntfList": null,
+        "notificationResponseMsg": null,
+        "doNotNotify": false,
+        "notificationContentOnly": false,
+        "preliminaryResponseDueDate": "01/05/2019",
+        "preliminaryResponseWaived": null,
+        "preliminaryResponseWaivedDate": null,
+        "notifyExternalPartes": false,
+        "lockControlNo": 1
+    },
+    "joindersVO": [],
+    "institutionDecisionVO": {
+        "ntfList": null,
+        "notificationResponseMsg": null,
+        "doNotNotify": false,
+        "notificationContentOnly": false,
+        "prorceedingId": null,
+        "proceedingInstDcsnTypeId": null,
+        "terminationTypeId": null,
+        "instDecisionDt": null,
+        "hearingDt": null,
+        "instDecisionQty": null,
+        "institutionDecisionClaimMap": null,
+        "institutionDecisionDueDate": "04/05/2019",
+        "file": null,
+        "trailInstituted": false,
+        "notifyExternalPartes": false,
+        "lockControlNo": 0,
+        "lockControlNoHearingDate": 0,
+        "lockControlNoDecisionInstituteDate": 0,
+        "dueDateLockControlNo": 0
+    },
+    "rehearingVO": [{
+     "ntfList": null,
+        "notificationResponseMsg": null,
+        "doNotNotify": false,
+        "notificationContentOnly": false,
+   		"rehearingRequestedDate": "05/20/2019",
+    	"rehearingDecisionDate": "06/01/2019",
+    	"rehearingTypeName": "Institution Decision",
+    	"rehearingType": null ,
+    	"requestedBy":123456,
+    	"appealByName": "LEVEL3",
+        "notifyExternalPartes": false,
+        "lockControlNo": 0
+    
+    }],
+    "appealVO": [
+    {
+        "ntfList": null,
+        "notificationResponseMsg": null,
+        "doNotNotify": false,
+        "notificationContentOnly": false,
+        "noticeofAppealDate":"04/14/2019",
+   		"courtDecisionDate":"07/14/2019",
+   		"appealBy":123456,
+    	"appealByName":"LEVEL3 Comm",
+        "notifyExternalPartes": false,
+        "lockControlNo": 0
+    }
+    ],
+    "terminationDecisionVO": {
+        "ntfList": null,
+        "notificationResponseMsg": null,
+        "doNotNotify": false,
+        "notificationContentOnly": false,
+        "finalDecisionDueDate": "04/03/2020",
+        "petitionDismissed": false,
+        "petitionDismissalDate": null,
+        "terminationDecision": null,
+        "terminationDecisionDate": null,
+        "trailCertificateDate": null,
+        "notifyExternalPartes": false,
+        "terminationTypeId": null,
+        "petitionStateId": null,
+        "petitionState": null,
+        "documentFormVO": null,
+        "finalWrittenDcsnList": [
+            {
+                "proceedingClaimId": 19208528,
+                "claimNumber": "1",
+                "isFinalDecision": false,
+                "statyGroundFinalDscnList": [
+                    {
+                        "prcdngClmStatyGroundId": 31085153,
+                        "statGroundId": 1,
+                        "finalWrittenDcsnId": null,
+                        "claimDispositionCT": "CHALLENGED"
+                    }
+                ],
+                "finalWrittenDcsnTxt": null
+            },
+            {
+                "proceedingClaimId": 19208529,
+                "claimNumber": "2",
+                "isFinalDecision": false,
+                "statyGroundFinalDscnList": [
+                    {
+                        "prcdngClmStatyGroundId": 31085154,
+                        "statGroundId": 1,
+                        "finalWrittenDcsnId": null,
+                        "claimDispositionCT": "CHALLENGED"
+                    }
+                ],
+                "finalWrittenDcsnTxt": null
+            },
+            {
+                "proceedingClaimId": 19208530,
+                "claimNumber": "3",
+                "isFinalDecision": false,
+                "statyGroundFinalDscnList": [
+                    {
+                        "prcdngClmStatyGroundId": 31085155,
+                        "statGroundId": 1,
+                        "finalWrittenDcsnId": null,
+                        "claimDispositionCT": "CHALLENGED"
+                    }
+                ],
+                "finalWrittenDcsnTxt": null
+            },
+            {
+                "proceedingClaimId": 19208531,
+                "claimNumber": "4",
+                "isFinalDecision": false,
+                "statyGroundFinalDscnList": [
+                    {
+                        "prcdngClmStatyGroundId": 31085156,
+                        "statGroundId": 1,
+                        "finalWrittenDcsnId": null,
+                        "claimDispositionCT": "CHALLENGED"
+                    }
+                ],
+                "finalWrittenDcsnTxt": null
+            }
+        ],
+        "proceedingId": null,
+        "lockControlNo": 0,
+        "dueDateLockControlNo": 1,
+        "institutionTypeId": null,
+        "proceedingNumber": null,
+        "patentNumber": null
+    },
+    "generalCaseInfoVO": {
+        "ntfList": null,
+        "notificationResponseMsg": null,
+        "doNotNotify": false,
+        "notificationContentOnly": false,
+        "caseConfidentiality": false,
+        "caseConfidentialityValue": "Public",
+        "boardOpinion": 0,
+        "trialCertificateDate": null,
+        "notifyExternalParties": false,
+        "boardOpinionName": null,
+        "lockControlNo": 0
+    },
+    "lockControlNo": 0,
+    "trailType": 1
+}

@@ -1,0 +1,81 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+		
+	<parent>
+		<groupId>gov.uspto.cicm</groupId>
+		<artifactId>uspto-corporate-pom</artifactId>
+		<version>1.5.12</version>
+	</parent>
+	
+	<groupId>gov.uspto.ptab.e2e.appeals</groupId>
+	<artifactId>PTABAppeals</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>PTAB-E2E-APPEALS</name>
+	<packaging>pom</packaging>
+	<description></description>
+
+	<dependencies />
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.3</version>
+				<executions>
+					<execution>
+						<phase>none</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- BEGIN PACKAGING -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>attach-artifacts</id>
+						<phase>package</phase>
+						<goals>
+							<goal>attach-artifact</goal>
+						</goals>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<file>${project.basedir}/PTABAppeals.war	</file>
+									<type>war</type>
+								</artifact>
+							</artifacts>
+						</configuration>
+					</execution>
+					</executions>
+			</plugin>
+			<!-- END PACKAGING -->
+			<!-- We do not want Maven to try and run any unit tests -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>${project.basedir}/zip-staging</directory>
+							<includes>
+								<include>**/*</include>
+							</includes>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+</project>

@@ -1,0 +1,61 @@
+{
+
+    "COUNSEL": [
+        {
+            "firstName": "test",
+            "middleName": "middlename",
+            "lastName": "lastname",
+            "organizationName": "Private LLC",
+            "rankNo": 1,
+            "partyPhones": [
+                    {
+                        "phone": 30753299
+                    }
+                ],
+                "partyEmails": [
+                    {
+                        "email": "test@test.com"
+                    }
+                ]
+      
+        }
+    ],
+    "REAL PARTY": [
+        {
+            "firstName": "test",
+            "middleName": "middlename",
+            "lastName": "lastname",
+            "organizationName": "Private LLC",
+            "rankNo": 1,
+            "partyPhones": [
+                    {
+                        "phone": 30753299
+                    }
+                ],
+                "partyEmails": [
+                    {
+                        "email": "test@test.com"
+                    }
+                ]
+      
+        
+        },
+        {
+            "firstName": "test",
+            "middleName": "middlename",
+            "lastName": "lastname",
+            "organizationName": "Private LLC",
+            "rankNo": 1,
+            "partyPhones": [
+                    {
+                        "phone": 30753299
+                    }
+                ],
+                "partyEmails": [
+                    {
+                        "email": "test@test.com"
+                    }
+                ]      
+        
+        }]
+}

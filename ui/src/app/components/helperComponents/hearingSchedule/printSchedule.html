@@ -1,0 +1,48 @@
+<div class="modal-header">
+	<div class="col-md-12">
+
+<div class="col-md-4">
+<h4 class="modal-title ng-binding truncateTitle">Print schedule
+</h4>
+</div>
+<div class="col-md-8">
+<button type="button" id="cancelPrintSchedule" ng-click="closeThisDialog()" class="close pull-right">
+    <i class="fas fa-times fa-sm"></i>
+    <span class="sr-only">Close</span>
+</button>
+
+</div>
+</div>
+</div>
+
+<div style="margin-bottom:.51em;"></div>
+<div class="modal-body hearing-body" style="height: 550px">
+	<!-- <img alt="printSchedule" src="app\main\hearingSchedule\printSchedule.png" width="100%" height="100%"> -->
+    <h2 style="text-align: center;">Patent Trial and Appeal Board</h2>
+    <h3 style="text-align: center;">Hearing docket</h3>
+<div  class="col-md-12">
+    	<div class="col-md-6">
+                <dl class="dl-horizontal" style="margin-bottom: 0;">
+                                    <dt>Tech center</dt>
+                                    <dd>{{vm.desInfo.techCenterNumber}}</dd>
+                                    <dt>Art unit</dt>
+                                    <dd>{{vm.desInfo.artUnit}}</dd>
+                                    <dt>Case discipline</dt>
+                                    <dd>{{vm.desInfo.caseDiscipline}}</dd>
+                </dl>
+        </div>
+        <div class="col-md-6">
+                <dl class="dl-horizontal" style="margin-bottom: 0;">
+                                    <dt>Art unit</dt>
+                                    <dd>{{vm.desInfo.artUnit}}</dd>
+                                    <dt>Case discipline</dt>
+                                    <dd>{{vm.desInfo.caseDiscipline}}</dd>
+                </dl>
+        </div>
+</div>
+</div>
+<div class="modal-footer">
+
+    <button class="btn btn-default pull-left" title="Cancel Dialog" ng-click="closeThisDialog()">Close</button>
+<!--     <button class="btn btn-default pull-right" title="Go back Add/Update Contact dialog" ng-click="vm.selectEmployee=false;">Go back</button> -->
+</div>

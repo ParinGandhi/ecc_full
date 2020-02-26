@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>	
+	
+	<sql-query name="getMaxSequenceForActivePreappeal">
+<![CDATA[ 
+select MAX(SEQUENCE_NO) from PRE_APPEAL where FK_AA_SERIAL_NO = :serialNumber and ACTIVE_IN='A' ]]>
+	</sql-query>
+
+
+	<sql-query name="nextNegativePreAppealSequenceNumber">
+	<![CDATA[
+	SELECT min(sequence_no-1) FROM pre_appeal where  FK_AA_SERIAL_NO= :fkAdFkAaSerialNo 
+	 ]]>
+	</sql-query>
+
+
+	<sql-query name="updateActiveInPreAppeal">
+       <![CDATA[
+update PRE_APPEAL set ACTIVE_IN=:active_in, LAST_MODIFIED_TS = sysdate,
+			LAST_MODIFIED_USER_ID = :lastModifiedUserId , SEQUENCE_NO=:SEQUENCE_NO,LOCK_CONTROL_NO=LOCK_CONTROL_NO+1
+  where FK_AA_SERIAL_NO = :FK_AA_SERIAL_NO  and ACTIVE_IN = 'A'  
+        ]]>
+	</sql-query>
+	
+		<sql-query name="checkSeqZeroForActivePreAppeal">
+
+<![CDATA[ select SEQUENCE_NO from PRE_APPEAL where FK_AA_SERIAL_NO = :serialNumber and ACTIVE_IN='A' and SEQUENCE_NO= 0 ]]>
+</sql-query>
+
+</hibernate-mapping>
+

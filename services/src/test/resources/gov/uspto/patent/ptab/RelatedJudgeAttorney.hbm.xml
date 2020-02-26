@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<sql-query name="getAttorneys">
+	<![CDATA[
+SELECT DISTINCT au.application_user_id  as "assigneeNumber",
+au.CFK_EMPLOYEE_ID as "workerNumber",
+au.first_nm as "firstName",
+au.middle_nm as "middleName",
+au.last_nm as "lastName"
+FROM 
+RELATED_JUDGE_ATTORNEY ra,APPLICATION_USER au
+WHERE 
+au.CFK_EMPLOYEE_ID=ra.attorney_empe_no and
+ra.judge_empe_no = :judgeIdentifier and ra.ACTIVE_IN='A' ORDER BY au.last_nm
+ ]]>
+	</sql-query>
+
+	<sql-query name="getNonAssignedAttorneys">
+	<![CDATA[
+select distinct
+au.application_user_id  as "assigneeNumber",
+au.CFK_EMPLOYEE_ID as "workerNumber",
+au.first_nm as "firstName",
+au.middle_nm as "middleName",
+au.last_nm as "lastName"
+from APPLICATION_USER au, application_user_role aur, RELATED_JUDGE_ATTORNEY ra where au.APPLICATION_USER_ID = aur.FK_APPLICATION_USER_ID and FK_USER_ROLE_ID = 6
+and au.APPLICATION_USER_ID not in (
+SELECT DISTINCT au.application_user_id 
+FROM 
+RELATED_JUDGE_ATTORNEY ra,APPLICATION_USER au
+WHERE 
+au.CFK_EMPLOYEE_ID=ra.attorney_empe_no and
+ra.judge_empe_no = :judgeIdentifier and ra.ACTIVE_IN='A'
+) ORDER BY au.last_nm
+ ]]>
+	</sql-query>
+	
+	<sql-query name="deleteJudgeAttorneyById">
+       <![CDATA[
+  	delete related_judge_attorney where ATTORNEY_EMPE_NO = :attorneyEmpNo
+        ]]>
+	</sql-query>
+
+</hibernate-mapping>

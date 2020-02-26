@@ -1,0 +1,210 @@
+<style>
+  .ngdialog.ngdialog-theme-default .ngdialog-content {
+    overflow: auto
+  }
+
+</style>
+<div ng-init="vm.getSessionData()"></div>
+<div class="modal-header">
+  <!--   <button type="button" class="btn btn-hover btn-icon-only pull-right"  ng-click="vm.cancelAddEditAnnouncement()" class="close"> -->
+
+  <!--     <i class="fas fa-times fa-sm"></i> -->
+  <!--     <span class="sr-only">Close</span> -->
+  <!--   </button> -->
+
+  <div class="col-md-11">
+    <h4 class="modal-title ng-binding truncateTitle">Session hearing docket</h4>
+  </div>
+  <div class="col-md-1">
+    <button type="button" id="addEditAnnouncementModalButton" ng-click="closeThisDialog()" class="btn close pull-right">
+      <i class="fas fa-times fa-sm"></i>
+      <span class="sr-only">Close</span>
+    </button>
+  </div>
+
+</div>
+<div style="height:30em;" ng-show="isLoading">
+  <grid-loader></grid-loader>
+</div>
+
+<div class="modal-body" ng-repeat="data in vm.sessionUsedData">
+  <!-- <div class="col-md-12">
+  <h4 class="modal-title text-center">Dallas : Hearing Room E, September 10, 2018 9:00 AM<button ng-click="vm.showRoomPicker();" style="background:none;margin-top:-.4em;" title="Change session" class="btn btn-icon-only btn-lg"><i class="fa fa-search"></i></button></h4>
+</div> -->
+  <div class="col-md-12" style="margin-bottom:.51em;">
+    <div class="col-md-6">
+      <h4>{{data.locationDescription}}, {{vm.timeInhumanReadbleForamt}} {{vm.sessionDetailsData.hearingTime|split:'
+        ':0|split:':':0}}:{{vm.sessionDetailsData.hearingTime|split:' ':0|split:':':1}}
+        {{vm.sessionDetailsData.hearingTime|split:' ':1}}
+        {{vm.sessionDetailsData.hearingTime|split:' ':2}}<button ng-click="vm.showRoomPicker();"
+          style="background:none; margin-top: -10px;" title="Change session" class="btn btn-icon-only btn-lg"><i
+            class="fa fa-search"></i><span class="sr-only">Open
+            Room</span></button></h4>
+    </div>
+    <div class="col-md-6">
+      <div class="col-md-1" style="margin-top: 10px;">
+
+      </div>
+      <div class="col-md-1" style="margin-top: 10px;">
+        <label for="usherSelect">Usher</label>
+      </div>
+      <div class="col-md-6">
+        <div class="btn-group dropdown " uib-dropdown is-open="responseNoh.isopen2" style="width: 100%;">
+
+          <button ng-disabled="caseTypeDisable" id="assignmentType " aria-label="Select Assingment Type for Assignment"
+            class="btn btn-default  btn-xs currentAssignmentbtn" uib-dropdown-toggle="" aria-haspopup="true"
+            aria-expanded="true"
+            style="width: 95%; padding-top: 6px; padding-bottom: 24px; margin-top: 0px !important;">
+            <span class="pull-left truncateTitle" style="max-width: 90%;">{{vm.slectedUsher}}</span>
+            <span class="caret pull-right" style=" margin-top: 8px;"></span>
+
+          </button>
+          <!-- </div> -->
+          <ul class="uib-dropdown-menu" uib-dropdown-menu="" role="menu"
+            style="z-index: 10000; width: 95%; min-height: 0px; max-height: 400px; overflow-y: scroll;">
+            <li ng-repeat="value in vm.usherDataList" style="cursor: pointer;">
+              <a href="javascript:void(0);" ng-click="vm.setSelectedUsher(value.assigneeFullNameText);">
+                <span>{{value.assigneeFullNameText}}</span>
+                </span>
+              </a>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+      <!--               <button class="btn btn-primary pull-right" title="Add hearing info" style="margin-bottom:.6em;"><i class="fa fa-plus"></i></button> -->
+      <div class="col-md-4">
+        <span class="input-group-btn">
+          <button title="Print docket" ng-disabled="vm.disablePrint" style="margin-left: 10px;" class="btn btn-default"
+            ng-click="vm.printDiv('TestPrintData')"><i class="fa fa-print"></i>&nbsp;Print</button>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div id="TestPrint">
+    <table class="table table-striped" style="width:99%;margin-left:1em;margin-top:4em;">
+      <thead>
+        <tr>
+          <th>Calendar #</th>
+          <th>Special hearing</th>
+          <th>Public</th>
+          <th>Case #</th>
+          <th style="width: 180px;">Panel</th>
+          <th>Docket</th>
+          <th>Appellant</th>
+          <th>Counsel/Pro se</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="content in data.hearingSchdules | orderBy:'calendarNumber' track by $index">
+        <tr>
+          <td>{{content.calendarNumber}}</td>
+          <td>
+            {{content.specialHearingIndicator}}
+          </td>
+          <td>{{content.publication}}</td>
+          <td><a title="Open case {{content.appealNumber}} in case viewer" href=""
+              ng-click="  vm.openCaseViewer(content.serialNumber,content.appealNumber)">{{content.appealNumber}}</a>
+          </td>
+          <td>
+            <div ng-repeat="panelName in content.panels">{{panelName.apjName}}<br>
+            </div>
+          </td>
+          <td>{{content.disciplineText}}</td>
+          <td>
+            <div ng-repeat="appellant in content.appellants">{{appellant}}<br>
+            </div>
+          </td>
+          <td>{{content.counselFullName}}</td>
+          <td>{{content.status}}</td>
+          <td><button class="btn btn-default" title="Edit case {{content.appealNumber}}"
+              ng-click="vm.editHearingSchedule(content.appealNumber)"><i class="fa fa-edit"></i>&nbsp;Edit</button></td>
+        </tr>
+
+
+      </tbody>
+    </table>
+  </div>
+  <div class="ng-hide">
+    <div id="TestPrintData">
+      <div class="col-print-12">
+        <div class="col-print-6">
+          <label class="pull-left pull-down">Hearing room:</label> &nbsp;{{data.locationName}}
+        </div>
+        <div class="col-print-6">
+          <label class="pull-left pull-down">Date/time:</label> &nbsp;{{vm.timeInhumanReadbleForamt}} {{vm.sessionDetailsData.hearingTime|split:'
+            ':0|split:':':0}}:{{vm.sessionDetailsData.hearingTime|split:' ':0|split:':':1}}
+          {{vm.sessionDetailsData.hearingTime|split:' ':1}}
+          {{vm.sessionDetailsData.hearingTime|split:' ':2}}
+        </div>
+      </div>
+      <div class="col-print-12">
+        <div class="col-print-6">
+          <label class="pull-left pull-down">Location:</label> &nbsp;{{data.locationDescription|split:':':0}},
+          {{data.locationStateCode}}
+        </div>
+        <div class="col-print-6">
+          <label class="pull-left pull-down">Usher on duty:</label> &nbsp;{{vm.slectedUsher}}
+        </div>
+      </div>
+      <div class="col-print-12">
+        <label class="pull-left pull-down">Docket:</label> &nbsp;<span
+          ng-repeat="data in vm.newHearingData | unique: 'disciplineText'">{{data.disciplineText}}{{$last ? '' : ', '}}</span>
+      </div>
+      </br>
+      <table class="table table-striped" style="width:99%;margin-left:1em;margin-top:4em;">
+        <thead>
+          <tr class="vendorListHeading">
+            <th>Calendar #</th>
+            <th>Public</th>
+            <th>Attendance type</th>
+            <th>Case #</th>
+            <th>Appellant</th>
+            <th>Counsel/Pro se</th>
+          </tr>
+        </thead>
+        <tbody ng-repeat="content in vm.newHearingData track by $index">
+          <tr>
+            <td>{{content.calendarNumber}}</td>
+            <td>{{content.publication}}</td>
+            <td>{{content.status}}</td>
+            <td>{{content.appealNumber}}</td>
+            <td>
+              <div ng-repeat="appellant in content.appellants">{{appellant}}<br>
+              </div>
+            </td>
+            <td style="text-transform: uppercase;">{{content.counselFullName}}</td>
+          </tr>
+          <tr ng-if="content.panels">
+            <td colspan="14" style="background:#f6f6f6;">
+              <div style="width:100%;">
+                </br>
+                <div class="col-print-12">
+                  <div class="col-print-2">
+                    &nbsp;&nbsp;
+                  </div>
+                  <div class="col-print-1">
+                    <label class="pull-left pull-down">Panel</label>
+                  </div>
+                  <div class="col-print-9">
+                    <div style="text-transform: uppercase;"
+                      ng-repeat="panelName in content.panels | orderBy:[ '!apjSeniorityRankNo', 'apjSeniorityRankNo', ]">
+                      {{panelName.apjName}}<br>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+              </div>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+
+  <button class="btn btn-default pull-left" title="Close" ng-click="closeThisDialog()">Close</button>
+  <!--     <button class="btn btn-default pull-right" title="Go back Add/Update Contact dialog" ng-click="vm.selectEmployee=false;">Go back</button> -->
+</div>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><eai-ifw-interface>
+<submission application-number="$ApplNumber" country-code="US" legal-date="$ScanDate" submission-id="$SubmissionID" submission-type="FOLLOWON" sys-name="EXPO"> 
+<document attachment-pos="1" doc-code="$DocCode" file-location="" file-name="$PdfFile" file-type="pdf" page-count="$PageCount" sdk="false"> 
+</document> 
+</submission> 
+</eai-ifw-interface>

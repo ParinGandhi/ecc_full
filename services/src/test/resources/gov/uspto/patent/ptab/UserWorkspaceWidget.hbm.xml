@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<sql-query name="deleteWidgetById">
+       <![CDATA[
+  	delete user_workspace_widget where user_workspace_widget_id = :widgetId
+        ]]>
+	</sql-query>
+
+
+	<sql-query name="deleteAllWidgetsOfAWorkspace">
+       <![CDATA[
+  	delete user_workspace_widget where  fk_user_workspace_id = :workspaceId
+        ]]>
+	</sql-query>
+
+
+
+
+	<sql-query name="updateSelectedColumnsListForAWidget">
+       <![CDATA[ 
+		update user_workspace_widget
+		set 
+		selected_column_list_doc = :selectedColumnsDetails
+		where
+		user_workspace_widget_id = :widgetId
+ 		]]>
+	</sql-query>
+
+
+	<sql-query name="fetchSelectedColumnsDetails">
+       <![CDATA[ 
+	select 
+	selected_column_list_doc as "selectedColumns",
+	widget_custom_nm as "widgetName"
+	from 
+	user_workspace_widget
+	where
+	user_workspace_widget_id =:widgetId
+
+	]]>
+	</sql-query>
+
+	<sql-query name="updateWidgetPositionOnly">
+       <![CDATA[
+         update user_workspace_widget
+            set 
+            widget_position_tx = :position,
+            last_mod_ts = systimestamp,
+            lock_control_no = (select uw.lock_control_no + 1 from user_workspace_widget uw where uw.user_workspace_widget_id = :widgetId)
+             where
+	  user_workspace_widget_id = :widgetId	
+	 ]]>
+	</sql-query>
+
+
+	<sql-query name="createWidget">
+       <![CDATA[ 
+       insert into 
+		user_workspace_widget (
+		USER_WORKSPACE_WIDGET_ID , 
+		FK_USER_WORKSPACE_ID     ,
+		FK_WIDGET_ID             ,
+		WIDGET_CUSTOM_NM         ,
+		WIDGET_POSITION_TX       ,
+		WIDGET_HEIGHT_PIXEL_QT   ,
+		CONFIG_TX                ,
+		WIDGET_COLOR_NM          ,
+		CREATE_TS                ,
+		CREATE_USER_ID           ,
+		LAST_MOD_TS              ,
+		LAST_MOD_USER_ID         ,
+		LOCK_CONTROL_NO          ,
+		SELECTED_COLUMN_LIST_DOC ,
+		QUERY_TX
+		)
+		values 
+		(
+		:workspaceWidgetId,
+		:workspaceId,
+		:widgetId,
+		:widgetName,
+		:position,
+		(select value_tx from code_reference  where type_cd = 'HEIGHT_STR_INT_MAP' and description_tx = :height),
+		:configText,
+		:color,
+		systimestamp,
+		:userId,
+		systimestamp,
+		:userId,
+		1,	
+		:selectedColumnsDetails,
+		:dataUrl
+		)
+	 ]]>
+	</sql-query>
+
+
+	<sql-query name="updateWidget">
+       <![CDATA[
+      update user_workspace_widget
+	  set 
+	  widget_custom_nm = :widgetName,
+	  config_tx = :configText,
+	  widget_height_pixel_qt = (select value_tx from code_reference  where type_cd = 'HEIGHT_STR_INT_MAP' and description_tx = :height),
+	  WIDGET_COLOR_NM = :color,
+ 	  last_mod_ts = systimestamp,
+	  last_mod_user_id = :userId,
+	  widget_position_tx = :position,
+ 	  lock_control_no = (select uw.lock_control_no + 1 from user_workspace_widget uw where uw.user_workspace_widget_id = :widgetId)
+	  where
+	  user_workspace_widget_id = :widgetId	
+	 ]]>
+	</sql-query>
+
+	<sql-query name="getNextSeqForWidget">
+       <![CDATA[ 
+      select USER_WORKSPACE_WIDGET_SEQ.NEXTVAL from dual
+	 ]]>
+	</sql-query>
+
+	<sql-query name="updateWidgetPosition">
+       <![CDATA[
+         update user_workspace_widget
+            set 
+            widget_position_tx = :position,
+            last_mod_ts = systimestamp,
+            last_mod_user_id = :userId,
+            lock_control_no = (select uw.lock_control_no + 1 from user_workspace_widget uw where uw.user_workspace_widget_id = :widgetId)
+             where
+	  user_workspace_widget_id = :widgetId	
+	 ]]>
+	</sql-query>
+
+	<sql-query name="checkIfWidgetNameExistsExceptInCurrentWidget">
+       <![CDATA[
+       select upper(trim(widget_custom_nm)) from user_workspace_widget where fk_user_workspace_id = :genericIdKey and upper(trim(widget_custom_nm)) = :genericIdSecondKey
+        and user_workspace_widget_id <> :genericIdThirdKey
+        ]]>
+	</sql-query>
+	
+	<sql-query name="checkIfWidgetNameExists">
+       <![CDATA[
+       select upper(trim(widget_custom_nm)) from user_workspace_widget where fk_user_workspace_id = :genericIdKey and upper(trim(widget_custom_nm)) = :genericIdSecondKey
+        ]]>
+	</sql-query>
+	
+	<sql-query name="checkIfWidgetExists">
+       <![CDATA[
+     select user_workspace_widget_id from user_workspace_widget where user_workspace_widget_id = :genericIdKey
+        ]]>
+	</sql-query>
+	
+	<sql-query name="fetchAllWidgetsForTheWorkspaceOfTheInputWidgetId">
+       <![CDATA[
+        select 
+            uww.user_workspace_widget_id as "widgetIdentifier", 
+            uww.widget_position_tx as "widgetPosition"
+            from 
+            user_workspace_widget uww, user_workspace_widget uww1
+            where
+            uww.fk_user_workspace_id = uww1.fk_user_workspace_id and
+            uww1.user_workspace_widget_id =  :widgetId
+	 ]]>
+	</sql-query>
+	
+	<sql-query name="getWidgetDetailsForWidgetId">
+       <![CDATA[
+		 select		                                           
+		
+		uww.fk_widget_id                        	 as "stndWidgetIdentifier",
+		uww.user_workspace_widget_id                 as "widgetIdentifier",
+		uww.widget_position_tx 				  	           as "widgetPosition",
+		uww.widget_custom_nm                         as "widgetName",
+		uww.config_tx                                as "widgetConfigurationText",
+		(select description_tx from code_reference  where type_cd = 'HEIGHT_STR_INT_MAP' and value_tx = uww.widget_height_pixel_qt)                 as "widgetHeight",
+		uww.WIDGET_COLOR_NM                          as "widgetColor",
+		
+		(select user_workspace_id from user_workspace 
+       where user_workspace_id = :workspaceId )      as "workspaceIdentifier",
+       
+      (select count(widget_custom_nm) from user_workspace_widget
+       where fk_user_workspace_id = :workspaceId )      as "countOfWidgets",
+      
+       (select au.user_id from 
+       user_workspace uw, application_user au
+       where uw.user_workspace_id = :workspaceId 
+       and au.application_user_id = uw.fk_application_user_id ) as "workspaceUserId"
+		
+		
+		from 
+		user_workspace_widget uww
+		where 
+		uww.user_workspace_widget_id = :workspaceWidgetId
+         
+        ]]>
+	</sql-query>
+	
+	
+		<sql-query name="getSelectedColumnListDocForWorkspaceWidgetId">
+       <![CDATA[
+		 select		                                           
+		
+		uww.selected_column_list_doc   from 
+		user_workspace_widget uww
+		where 
+		uww.user_workspace_widget_id = :workspaceWidgetId
+         
+        ]]>
+	</sql-query>
+	
+		<sql-query name="updateColumnListDocForWorkspaceWidgetId">
+       <![CDATA[
+       
+      update 
+		  user_workspace_widget set selected_column_list_doc=
+          (select uww.selected_column_list_doc   from user_workspace_widget uww where uww.user_workspace_widget_id = :sourceWidgetId)
+          where user_workspace_widget_id= :destinationWidgetId
+         
+        ]]>
+	</sql-query>
+	
+</hibernate-mapping>
+

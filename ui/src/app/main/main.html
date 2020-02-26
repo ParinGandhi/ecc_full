@@ -1,0 +1,295 @@
+<style>
+  /* .sortable-placeholder {
+    border-top: 5px solid black;
+    position: relative;
+    z-index: 6;
+    width: 75px;
+  } */
+
+  /* .sortable-placeholder {
+    border: 3px dashed red;
+    height: 35px;
+    width: 200px;
+    background: blue;
+  } */
+
+  /* .all-slides {
+    top: 0;
+    left: 0;
+    height: 100%;
+    display: -webkit-inline-box;
+  }
+
+  .slide {
+    width: 200px;
+    position: relative;
+    user-select: none;
+    border: 1px solid white;
+    margin: 0 0 0.75rem 0;
+    color: black;
+    line-height: 2.4;
+    z-index: 5;
+  }
+
+  .ui-sortable-helper {
+    transition: none !important;
+    margin-left: 80px;
+    margin-right: 80px;
+    opacity: .75;
+    animation: pulse 0.4s alternate infinite;
+  }
+
+  .sortable-placeholder {
+    height: 0px !important;
+    width: 0px !important;
+    margin-left: 80px;
+    margin-right: 80px;
+    z-index: 6;
+  }
+
+  @keyframes pulse {
+    100% {
+      transform: scale(1.5);
+    }
+  } */
+
+  .list {
+    list-style: none outside none;
+    /* margin: 10px auto 30px; */
+  }
+
+  .tabItem {
+    width: 150px;
+    padding: 5px 10px;
+    /* margin-right: 2px; */
+    /* border-left: 1px solid black;
+    border-top: 1px solid black;
+    border-right: 1px solid black; */
+    border-radius: 3px;
+    background-color: #EBEBEB;
+
+    /* cursor: move; */
+  }
+
+  .tabItem.ui-sortable-helper {
+    border: 1px dashed gray !important;
+    opacity: .70;
+    color: gray;
+    font-weight: bold;
+  }
+
+  .floatleft {
+    float: left;
+  }
+
+  .clear {
+    clear: both;
+  }
+
+
+  .container.wide {
+    width: 620px;
+  }
+
+  .floatingList>.tabItem {
+    float: left;
+  }
+
+  @media (max-width: 1650px) {
+    .floatingList>.tabItem {
+      float: left;
+      width: 150px;
+    }
+  }
+
+  @media (max-width: 1350px) {
+    .floatingList>.tabItem {
+      float: left;
+      width: 100px;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .floatingList>.tabItem {
+      float: left;
+      width: 75px;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .floatingList>.tabItem {
+      float: left;
+      width: 14.28%;
+    }
+  }
+
+  .clearfix:before,
+  .clearfix:after {
+    content: " ";
+    display: table;
+  }
+
+  .clearfix:after {
+    clear: both;
+  }
+
+  .clearfix {
+    *zoom: 1;
+  }
+
+</style>
+<div>
+  <acme-navbar whoami-callback="vm.getUserInfo" admin-array="adminArray" creation-date="main.creationDate" user-info="vm.userInfo" edit-mode="vm.inEditMode" done-editing="vm.doneEditing"></acme-navbar>
+</div>
+<div id="tabsContainer">
+  <div class="btn-group pull-right dropdown btn-default workspaceActionsButton" uib-dropdown is-open="status.isopen">
+    <button title="Workspace actions" type="button" class="btn btn-default wrkSpceActions " uib-dropdown-toggle ng-disabled="disabled" ng-class="{'disableWhileEditing': vm.disableWhileEditing === true}">
+      <i class="fas fa-cog" ng-class="{'disableWhileEditing': vm.disableWhileEditing === true}"></i>
+      <span class="hideWhenMin" ng-class="{'disableWhileEditing': vm.disableWhileEditing === true}"> &nbsp; Workspace actions</span>
+      <span class="caret" ng-class="{'disableWhileEditing': vm.disableWhileEditing === true}"></span>
+    </button>
+    <ul role="menubar" class="dropdown-menu workspaceActionsMenu" style="line-height: 24px;" uib-dropdown-menu role="menu">
+      <li role="menuitem" id="addWidgetsMenu" data-index="0" ng-keydown="onKeydown($event)" ng-click="vm.open()" role="presentation" ng-class="{'disabled': vm.workspaces.length <= 0}">
+        <i class="fas fa-plus menuIcon"></i>
+        <span class="menuItem">Add widgets to workspace(s)</span>
+      </li>
+      <li role="menuitem" id="editWidgetsMenu" data-index="1" ng-keydown="onKeydown($event)" ng-click="vm.editWidgets()" role="presentation" ng-class="{'disabled': vm.workspaces.length <= 0}">
+        <i class="far fa-copy menuIcon"></i>
+        <span class="menuItem">Manage widgets</span>
+      </li>
+      <li role="menuitem" id="expandCollapseAllMenu" data-index="2" ng-keydown="onKeydown($event)" role="presentation" ng-click="vm.collapseAll()" ng-class="{'disabled': vm.workspaces.length <= 0}">
+        <i ng-if="!vm.isAllOpen" class="fas fa-angle-double-up menuIcon"></i>
+        <i ng-if="vm.isAllOpen " class="fas fa-angle-double-down menuIcon"></i>
+        </i>
+        <span class="menuItem">Expand/collapse all widgets</span>
+      </li>
+      <li role="presentation" class="divider"></li>
+      <li role="menuitem" id="addNewWorkspaceMenu" data-index="3" ng-keydown="onKeydown($event)" ng-click="vm.openAddWorkspaceModal()" role="presentation" ng-class="{'disabled': vm.workspaces.length >= maxNumberOfWorkspaces || vm.invalidUser == true}">
+        <i class="fas fa-plus menuIcon"></i>
+        <span class="menuItem">Add new workspace</span>
+      </li>
+      <li role="menuitem" id="manageWorkspaceMenu" data-index="4" ng-keydown="onKeydown($event)" ng-click="vm.openManageWorkspaceModal()" role="presentation" ng-class="{'disabled': vm.invalidUser == true || vm.workspaces.length <= 1}">
+        <i class="far fa-copy menuIcon"></i>
+        <span class="menuItem">Move workspace(s)</span>
+      </li>
+      <li role="menuitem" id="configureWorkspaceMenu" data-index="5" ng-keydown="onKeydown($event)" ng-click="vm.configureWorkspace()" role="presentation" ng-class="{'disabled': vm.workspaces.length <= 0}">
+        <i class="fas fa-cogs menuIcon"></i>
+        <span class="menuItem">Configure workspace settings</span>
+      </li>
+      <li role="menuitem" id="setDefaultMenu" data-index="6" ng-keydown="onKeydown($event)" ng-click="vm.setCurrentWorkspaceAsDefault()" role="presentation" ng-class="{'disabled': vm.workspaces.length <= 1}">
+        <i class="fas fa-home menuIcon"></i>
+        <span class="menuItem">Set this workspace as default</span>
+      </li>
+      <li role="presentation" class="divider"></li>
+      <li role="menuitem" id="deleteWorkspaceMenu" data-index="7" ng-keydown="onKeydown($event)" ng-click="vm.deleteWorkspace()" role="presentation" ng-class="{'disabled': vm.workspaces.length <= 1}">
+        <i class="fas fa-trash-alt menuIcon"></i>
+        <span class="menuItem">Delete this workspace</span>
+      </li>
+
+
+    </ul>
+  </div>
+
+
+
+
+
+  <div class="workspaceContainer">
+    <!-- <uib-tabset id="mainTabId" active="activeTab">
+    <div class="wp" ui-sortable="vm.sortableOptionsForTabs" ng-model="vm.workspaces" style="width: 100%;">
+      <uib-tab ng-attr-id="activeTab{{$index}}" uib-tooltip="{{currentWorkspace.tooltip}}" tooltip-placement="bottom" data-toggle="collapse"
+        class="{{currentWorkspace.active}} minTabWidth" ng-repeat="currentWorkspace in vm.workspaces" index="$index" ng-mousedown="vm.setActiveWorkspace(currentWorkspace)"
+        ng-click="vm.selectTab()" style="margin-right: 2px; margin-bottom:0px; border-bottom:0; float:left; height:34px;">
+        <uib-tab-heading style="display:inline-table;">
+
+          <div class="truncate">
+            <i class="fas fa-home" id="defaultWorkspace" ng-show="currentWorkspace.defaultIndicator"></i>
+            <span ng-bind-html="currentWorkspace.userWorkspaceName">
+            </span>
+          </div>
+        </uib-tab-heading>
+        <div class="workspaceBody">
+          <div ng-if="currentWorkspace.editMode">
+            <p class="editMode">You are in workspace editing mode. You can add, remove, copy, and delete widgets. When you are finished, click
+              the 'Done editing' button to save your changes.
+              <button class="pull-right btn btn-primary" ng-click="vm.doneEditing()" style="position: fixed; top: 160px; right: 209px; z-index: 99;">Done Editing</button>
+            </p>
+
+          </div>
+          <adf-dashboard id="myDashboard{{$index}}" name="myDashboard{{$index}}" editable="true" collapsible="true" maximizable="true"
+            enable-confirm-delete="true" structure="{{currentWorkspace.userWorkspaceIdentifier}}" adf-model="model" categories="false">
+          </adf-dashboard>
+        </div>
+      </uib-tab>
+    </div>
+    <button id="addWorkspaceBtn" class="btn btn-default" ng-disabled="vm.disableAddWp" ng-click="vm.openAddWorkspaceModal()">
+      <i class="fas fa-plus"></i>
+    </button>
+  </uib-tabset> -->
+
+
+    <!-- <ul ui-sortable="vm.sortableOptionsForTabs" ng-model="vm.workspaces" class="list itemList clearfix floatingList" id="mainTabId">
+    <li ng-repeat="currentWorkspace in vm.workspaces track by $index" class="item">
+      <span ng-bind-html="currentWorkspace.userWorkspaceName">
+      </span>
+    </li>
+    <li>
+      <button id="addWorkspaceBtn" class="btn btn-default" ng-disabled="vm.disableAddWp" ng-click="vm.openAddWorkspaceModal()">
+        <i class="fas fa-plus"></i>
+      </button>
+    </li>
+  </ul> -->
+
+    <!-- <ul ui-sortable="vm.sortableOptionsForTabs" style="list-style: none;" ng-model="vm.workspaces" id="mainTabId">
+    <li ng-repeat="currentWorkspace in vm.workspaces track by $index" style="display: inline-block;">
+      {{currentWorkspace.userWorkspaceName}}
+    </li>
+  </ul> -->
+
+    <!-- <div id="flex" style="display: flex; width: 65vw;"> -->
+    <div id="flex" style="display: flex; padding-left: 8px !important;">
+      <!-- <div id="mainTabId" style="width: 100%;"> -->
+      <div id="mainTabId">
+        <ul ui-sortable="vm.sortableOptionsForTabs" ng-model="vm.workspaces" class="list  itemList clearfix floatingList wp" style="padding-left: 0px; color: black; margin-bottom: 0px;">
+          <li ng-repeat="currentWorkspace in vm.workspaces track by $index" class="tabItem homeIcon  truncate {{currentWorkspace.active}}" tabindex="{{20 + $index}}" ng-attr-id="{{'activeTab' + $index}}" ng-mousedown="vm.setActiveWorkspace(currentWorkspace)" ng-click="vm.selectTab()" data-toggle="tooltip" title="{{currentWorkspace.tooltip}}" data-placement="bottom" ng-keypress="vm.keyPressForTabs($event, $index)" ng-class="{'disableWhileEditing': vm.disableWhileEditing === true}" ng-style="vm.workspaceStyle">
+            <i class="fas fa-home" id="defaultWorkspace" ng-show="currentWorkspace.defaultIndicator"></i>
+            <span ng-bind-html="currentWorkspace.userWorkspaceName"> </span>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <button title="Add workspace" id="addWorkspaceBtn" tabindex="26" class="btn btn-default addWrkspce workspaceBtn-border" ng-disabled="vm.disableAddWp" ng-click="vm.openAddWorkspaceModal()" ng-class="{'disableWhileEditing': vm.disableWhileEditing === true}">
+          <i class="fas fa-plus" ng-class="{'disableWhileEditing': vm.disableWhileEditing === true}"></i>
+          <span class="sr-only">Add workspace</span>
+        </button>
+      </div>
+    </div>
+
+
+    <!-- <div class="wp all-slides" id="mainTabId" active="activeTab" ng-model="vm.workspaces" style="list-style: none;" ui-sortable="vm.sortableOptionsForTabs">
+    <div ng-attr-id="{{'activeTab' + $index}}" uib-tooltip="{{currentWorkspace.tooltip}}" tooltip-placement="bottom" data-toggle="collapse"
+      class="{{currentWorkspace.active}} minTabWidth truncate slide" ng-repeat="currentWorkspace in vm.workspaces track by $index"
+      index="{{$index}}" ng-mousedown="vm.setActiveWorkspace(currentWorkspace)" ng-click="vm.selectTab();">
+      <i class="fas fa-home" id="defaultWorkspace" ng-show="currentWorkspace.defaultIndicator"></i>
+      {{$index}}
+      <span ng-bind-html="currentWorkspace.userWorkspaceName">
+      </span>
+    </div>
+  </div>
+  <button id="addWorkspaceBtn" class="btn btn-default" ng-disabled="vm.disableAddWp" ng-click="vm.openAddWorkspaceModal()">
+    <i class="fas fa-plus"></i>
+  </button>-->
+
+
+
+    <div ng-repeat="currentWorkspace in vm.workspaces">
+      <div ng-show="vm.tab == 'activeTab'+$index" class="workspaceBody">
+        <div ng-if="currentWorkspace.editMode">
+        </div>
+        <adf-dashboard id="myDashboard{{$index}}" name="myDashboard{{$index}}" editable="true" collapsible="true" maximizable="true" enable-confirm-delete="true" structure="{{currentWorkspace.userWorkspaceIdentifier}}" adf-model="model" categories="false">
+        </adf-dashboard>
+      </div>
+    </div>
+
+  </div>
+</div>

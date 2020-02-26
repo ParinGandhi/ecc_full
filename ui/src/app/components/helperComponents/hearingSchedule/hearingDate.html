@@ -1,0 +1,33 @@
+<div class="modal-header">
+  <button title="Cancel" type="button" id="addEditAnnouncementModalButton" ng-click="closeThisDialog()" class="close">
+
+    <i class="fas fa-times fa-sm"></i>
+    <span class="sr-only">Close</span>
+  </button>
+  <h4 class="modal-title ng-binding truncateTitle">Select a week</h4>
+
+</div>
+
+<div style="margin-top:1.5em;"></div>
+	<div class="col-md-12">
+		<label>Select any day of the week
+              <!-- <date-picker show-weeks="false " selected-date="hearingDateTime" date-id=" 'beginEffectiveDate' "
+                aria-label="Report From Date " error-describedby="
+            'invalidStartDateErrorMsg' " ng-model="hearingDateTime" class="ng-isolate-scope " on-date-changed="vm.datePickerChangedCheckStartedDate "
+             disallow-past-date="'yes'"
+            >
+
+              </date-picker> -->
+
+              <date-picker show-weeks="false" date-id="'reportFromDate'" ng-model="hearingDateTime" selected-date="hearingDateTime"
+                  aria-label="Report From Date" error-describedby="'invalidStartDateErrorMsg'" class="ng-isolate-scope" on-date-changed=";"></date-picker>
+</label>
+    </div>
+    <div style="margin-bottom:6.5em;"></div>
+    <div class="modal-footer">
+
+<div >
+    <button class="btn btn-default pull-left" title="Cancel" ng-click="closeThisDialog()">Cancel</button>
+    <button class="btn btn-default pull-right" title="Open weekly schedule" ng-click="vm.openHearingSchedule()">OK</button>
+</div>
+</div>

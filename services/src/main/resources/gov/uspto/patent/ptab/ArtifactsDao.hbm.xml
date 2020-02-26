@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 2, 2019 3:15:30 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+	<sql-query name="getContentManagementId">
+	<![CDATA[
+       SELECT 
+       PA.CONTENT_MANAGEMENT_ID 
+       FROM 
+       PROCEEDING_ARTIFACT PA, ARTIFACT_SUBMISSION_STATUS ASS 
+       WHERE
+       PA.FK_ARTIFACT_SUBMISSION_ID = ASS.FK_ARTIFACT_SUBMISSION_ID AND 
+       PA.FK_AVAILABILITY_CD = 'PUBLIC' AND 
+       ASS.FK_SUBMISSION_STATUS_CD != 'EXPUNGED' AND 
+       PA.CONTENT_MANAGEMENT_ID= :contentmanagementid  
+       ]]>
+	</sql-query>
+</hibernate-mapping>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<sql-query name="getAttorneys">
+	<![CDATA[
+SELECT DISTINCT au.application_user_id AS "assigneeNumber",
+  au.CFK_EMPLOYEE_ID                   AS "workerNumber",
+  au.first_nm                          AS "firstName",
+  au.middle_nm                         AS "middleName",
+  au.last_nm                           AS "lastName"
+FROM RELATED_JUDGE_ATTORNEY ra,
+  APPLICATION_USER au,
+  APPLICATION_USER_ROLE aur,
+  STND_USER_ROLE sur
+WHERE au.CFK_EMPLOYEE_ID       =ra.attorney_empe_no
+AND aur.FK_APPLICATION_USER_ID = au.APPLICATION_USER_ID
+AND aur.FK_USER_ROLE_ID        = sur.USER_ROLE_ID
+AND sur.USER_ROLE_NM           = 'ATTY'
+AND ra.judge_empe_no           = :judgeIdentifier
+AND ra.ACTIVE_IN               ='A'
+ORDER BY au.last_nm
+ ]]>
+	</sql-query>
+
+	<sql-query name="getNonAssignedAttorneys">
+	<![CDATA[
+SELECT DISTINCT au.application_user_id AS "assigneeNumber",
+  au.CFK_EMPLOYEE_ID                   AS "workerNumber",
+  au.first_nm                          AS "firstName",
+  au.middle_nm                         AS "middleName",
+  au.last_nm                           AS "lastName"
+FROM APPLICATION_USER au,
+  application_user_role aur,
+  RELATED_JUDGE_ATTORNEY ra,
+  STND_USER_ROLE sur
+WHERE au.APPLICATION_USER_ID    = aur.FK_APPLICATION_USER_ID
+AND aur.FK_USER_ROLE_ID         = sur.USER_ROLE_ID
+AND sur.USER_ROLE_NM            = 'ATTY'
+AND au.APPLICATION_USER_ID NOT IN
+  ( SELECT DISTINCT au.application_user_id
+  FROM RELATED_JUDGE_ATTORNEY ra,
+    APPLICATION_USER au
+  WHERE au.CFK_EMPLOYEE_ID=ra.attorney_empe_no
+  AND ra.judge_empe_no    = :judgeIdentifier
+  AND ra.ACTIVE_IN        ='A'
+  )
+ORDER BY au.last_nm
+ ]]>
+	</sql-query>
+	
+	<sql-query name="deleteJudgeAttorneyById">
+       <![CDATA[
+  	delete related_judge_attorney where ATTORNEY_EMPE_NO = :attorneyEmpNo
+        ]]>
+	</sql-query>
+
+</hibernate-mapping>

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+
+	<sql-query name="fetchMyTeamMembersAsLead">
+       <![CDATA[
+
+select distinct trim(fk_be_no) from BUSINESS_UNIT_TEAM_MEMBER where FK_BUT_TEAM_ID in
+ ( select FK_BUT_TEAM_ID from BUSINESS_UNIT_TEAM_MEMBER where trim(fk_be_no) = :applicationUserId 
+ and FK_BUR_ROLE_NM='TEAMLEAD'and (END_DT> sysdate or END_DT is null)) and (END_DT> sysdate or END_DT is null)
+
+        ]]>
+	</sql-query>
+
+
+	<sql-query name="fetchMyTeamMembersAsMember">
+       <![CDATA[
+
+select distinct trim(fk_be_no) from BUSINESS_UNIT_TEAM_MEMBER where trim(fk_be_no) =:applicationUserId and FK_BUR_ROLE_NM='MEMBER' and ( END_DT> sysdate or END_DT is null)  
+        ]]>
+	</sql-query>
+
+
+
+
+	<sql-query name="fetchMembersOfTeamsOfAllTeamLeadsOfMyTeam">
+       <![CDATA[
+	
+	select distinct trim(fk_be_no) from BUSINESS_UNIT_TEAM_MEMBER where FK_BUT_TEAM_ID in (  select distinct FK_BUT_TEAM_ID from BUSINESS_UNIT_TEAM_MEMBER where trim(fk_be_no)
+	 in( select trim(fk_be_no) from BUSINESS_UNIT_TEAM_MEMBER where FK_BUT_TEAM_ID in
+ ( select FK_BUT_TEAM_ID from BUSINESS_UNIT_TEAM_MEMBER where trim(fk_be_no) = :applicationUserId
+ and FK_BUR_ROLE_NM='TEAMLEAD' and (END_DT> sysdate or END_DT is null)) and (END_DT> sysdate or END_DT is null) and FK_BUR_ROLE_NM='TEAMLEAD'  )
+ and FK_BUR_ROLE_NM='TEAMLEAD' and (END_DT> sysdate or END_DT is null) ) and (END_DT> sysdate or END_DT is null)   ]]>
+	</sql-query>
+
+
+	<sql-query name="validateTeamLead">
+       <![CDATA[
+	select distinct trim(fk_be_no) from BUSINESS_UNIT_TEAM_MEMBER where trim(fk_be_no) =:applicationUserId and FK_BUR_ROLE_NM='TEAMLEAD' and ( END_DT> sysdate or END_DT is null)  
+	
+	   ]]>
+	</sql-query>
+
+	<sql-query name="fetchMyLeads">
+       <![CDATA[
+
+ 	select distinct trim(fk_be_no) from BUSINESS_UNIT_TEAM_MEMBER where FK_BUR_ROLE_NM='TEAMLEAD' and ( END_DT> sysdate or END_DT is null)  and FK_BUT_TEAM_ID in 
+    ( select distinct FK_BUT_TEAM_ID from  BUSINESS_UNIT_TEAM_MEMBER where FK_BUR_ROLE_NM='MEMBER' and ( END_DT> sysdate or END_DT is null) and trim(fk_be_no) = :applicationUserId)
+
+	
+	   ]]>
+	</sql-query>
+
+<sql-query name="fetchMyWorkQueus">
+       <![CDATA[
+	select distinct trim(fk_be_no) from BUSINESS_UNIT_TEAM_MEMBER where FK_BUR_ROLE_NM='WORKQUEUE' and ( END_DT> sysdate or END_DT is null)  and FK_BUT_TEAM_ID in 
+    ( select distinct FK_BUT_TEAM_ID from BUSINESS_UNIT_TEAM_MEMBER where FK_BUR_ROLE_NM='MEMBER' and ( END_DT> sysdate or END_DT is null) and trim(fk_be_no) = :applicationUserId)
+	   ]]>
+	</sql-query>
+	
+	<sql-query name="filterLeadsFromMemberList">
+       <![CDATA[
+	select distinct trim(fk_be_no) from BUSINESS_UNIT_TEAM_MEMBER where trim(fk_be_no) in :teamList and FK_BUR_ROLE_NM='TEAMLEAD' and ( END_DT> sysdate or END_DT is null)  
+	
+	   ]]>
+	</sql-query>
+
+	<sql-query name="fetchMembersforGivenleads">
+       <![CDATA[
+       
+	select distinct trim(fk_be_no) from BUSINESS_UNIT_TEAM_MEMBER where FK_BUT_TEAM_ID in
+ ( select FK_BUT_TEAM_ID from BUSINESS_UNIT_TEAM_MEMBER where trim(fk_be_no) in :leadList 
+ and FK_BUR_ROLE_NM='TEAMLEAD'and (END_DT> sysdate or END_DT is null)) and (END_DT> sysdate or END_DT is null) and trim(fk_be_no) not in :leadList 
+	
+	   ]]>
+	</sql-query>
+
+	<sql-query name="fetchTeamNameForMember">
+       <![CDATA[
+       
+	select distinct BUT.NM 
+from BUSINESS_UNIT_TEAM BUT
+join BUSINESS_UNIT_TEAM_MEMBER BUTM on BUT.BUT_TEAM_ID=BUTM.FK_BUT_TEAM_ID
+ and ( BUTM.END_DT> sysdate or BUTM.END_DT is null) 
+ and ( BUT.END_DT> sysdate or BUT.END_DT is null) 
+ and BUT.NM <> 'PTAB Queue'
+where trim(BUTM.fk_be_no) = :applicationUserId and BUTM.FK_BUR_ROLE_NM=:role
+order by BUT.NM
+
+	   ]]>
+	</sql-query>
+
+	<sql-query name="fetchTeamDiscriptionForMember">
+       <![CDATA[
+       
+	select distinct BUT.DESCRIPTION_TX 
+from BUSINESS_UNIT_TEAM BUT
+join BUSINESS_UNIT_TEAM_MEMBER BUTM on BUT.BUT_TEAM_ID=BUTM.FK_BUT_TEAM_ID
+ and ( BUTM.END_DT> sysdate or BUTM.END_DT is null) 
+ and ( BUT.END_DT> sysdate or BUT.END_DT is null) 
+ and BUT.NM <> 'PTAB Queue'
+where trim(BUTM.fk_be_no) = :applicationUserId and BUTM.FK_BUR_ROLE_NM=:role
+order by BUT.DESCRIPTION_TX
+
+	   ]]>
+	</sql-query>
+
+	<sql-query name="fetchSections">
+       <![CDATA[
+       
+	select distinct BUT.NM as "section",
+	BUT.BUT_TEAM_ID as "teamId"
+from BUSINESS_UNIT_TEAM BUT where BUT.NM LIKE '%Section%'
+order by BUT.NM
+
+	   ]]>
+	</sql-query>
+
+
+
+	<sql-query name="fetchPanelMembers">
+       <![CDATA[
+       
+select bum.FK_BE_NO as "panelMemberIdentifier",
+au.first_nm as "firstName",
+au.last_nm as "lastName",
+au.middle_nm as "middleName" 
+from business_unit_team bu, business_unit_team_member bum,application_user au
+where
+bu.BUT_TEAM_ID = bum.fk_but_team_id and
+bum.fk_be_no = au.application_user_id and
+bu.NM=:sectionText
+
+	   ]]>
+	</sql-query>
+
+
+	<sql-query name="fetchPanelMembersByDiscipline">
+       <![CDATA[
+       
+select bum.FK_BE_NO as "panelMemberIdentifier",
+au.first_nm as "firstName",
+au.last_nm as "lastName",
+au.middle_nm as "middleName" 
+from business_unit_team bu, business_unit_team_member bum,application_user au
+where
+bu.BUT_TEAM_ID = bum.fk_but_team_id and
+bum.fk_be_no = au.application_user_id and
+au.discipline_cd=:caseDiscipline
+
+	   ]]>
+	</sql-query>
+
+
+	<sql-query name="fetchJudgesForAllSections">
+       <![CDATA[
+   
+select bum.FK_BE_NO as "panelMemberIdentifier",
+au.first_nm as "firstName",
+au.last_nm as "lastName",
+au.middle_nm as "middleName",
+au.cfk_employee_id as "workerNumber",
+au.APJ_SENIORITY_RANK_NO as "rankId"
+from stnd_user_role sur,business_unit_team_member bum,application_user au, application_user_role aur  where 
+bum.fk_be_no = au.application_user_id and
+sur.user_role_id = aur.fk_user_role_id and
+sur.user_role_nm = 'Judge' and 
+au.APPLICATION_USER_ID=aur.FK_APPLICATION_USER_ID and au.JOB_CLASSIFICATION_CD = 'APJ' and
+fk_but_team_id in (select but_team_id from business_unit_team where NM like 'Section%') order by au.APJ_SENIORITY_RANK_NO
+
+
+	   ]]>
+	</sql-query>
+
+
+	<sql-query name="fetchJudgesForAllSectionsAndDiscipline">
+       <![CDATA[
+       
+select bum.FK_BE_NO as "panelMemberIdentifier",
+au.first_nm as "firstName",
+au.last_nm as "lastName",
+au.middle_nm as "middleName" 
+from business_unit_team bu, business_unit_team_member bum,application_user au
+where
+bu.BUT_TEAM_ID = bum.fk_but_team_id and
+bum.fk_be_no = au.application_user_id and
+bu.NM= :sectionText
+UNION 
+select bum.FK_BE_NO as "panelMemberIdentifier",
+au.first_nm as "firstName",
+au.last_nm as "lastName",
+au.middle_nm as "middleName" 
+from business_unit_team bu, business_unit_team_member bum,application_user au
+where
+bu.BUT_TEAM_ID = bum.fk_but_team_id and
+bum.fk_be_no = au.application_user_id and
+au.discipline_cd= :disciplineCode
+
+
+
+	   ]]>
+	</sql-query>
+	
+	<sql-query name="fetchWorkQueueForUser">
+       <![CDATA[
+       
+	select distinct fk_but_team_id as fkButTeamId from BUSINESS_UNIT_TEAM_MEMBER where FK_BUT_TEAM_ID IN :fkButTeamId and FK_BE_NO = :fkBeNo and FK_BUR_ROLE_NM = 'MEMBER'
+
+	   ]]>
+	</sql-query>
+
+</hibernate-mapping>

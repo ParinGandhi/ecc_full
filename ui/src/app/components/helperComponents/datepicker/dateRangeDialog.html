@@ -1,0 +1,60 @@
+<div class="modal-header">
+  <button id="closeKeepDate" type="button" class="close" ng-click="closeThisDialog()">
+    <i class="fas fa-times fa-sm"></i>
+    <span class="sr-only">Close</span>
+  </button>
+  <h3 class="modal-title truncateTitle" id="modal-title">Enter <span ng-if="vm.items=='PAYPERIOD'">pay period</span><span ng-if="vm.items != 'PAYPERIOD'">date range</span></h3>
+</div>
+<div class="modal-body" id="modal-body">
+<!--   	<div class="col-md-12"> -->
+<!--   	<form class="form-horizontal" role="form"> -->
+<!-- 		<div class="col-md-6">   -->
+		
+		
+<!--   	 		<div class="form-group"> -->
+<!--     			<label for="dateRangeDialogStartDate" class="col-sm-6 control-label required">Start date</label> -->
+<!--     		</div> -->
+<!--   		</div> -->
+<!-- 		<div class="col-md-6">   -->
+<!--   	 		<div class="form-group"> -->
+<!--     			<label for="dateRangeDilaogEndDate" class="col-sm-6 control-label required">End date</label> -->
+<!--     		</div> -->
+<!--   		</div> -->
+<!--   		</form> -->
+<!--   	</div> -->
+
+<form role="form">
+	
+    <div ng-if="vm.items!='PAYPERIOD'" class="form-group col-sm-offset-1">
+      <label for="nameInput3" class="control-label required">Start date</label>
+				<date-picker  custom-class="'form-control-width-md'"  show-weeks="false " past-date="noPastdateValidation" ng-model="vm.startDate" selected-date="vm.startDate" date-id=" 'dateRangeDialogStartDate'"
+                     error-describedby="'invalidStartDateErrorMsg' " class="ng-isolate-scope ">
+            	</date-picker>
+    </div>
+    <div ng-if="vm.items!='PAYPERIOD'" class="form-group col-sm-offset-1">
+      <label for="emailInput3" class="control-label required" >End date</label>
+      <date-picker  custom-class="'form-control-width-md'" show-weeks="false "  ng-model="vm.endDate"  past-date="noPastdateValidation" selected-date="vm.endDate" date-id=" 'dateRangeDialogEndDate'"
+              error-describedby="'invalidEndDateErrorMsg' " class="ng-isolate-scope ">
+      </date-picker>
+      <span id="invalidCompletionDateDefinedErrorMsg" style="color: #AC2B37" ng-if="showErrorMessage">{{errorMessage}}</span>
+<!--       <input type="email" class="form-control form-control-width-md" aria-required="true" id="emailInput3"> -->
+    </div>
+<div ng-if="vm.items=='PAYPERIOD'" >
+    <label for="title" class="assignedLabel control-label required"> Pay period </label>
+    <br>
+    <div>
+      <input autofocus type="number" min="1" max="26"
+       class="form-control truncateTitle" name="pay-period" id="pay-period" ng-model="vm.payPeriod" ng-change="setPayPeriod(payPeriod)">
+    
+  </div>
+</div>
+
+</form>
+
+
+  
+</div>
+<div class="modal-footer">
+  <button id="noKeepDate" class="btn btn-default pull-left" type="button" ng-click="closeThisDialog()">Cancel</button>
+  <button id="yesKeepDate" class="btn btn-primary" type="button" ng-click="vm.confirm()">Ok</button>
+</div>

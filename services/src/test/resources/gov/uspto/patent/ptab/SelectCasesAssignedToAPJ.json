@@ -1,0 +1,171 @@
+{
+  "columnDetails":[ {
+      "name": "proceedingId",
+      "label": "Proceeding Identifier ",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",      
+      "selected":false
+    },
+    {
+      "name": "proceedingNumber",
+      "label": "AIA Review #",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",
+      "selected":true
+    },
+    {
+      "name": "status",
+      "label": "AIA Review Status ",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",
+      "selected":true
+    },
+   	{
+      "name": "filingDate",
+      "label": "Petition Submission Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",    
+      "selected":true
+    },
+    {
+      "name": "noticeOfAccordedFilingDate",
+      "label": "NOFDA Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",
+      "selected":true
+    },
+    {
+      "name": "prelimRespDate",
+      "label": "Preliminary Response Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",      
+      "selected":true
+    },
+    {
+      "name": "instDecisionDate",
+      "label": "Institution Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",    
+      "selected":true
+    },
+    {
+      "name": "petAccordedFilingDate",
+      "label": "Accorded Filing Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",    
+      "selected":false
+    }, 
+    {
+      "name": "hearingDate",
+      "label": "Hearing Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",    
+      "selected":true      
+    },
+    {
+      "name": "TERMINATIONDECISIONDT",
+      "label": "Termination Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",     
+      "selected":true
+    },
+    {
+      "name": "petitionerApplicationNumber",
+      "label": "Petitioner's Appln #",
+      "typeDefinition": "Number",
+      "defaultOrder": "desc",      
+      "selected":true
+    },
+    {
+      "name": "petitionerPatentNumber",
+      "label": "Petitioner's Patent#",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",     
+      "selected":true
+    },
+     {
+      "name": "petitionerName",
+      "label": "Petitioner's Name ",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",    
+      "selected":true
+    },
+    {
+      "name": "petitionerTechcenter",
+      "label": "Petitioner's Tech Center",
+      "typeDefinition": "Number",
+      "defaultOrder": "desc",
+      "selected":true
+    },
+    {
+      "name": "respondentApplicationNumber",
+      "label": "PO/Respondent Appln #",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",     
+      "selected":true
+    }, 
+    {
+      "name": "pOpatentNumber",
+      "label": "PO/Respondent Patent #",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",     
+      "selected":true
+    },
+    {
+      "name": "patentOwnerName",
+      "label": "PO/Respondent Name ",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",     
+      "selected":true
+    },
+    {
+      "name": "poTechCenter",
+      "label": "PO/Respondent Tech Center",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",      
+      "selected":true
+    },
+    {
+      "name": "totalPendency",
+      "label": "Total Pendency",
+      "typeDefinition": "Number",
+      "defaultOrder": "desc",      
+      "selected":true
+    },
+    {
+      "name": "judge1Assigned",
+      "label": "Judge 1",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",      
+      "selected":true
+    },
+    {
+      "name": "judge2Assigned",
+      "label": "Judge 2",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",      
+      "selected":true
+    },
+    {
+      "name": "judge3Assigned",
+      "label": "Judge 3",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",      
+      "selected":true
+    },
+    {
+      "name": "additionalJudges",
+      "label": "Additional Judges",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",      
+      "selected":true
+    },
+    {
+      "name": "decisionStatus",
+      "label": "Decision Due Status",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",      
+      "selected":true
+    }	
+ ]
+}

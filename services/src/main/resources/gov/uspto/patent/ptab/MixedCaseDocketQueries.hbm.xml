@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<sql-query name="getMixedCaseDocketDetails">
+       <![CDATA[
+select 
+uww.selected_column_list_doc as "columnDetailsDataClob",
+uw.fk_application_user_id as "applicationUserIdentifier",
+uww.last_mod_ts as "lastModifiedDate",
+uww.last_mod_user_id as "lastModifiedUserIdentifier"
+from user_workspace_widget uww, user_workspace uw
+where 
+uww.fk_user_workspace_id = uw.user_workspace_id and
+uww.user_workspace_widget_id = :widgetId
+
+       	]]>
+	</sql-query>
+
+
+
+	<sql-query name="fetchConfigsForMixedDocketFilter">
+       <![CDATA[
+select cr.description_tx as "config", 
+--to_char(au.fk_acts_employee_no) as "userId", 
+to_char(au.application_user_id) as "userId",
+au.user_id as "loginId",
+uww.widget_custom_nm as "widgetName",
+crForUrl.description_tx as "reDirectUrl"
+from
+code_reference cr, user_workspace uw, user_workspace_widget uww, application_user_role aur, stnd_user_role sur, 
+application_user au, code_reference crForUrl
+where 
+crForUrl.type_cd = 'DOCKET_REFIRECT_URL' and
+crForUrl.value_tx = sur.user_role_nm and
+au.application_user_id = uw.fk_application_user_id and
+cr.type_cd = 'MIXED_DKT_CONFIG_BY_ROLE' and 
+cr.value_tx = sur.user_role_nm and
+sur.user_role_id = aur.fk_user_role_id and
+aur.fk_application_user_id = uw.fk_application_user_id and
+uw.user_workspace_id = uww.fk_user_workspace_id and
+uww.user_workspace_widget_id = :widgetId
+
+       	]]>
+	</sql-query>
+
+
+	<sql-query name="getAppealAssigneeAndRoleByEmployeeNumber">
+        <![CDATA[
+    select au.LAST_NM || ', ' || au.FIRST_NM as "assigneeFullNameText",
+    au.APPLICATION_USER_ID as "assigneeNumber",
+    sur.user_role_nm as "role",
+    sur.description_tx as "roleDescription",
+  case when to_date(TRUNC(au.END_EFFECTIVE_DT ,'DD'),'DD-MM-YYYY') < to_date(sysdate,'DD-MM-YYYY') then 'INACTIVE' else 'ACTIVE' end as "assigneeStatus",
+(SELECT count(*) FROM PTAB_ASSIGNMENT where active_in='A' and completion_dt is null and fk_assignee_be_no =au.application_user_id) as "activeCaseCount"
+        from
+  application_user au,
+  stnd_user_Role sur,
+  application_user_role aur
+  where
+aur.FK_USER_ROLE_ID =  sur.user_role_id and
+  aur.FK_APPLICATION_USER_ID = au.application_user_id and
+  au.application_user_id=:applicationUserId
+         ]]>
+	</sql-query>
+</hibernate-mapping>

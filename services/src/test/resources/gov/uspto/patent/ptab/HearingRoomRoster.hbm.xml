@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<sql-query name="getHearingLocationIdentifiers">
+		
+		<![CDATA[ 
+		
+		SELECT distinct
+			    hrr.fk_ad_fk_aa_serial_no AS "serialNumber",
+			    hrr.fk_ad_fk_appeal_no AS "appealNumber",
+			    hrr.hrr_sequence_no AS "sequenceNumber",
+			    hrr.hearing_dt AS "hearingDate",
+			    hrr.hearing_tm AS "hearingTime",
+			    hrr.fk_hearing_location_id AS "locationIdentifier",
+			    hrr.CALENDAR_NO AS "calendarNumber",
+			    loc.description_tx AS "locationDescription",	
+			    nvl(hrr.special_type_in,'') AS "specialHearingIndicator",
+			    (select DESCRIPTION_TX from CODE_REFERENCE where VALUE_TX=(select CASE_DISCIPLINE_CD from APPEAL where NO= hrr.fk_ad_fk_appeal_no and rownum = 1) and TYPE_CD='CASE DISCIPLINE' and rownum = 1) AS "disciplineText",
+			    (select DESCRIPTION_TX from CODE_REFERENCE where VALUE_TX= hrr.STATUS_CD and TYPE_CD='HEARING_STATUS_DESC' and rownum = 1) as "status"
+		FROM hearing_room_roster hrr,appeal_judge_panel ajp,application_user au,stnd_hearing_location loc
+		WHERE
+		    ajp.fk_ad_fk_aa_serial_no = hrr.fk_ad_fk_aa_serial_no
+		    AND ajp.fk_ad_fk_appeal_no = hrr.fk_ad_fk_appeal_no
+		    AND hrr.fk_hearing_location_id = loc.hearing_location_id
+		    AND ajp.fk_be_no = au.cfk_employee_id
+			AND hrr.hearing_dt BETWEEN :fromDate AND :toDate
+			AND ( :locationIdentifier IS NULL OR hrr.fk_hearing_location_id = :locationIdentifier )	
+			AND ( :hearingTime IS NULL OR hrr.hearing_tm = :hearingTime )
+			order by to_date(substr(hrr.hearing_tm,1,to_number(length(trim(hrr.hearing_tm)))-4), 'HH:MI:SS AM')	
+]]>
+	</sql-query>
+
+	<sql-query name="getHearingPanelDetails">
+		
+		<![CDATA[ 
+		
+		select au.application_user_id AS "employeeId",
+		    au.first_nm AS "firstName",
+		    au.last_nm AS "lastName",
+		    au.middle_nm AS "middleName",
+		    au.APJ_SENIORITY_RANK_NO AS "apjSeniorityRankNo",
+		    ajp.panel_apj_rank_no as "rankNumber"		   
+		    from appeal_judge_panel ajp, application_user au
+		    where ajp.fk_be_no = au.cfk_employee_id and ajp.fk_ad_fk_appeal_no = :appealNumber and ajp.FK_AD_FK_AA_SERIAL_NO = :serialNumber
+		    order by ajp.panel_apj_rank_no asc
+]]>
+	</sql-query>
+	
+
+</hibernate-mapping>

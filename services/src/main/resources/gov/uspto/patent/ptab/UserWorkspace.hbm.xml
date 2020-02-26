@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<sql-query name="deleteWorkspaceById">
+       <![CDATA[
+  	delete from user_workspace where user_workspace_id = :workspaceId
+        ]]>
+	</sql-query>
+
+	<!-- <sql-query name="createWorkspace">
+       <![CDATA[
+	  insert into user_workspace
+	  ( USER_WORKSPACE_ID,
+		FK_APPLICATION_USER_ID,
+		USER_WORKSPACE_NM,
+		DESCRIPTION_TX,
+		DEFAULT_IN,
+		CREATE_TS,
+		CREATE_USER_ID,
+		LAST_MOD_TS,
+		LAST_MOD_USER_ID,
+		LOCK_CONTROL_NO,
+		VIEW_LAYOUT_NM,
+		ORDER_SEQUENCE_NO,
+		CONFIG_TX
+		) 
+		values
+			(
+		:workspaceId,
+		:userId,
+		:workspaceName,
+		null,
+		:defaultIndicator,
+		CURRENT_TIMESTAMP,
+		:userId,
+		CURRENT_TIMESTAMP,
+		:userId,
+		1,
+		:layout,
+		:orderSequenceNumber,
+		null
+		)
+	 ]]>
+	</sql-query> -->
+	
+	<sql-query name="createWorkspace">
+       <![CDATA[
+	  insert into user_workspace
+	  ( 
+		FK_APPLICATION_USER_ID,
+		USER_WORKSPACE_NM,
+		DESCRIPTION_TX,
+		DEFAULT_IN,
+		CREATE_TS,
+		CREATE_USER_ID,
+		LAST_MOD_TS,
+		LAST_MOD_USER_ID,
+		LOCK_CONTROL_NO,
+		VIEW_LAYOUT_NM,
+		ORDER_SEQUENCE_NO,
+		CONFIG_TX
+		) 
+		values
+			(
+		:userId,
+		:workspaceName,
+		null,
+		:defaultIndicator,
+		CURRENT_TIMESTAMP,
+		:userId,
+		CURRENT_TIMESTAMP,
+		:userId,
+		1,
+		:layout,
+		:orderSequenceNumber,
+		null
+		)
+	 ]]>
+	</sql-query>
+	
+	<sql-query name="getNextOrderSequenceNumberForWorkspace">
+       <![CDATA[ 
+      select IFNULL(MAX(order_sequence_no)+1, 0) from user_workspace where fk_application_user_id = :userId
+	 ]]>
+	</sql-query>
+
+
+
+	<sql-query name="updateWorkspacePosition">
+       <![CDATA[
+	 update user_workspace
+	  set 
+	  user_workspace_nm = :workspaceName,
+ 	  last_mod_ts = CURRENT_TIMESTAMP,
+	  last_mod_user_id = :userId,
+	  VIEW_LAYOUT_NM = :layout,
+ 	  lock_control_no = :lockControlNumber
+	  where
+	  user_workspace_id = :workspaceId 		
+	 ]]>
+	</sql-query>
+
+
+
+	<sql-query name="decrementWorkspaceOrders">
+       <![CDATA[
+	  update user_workspace
+	  set
+	  ORDER_SEQUENCE_NO = (ORDER_SEQUENCE_NO - 1),
+ 	  last_mod_ts = CURRENT_TIMESTAMP,
+	  last_mod_user_id = :userId,
+ 	  lock_control_no = :lockControlNumber
+	  where
+	  fk_application_user_id =  :userId 	and
+	  ORDER_SEQUENCE_NO > :oldOrderNo and ORDER_SEQUENCE_NO <= :newOrderNo
+	 ]]>
+	</sql-query>
+
+
+	<sql-query name="incrementWorkspaceOrders">
+       <![CDATA[
+	  update user_workspace
+	  set
+	  ORDER_SEQUENCE_NO = (ORDER_SEQUENCE_NO + 1),
+ 	  last_mod_ts = CURRENT_TIMESTAMP,
+	  last_mod_user_id = :userId,
+ 	  lock_control_no = :lockControlNumber
+	  where
+	  fk_application_user_id =  :userId 	and
+	   ORDER_SEQUENCE_NO < :oldOrderNo and ORDER_SEQUENCE_NO >= :newOrderNo
+	 ]]>
+	</sql-query>
+
+
+	<sql-query name="fetchNoOfWorkspacesForAUserId">
+	<![CDATA[ 
+      select count(user_workspace_id) from user_workspace where FK_APPLICATION_USER_ID = :userId
+	 ]]>
+	</sql-query>
+
+	<sql-query name="fetchAllWorkspacesForThisUser">
+	 <![CDATA[ 
+	   select              
+             user_workspace_id   as "workspaceIdentifier",
+             default_in          as "defaultIndicator",
+             ORDER_SEQUENCE_NO  as "orderNo"
+             
+             from
+             user_workspace
+             where fk_application_user_id  =  (select uw.fk_application_user_id from user_workspace uw where uw.user_workspace_id = :workspaceId)
+             order by ORDER_SEQUENCE_NO	
+	 ]]>
+	</sql-query>
+
+
+	<sql-query name="updateDefaultIndicatorsToYForWorkspacesId">
+	  <![CDATA[ 
+	 update user_workspace 
+             set 
+             default_in = 'Y',
+             last_mod_ts = CURRENT_TIMESTAMP,
+            lock_control_no = :lockControlNumber
+             where user_workspace_id = :workspaceId
+	 ]]>
+	</sql-query>
+
+
+	<sql-query name="updateWorkspaceOrders">
+	  <![CDATA[ 
+	 update user_workspace 
+             set 
+            ORDER_SEQUENCE_NO = :orderNo,
+             last_mod_ts = CURRENT_TIMESTAMP,
+            lock_control_no = :lockControlNumber
+             where user_workspace_id = :workspaceId
+	 ]]>
+	</sql-query>
+	
+	<sql-query name="getLockControlNumber">
+       <![CDATA[ 
+      select uw.lock_control_no + 1 from user_workspace uw where uw.user_workspace_id = :workspaceId
+	 ]]>
+	</sql-query>
+
+
+
+	<sql-query name="updateWorkspaceOrderOnly">
+       <![CDATA[
+	  update user_workspace
+	  set
+	  ORDER_SEQUENCE_NO = :newOrderNo,
+ 	  last_mod_ts = CURRENT_TIMESTAMP,
+	  last_mod_user_id = :userId,
+ 	  lock_control_no = :lockControlNumber
+	  where
+	 user_workspace_id = :workspaceId
+	 ]]>
+	</sql-query>
+
+
+	<sql-query name="checkIfWorkspaceExists">
+       <![CDATA[
+       select user_workspace_id from user_workspace where user_workspace_id = :genericIdKey
+        ]]>
+	</sql-query>
+
+	<sql-query name="checkIfWorkspaceNameExistsExceptInCurrentWorkspace">
+       <![CDATA[
+       select upper(trim(user_workspace_nm)) from user_workspace where fk_application_user_id = :genericIdKey and upper(trim(user_workspace_nm))  = :genericIdSecondKey
+       and user_workspace_id <> :genericIdThirdKey
+        ]]>
+	</sql-query>
+
+	<sql-query name="checkIfWorkspaceNameExists">
+       <![CDATA[
+       select upper(trim(user_workspace_nm)) from user_workspace where fk_application_user_id = :genericIdKey and upper(trim(user_workspace_nm))  = :genericIdSecondKey
+        ]]>
+	</sql-query>
+
+	<!-- <sql-query name="getNextSeqForWorkspace">
+       <![CDATA[ 
+      select USER_WORKSPACE_SEQ.NEXTVAL from dual
+	 ]]>
+	</sql-query> -->
+	
+	<sql-query name="getNextSeqForWorkspace">
+       <![CDATA[ 
+      select IFNULL(MAX(user_workspace_id), 0)+1 from user_workspace
+	 ]]>
+	</sql-query>
+
+
+	<sql-query name="updateWorkspace">
+       <![CDATA[
+	  update user_workspace
+	  set 
+	  user_workspace_nm = :workspaceName,
+	  default_in = :defaultIndicator,
+ 	  last_mod_ts = CURRENT_TIMESTAMP,
+	  last_mod_user_id = :userId,
+	  VIEW_LAYOUT_NM = :layout,
+	  ORDER_SEQUENCE_NO = :order,
+ 	  lock_control_no = :lockControlNumber
+	  where
+	  user_workspace_id = :workspaceId 	
+	 ]]>
+	</sql-query>
+
+	<sql-query name="updateDefaultIndicatorsToNForWorkspacesOtherThanInputId">
+	  <![CDATA[ 
+	  update user_workspace
+	  set
+	  DEFAULT_IN = 'N',
+ 	  last_mod_ts = CURRENT_TIMESTAMP,
+	  last_mod_user_id = :userId,
+ 	  lock_control_no = :lockControlNumber
+	  where
+	  fk_application_user_id =  :userId 	and
+	   user_workspace_id <> :workspaceId
+	 ]]>
+	</sql-query>
+
+	
+	
+</hibernate-mapping>
+

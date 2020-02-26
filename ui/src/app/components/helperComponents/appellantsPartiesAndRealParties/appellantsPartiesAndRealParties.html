@@ -1,0 +1,361 @@
+<style>
+    @media screen and (min-width: 1920px) {
+       .dataToAdd {
+           width: 290px;
+       }
+   }
+   .addButton{
+    margin-top:20em;
+   }
+   @media screen and (max-width: 991px) {
+    .addButton{
+    margin-top:8em;
+   }
+   .addButtonTop{
+    margin-top:8em;
+   }
+   }
+   .addButtonTop{
+    margin-top:10em;
+   }
+   
+  
+  
+   @media screen and (max-width: 1420px) {
+       .dataToAdd {
+           width: -webkit-fill-available;
+       }
+   }
+   
+   @media screen and (min-width: 992px) {
+       .dataToAdd {
+           width: -webkit-fill-available;
+       }
+   }
+   </style>
+   <div>
+       <app-dashboard-library>
+           <widget-library>
+               <div class="modal-header">
+                   <button type="button" id="assignCloseButton" ng-click="closePartiesData();" title="Close" class="close">
+   
+                       <i class="fas fa-times fa-sm"></i> <span class="sr-only">Close update assignment dialog</span>
+                   </button>
+                   <h4 class="modal-title ng-binding truncateTitle" value="update asignment title">Real Parties in interest/Appellants/Parties</h4>
+               </div>
+   
+               <button aria-controls="widgetTabMenu" aria-expanded="true" aria-hidden="true" aria-label="toggle widget library tabs" class="navbar-toggle"
+                   data-target="#widgetTabMenu" data-toggle="collapse" type="button">
+                   <span>
+                       <i class="fa fa-bars" aria-hidden="true"></i>
+                   </span>
+               </button>
+               <nav style="border:none">
+                   <ul class="collapse navbar-collapse widgetTabMenu" id="widgetTabMenu" role="tablist" ng-init="widgetFilter.subcategory=''">
+                       <li ng-class="{ 'active' :  partiesShow === 'Real party in interest'}">
+                           <button role="tab" id="Real party in interest" ng-click="checkForTabs($event)">Real party(ies) in interest
+                           </button>
+                       </li>
+                       <li ng-class="{ 'active' :  partiesShow === 'Appellants'}">
+                           <button role="tab" id="Appellants" ng-click="checkForTabs($event)">Appellants
+                           </button>
+                       </li>
+                       <li ng-class="{ 'active' :  partiesShow === 'Parties'}">
+                           <button role="tab" id="Parties" ng-click="checkForTabs($event)">Parties
+                           </button>
+                       </li>
+   
+                   </ul>
+               </nav>
+           </widget-library>
+       </app-dashboard-library>
+       <div style="overflow: auto;  border-left: 1px solid #ccc; ">
+   
+         <div class="modal-body">
+           <div class="form-group col-md-12 titleRow">
+               <label ng-if="partiesShow === 'Parties'">Select party(ies) </label>
+               <label ng-if="partiesShow === 'Appellants'">Select appellant(s) </label>
+               <label ng-if="partiesShow === 'Real party in interest'">Select real party(ies) </label>
+   </div>
+   
+   
+       <div class="col-md-5"> 
+           <div style="border-right:1px solid #ccc; padding-right: 10px; height: 640px;">            
+           <dl class="dl-horizontal" style="margin-bottom: 0;">
+               <label for="availableColsId">Assignee(s)</label>   
+                 <div id="myDropdown" class="dropdown-content">
+   
+   
+   
+   <select id="availableColsId"  value= "myAssignees" class="dataToAdd" style="height: 100px; overflow-x: auto;" multiple ng-model="clickedColumn"
+   ng-options="value as value.key for (key , value) in sortAssigneesData" ng-dblclick="moveSourcetoDestination();"></select>
+   
+   
+   
+   </div>      
+   <label for="availableColsId2">Applicant(s)</label>  
+                 <div id="myDropdown" class="dropdown-content">
+   
+   
+   
+   <select id="availableColsId2" value= "myApplicants" class="dataToAdd" style="height: 100px; overflow-x: auto;" multiple ng-model="clickedColumn"
+   ng-options="value as value.key for (key,value) in sortApplicantsData" ng-dblclick="moveSourcetoDestination();"></select>
+   
+   
+   
+   </div>      
+   <label for="availableColsId3">Inventor(s)</label>   
+                 <div id="myDropdown" class="dropdown-content">
+   
+   
+   
+   <select id="availableColsId3" value= "myInventors" class="dataToAdd" style="height: 100px; overflow-x: auto;" multiple ng-model="clickedColumn"
+   ng-options="value as value.key for (key,value) in sortInventorsData" ng-dblclick="moveSourcetoDestination();"></select>
+   
+   
+   
+   </div>                 
+   <label for="availableColsId4">Third party requester(s)</label>
+   
+      
+                 <div id="myDropdown" class="dropdown-content">
+   
+   
+   
+   <select id="availableColsId4" value= "myThirdPartyData" class="dataToAdd" style="height: 100px; overflow-x: auto;" multiple ng-model="clickedColumn"
+   ng-options="value as value.key for (key,value) in sortThirdPartyData" ng-dblclick="moveSourcetoDestinationData();"></select>
+   
+   
+   
+   </div>    
+   <div class="form-group col-md-12" style="padding: 0px;" >
+                 <label for="otherPartyContent" ng-if="partiesShow === 'Appellants'" class="assignedLabel">Other appellant(s)</label>
+                 
+                 <label for="otherPartyContent" ng-if="partiesShow === 'Parties'" class="assignedLabel">Other party(ies)</label>
+                 <label for="otherPartyContent" ng-if="partiesShow === 'Real party in interest'" class="assignedLabel">Other party(ies)</label>
+                 <textarea placeholder="Enter party(ies)..." id="otherPartyContent" ng-model="otherAppellant" aria-label="Add a optional note for Assignment" ng-change="" style="min-height: 110px; width: -webkit-fill-available;"
+                   required="" aria-invalid="false" ng-class="" ng-blur="checkKey()" maxlength="100"></textarea>
+                 <span class="help-block">
+                   <div class="pull-left">
+                    Enter person, entity or company name <br>
+                    Enter multiple names using; as seperator</div>
+                   <div class="pull-right">
+                     <strong>{{!otherAppellant.length ? 0 : otherAppellant.length}} / 100</strong>
+                   </div>
+                 </span>
+               </div>  
+
+
+
+           </dl>
+
+
+        </div>  
+   </div>
+   
+   <div class="col-md-1" ng-if="partiesShow !== 'Parties'">
+       <div class="addButton"></div>
+       <div style="margin-left: -7px;">
+       <button class="btn btn-default btn-icon-only"  title="Add selected"
+         ng-click="moveSourcetoDestination(clickedColumn)">Add
+         <i class="fa fa-angle-right"></i>
+       </button>
+    </div>
+     </div>
+     <div class="col-md-1" ng-if="partiesShow === 'Parties'">
+            <div class="addButtonTop"></div>
+            <div style="margin-left: -7px;">
+            <button class="btn btn-default btn-icon-only"  title="Add selected"
+              ng-click="moveSourcetoDestination(clickedColumn)">Add
+              <i class="fa fa-angle-right"></i>
+            </button>
+        </div>
+            <br>
+            <div class="addButton">
+            </div>
+            <div style="margin-left: -7px;">
+            <button class="btn btn-default btn-icon-only"  title="Add selected"
+              ng-click="moveSourcetoDestinationData(clickedColumn)">Add
+              <i class="fa fa-angle-right"></i>
+            </button>
+        </div>
+          </div>
+   
+   <div class="col-sm-6" ng-if="partiesShow !== 'Parties'">
+                       <div style="border: 1px solid #ccc;">
+                           <div class="modal-header" style="padding: 0px;">
+                               <div class="col-sm-12">
+                                   <h4 ng-if="partiesShow === 'Real party in interest'" class="modal-title ng-binding truncateTitle pull-left" value="update asignment title">Real party(ies) in interest*</h4>
+                                   <h4 ng-if="partiesShow === 'Appellants'" class="modal-title ng-binding truncateTitle pull-left" value="update asignment title">Appellants*</h4>
+                               </div>
+                               
+                           </div>
+                           <div class="modal-body" id="modal-body" style="height: 600px;">
+   
+                               <div class="form-group col-md-12">
+                                   <div class="col-sm-2">
+   
+                                   </div>
+                                   <div class="col-sm-10">
+                                       <label class="control-label required">Party(ies)</label>
+                                       &nbsp;&nbsp;&nbsp;<a href role="button" title="Remove all" aria-label="Remove all" ng-model="selectUnselect" value="{{selectUnselect}}"
+                 ng-click="removeAll()">Remove all</a>  
+                                   </div>
+   
+                                  
+                               </div>
+                               <div class="form-group col-md-12" style="height: 250px;">
+                                   <ul id="ZoneTwo" data-ng-model="favorites" class="list-unstyled configMargin" role="list" style="margin: 0px;">
+                                       <li ng-repeat="column in selectedCols track by $index" class="item widgte-item truncateTitle" role="listitem" style="margin-bottom: 0px;">
+                                           <span class="pull-left">
+                                               <button title="Move down" ng-disabled="$last" ng-class="{ 'disableIcon': $last }" ng-click="listDown(selectedCols,$index)" class="widget-action-btn unstyled-button"
+                                                   title="Move down" type="button" id="move-dn-btn-{{$index}}">
+                                                   <span class="fas fa-angle-down"></span>
+                                                   <span class="sr-only">Move down.</span>
+                                               </button>
+                                               <button title="Move up" ng-disabled="$first" ng-class="{ 'disableIcon': $first }" ng-click="listUp(selectedCols,$index)" class="widget-action-btn unstyled-button"
+                                                   title="Move up" type="button" id="move-up-btn-{{$index}}">
+                                                   <span class="fas fa-angle-up"></span>
+                                                   <span class="sr-only">Move up.</span>
+                                               </button>
+                                               <button title="Remove" class="fav-action-btn unstyled-button" type="button" id="fav-delete-btn-{{$index}}" ng-click="moveSourcetoDestinationCancel(column,$index)">
+                                                   <span class="fas fa-times"></span>
+                                                   <span class="sr-only">Delete Private PAIR link.</span>
+                                               </button>
+                                               &nbsp;
+                                           </span>
+                                           
+                                           <span title="{{column.key}}" class="truncateTitle">
+                                                   {{column.key}}</span>
+                                       </li>
+                                   </ul>
+                               </div>
+   
+                           </div>
+                       </div>
+                   </div>
+
+
+
+
+
+                   <div class="col-sm-6" ng-if="partiesShow === 'Parties'">
+                        <div style="border: 1px solid #ccc;">
+                            <div class="modal-header" style="padding: 0px;">
+                                <div class="col-sm-12">
+                                    
+                                    <h4 class="modal-title ng-binding truncateTitle pull-left" value="update asignment title">Patent owner</h4>
+                                </div>
+                                
+                            </div>
+                            <div class="modal-body" id="modal-body" style="height: 250px;">
+    
+                                <div class="form-group col-md-12">
+                                    <div class="col-sm-2">
+    
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <label class="control-label required">Party(ies)</label>
+                                        &nbsp;&nbsp;&nbsp;<a href role="button" title="Remove all" aria-label="Add all columns" ng-model="selectUnselect" value="{{selectUnselect}}"
+                  ng-click="removeAll()">Remove all</a>  
+                                    </div>
+    
+                                   
+                                </div>
+                                <div class="form-group col-md-12" style="height: 200px;">
+                                    <ul id="ZoneTwo" data-ng-model="favorites" class="list-unstyled configMargin" role="list" style="margin: 0px;">
+                                        <li ng-repeat="column in selectedCols track by $index" class="item widgte-item truncateTitle" role="listitem" style="margin-bottom: 0px;">
+                                            <span class="pull-left">
+                                                <button title="Move down" ng-disabled="$last" ng-class="{ 'disableIcon': $last }" ng-click="listDown(selectedCols,$index)" class="widget-action-btn unstyled-button"
+                                                    title="Move down" type="button" id="move-dn-btn-{{$index}}">
+                                                    <span class="fas fa-angle-down"></span>
+                                                    <span class="sr-only">Move down.</span>
+                                                </button>
+                                                <button title="Move up" ng-disabled="$first" ng-class="{ 'disableIcon': $first }" ng-click="listUp(selectedCols,$index)" class="widget-action-btn unstyled-button"
+                                                    title="Move up" type="button" id="move-up-btn-{{$index}}">
+                                                    <span class="fas fa-angle-up"></span>
+                                                    <span class="sr-only">Move up.</span>
+                                                </button>
+                                                <button title="Remove" class="fav-action-btn unstyled-button" type="button" id="fav-delete-btn-{{$index}}" ng-click="moveSourcetoDestinationCancel(column,$index)">
+                                                    <span class="fas fa-times"></span>
+                                                    <span class="sr-only">Delete Private PAIR link.</span>
+                                                </button>
+                                                &nbsp;
+                                            </span>
+                                            
+                                            <span title="{{column.key}}" class="truncateTitle">
+                                                    {{column.key}}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+    
+                            </div>
+                        </div>
+                        <h3 style ="text-align: center;
+                        padding-bottom: 20px;">v.</h3>
+                        <div style="border: 1px solid #ccc;">
+                                <div class="modal-header" style="padding: 0px;">
+                                    <div class="col-sm-12">
+                                        
+                                        <h4 class="modal-title ng-binding truncateTitle pull-left" value="update asignment title">Third party requester</h4>
+                                    </div>
+                                    
+                                </div>
+                                <div class="modal-body" id="modal-body" style="height: 250px;">
+        
+                                    <div class="form-group col-md-12">
+                                        <div class="col-sm-2">
+        
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <label class="control-label required">Party(ies)</label>
+                                            &nbsp;&nbsp;&nbsp;<a href role="button" title="Remove all" aria-label="Add all columns" ng-model="selectUnselect" value="{{selectUnselect}}"
+                      ng-click="removeAllData()">Remove all</a>  
+                                        </div>
+        
+                                       
+                                    </div>
+                                    <div class="form-group col-md-12" style="height: 200px;">
+                                        <ul id="ZoneTwo" data-ng-model="favorites" class="list-unstyled configMargin" role="list" style="margin: 0px;">
+                                            <li ng-repeat="column in selectedThirdPartyCols track by $index" class="item widgte-item truncateTitle" role="listitem" style="margin-bottom: 0px;">
+                                                <span class="pull-left">
+                                                    <button title="Move down" ng-disabled="$last" ng-class="{ 'disableIcon': $last }" ng-click="listDown(selectedThirdPartyCols,$index)" class="widget-action-btn unstyled-button"
+                                                        title="Move down" type="button" id="move-dn-btn-{{$index}}">
+                                                        <span class="fas fa-angle-down"></span>
+                                                        <span class="sr-only">Move down.</span>
+                                                    </button>
+                                                    <button title="Move up" ng-disabled="$first" ng-class="{ 'disableIcon': $first }" ng-click="listUp(selectedThirdPartyCols,$index)" class="widget-action-btn unstyled-button"
+                                                        title="Move up" type="button" id="move-up-btn-{{$index}}">
+                                                        <span class="fas fa-angle-up"></span>
+                                                        <span class="sr-only">Move up.</span>
+                                                    </button>
+                                                    <button title="Remove" class="fav-action-btn unstyled-button" type="button" id="fav-delete-btn-{{$index}}" ng-click="moveSourcetoDestinationDataCancel(column,$index)">
+                                                        <span class="fas fa-times"></span>
+                                                        <span class="sr-only">Delete Private PAIR link.</span>
+                                                    </button>
+                                                    &nbsp;
+                                                </span>
+                                                
+                                                <span title="{{column.key}}" class="truncateTitle">
+                                                        {{column.key}}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+        
+                                </div>
+                            </div>
+                    </div>
+           </div>
+       </div>
+   
+       <div class="modal-footer">
+           <button title="Cancel" id="cancelReassignBtn" type="button" class="btn btn-default btmrgn btnblk pull-left" ng-click="closePartiesData();">Cancel</button>
+   
+           <button ng-disabled ="disableSave" id="saveReassign"  ng-class="{'ng-disabled':content.assigneeStatus === 'InActive'}"
+               type="button" title="Save" class="btn btn-primary btnblk" ng-click=" savePostInventors()">
+               Save</button>
+           <button ng-disabled ="disableSave" id="completeAssignment" type="button" title="Save and close"
+               class="btn btn-primary btnblk truncateTitle" ng-click=" saveClosePostInventors();">Save and close</button>
+   
+   
+       </div>

@@ -1,0 +1,32 @@
+<div class="modalWidth">
+  <div class="modal-header">
+    <button aria-hidden="true" autofocus="false" type="button" title="Cancel" id="modalClose" class="close" ng-click="closeThisDialog()">
+      <i class="fas fa-times fa-sm"></i><span class="sr-only"> close add workspace model</span>
+    </button>
+    <h3 class="modal-title truncateTitle" id="modal-title">Select workspace(s)</h3>
+  </div>
+  <div class="modal-body" id="modal-body">
+    <div class="row widgetRow" ng-repeat="tab in vm.tabs">
+      <div ng-if="tab.index !== vm.getActiveTab()" class="col-md-12">
+        <div class="checkbox">
+          <label class="truncateTitle" uib-tooltip="{{tab.heading}}" tooltip-popup-delay="2000">
+            <input type="checkbox" ng-model="tab.checked" ng-change="vm.canBeAdded()" id="{{tab.heading}}optionsCheckbox" value="option1" style="margin-top: 5px;">
+            <i ng-if="vm.getDefaultTab() === tab.index" class="fa fa-home"></i> {{tab.heading}}</label>
+        </div>
+        <!--         <label><input ng-model="tab.checked" type="checkbox" ng-change="vm.canBeAdded()"> {{tab.heading}}</label> -->
+      </div>
+      <div ng-if="tab.index === vm.getActiveTab()" class="col-md-12">
+        <!-- <input ng-model="tab.checked" type="checkbox" ng-change="vm.canBeAdded()" ng-checked="tab.index === vm.getActiveTab()" ng-init="tab.checked = true" > {{tab.heading}} -->
+        <div class="checkbox">
+          <label class="truncateTitle" uib-tooltip="{{tab.heading}} (current)" tooltip-popup-delay="2000">
+            <input type="checkbox" ng-model="tab.checked" ng-change="vm.canBeAdded()" id="{{tab.heading}}optionsCheckbox" value="option1" style="margin-top: 5px;">
+            <i ng-if="vm.getDefaultTab() === tab.index" class="fa fa-home"></i> {{tab.heading}} (current)</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button id="cancelAddWidgetBtn" class="btn btn-default pull-left truncateTitle selectWorkspaceButtonMargin selectWorkspaceButton" title="Cancel" type="button" ng-click="vm.cancelAddWidgetToWorkspaceModal()">Cancel</button>
+    <button title="Add to selected workspaces" id="acceptWidgetToWorkspaceBtn" ng-if="!vm.isCopy()" ng-disabled="!vm.canBeAdded()" class="btn btn-primary selectWorkspaceButtonMargin truncateTitle selectWorkspaceButton" type="button" ng-click="vm.acceptAddWidgetToWorkspaceModal(selectedWidget, vm.tabs)">Add to selected workspaces</button>
+    <button title="Copy to selected workspaces" id="addWidgetToWorkspaceBtn" ng-if="vm.isCopy()" ng-disabled="!vm.canBeAdded()" class="btn btn-primary" type="button" ng-click="vm.acceptAddWidgetToWorkspaceModal(selectedWidget, vm.tabs)">Copy to selected workspaces</button>
+  </div>

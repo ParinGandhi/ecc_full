@@ -1,0 +1,22 @@
+<div class="modalWidth">
+  <div class="modal-body" id="modal-body">
+    <button title="Cancel" id="cancelAddWidgetX" type="button" class="close" ng-click="vm.confirmCancel('cancel')">
+      <i class="fas fa-times fa-sm"></i>
+    </button>
+    <h4 class="abandonTitle">
+      <strong>
+        Abandon changes?
+      </strong>
+    </h4>
+    <p ng-if="!vm.setCancel">Do you wish to save the current changes before moving to the new tab?</p>
+    <p ng-if="vm.setCancel">You have unsaved changes. Your changes will be lost.</p>
+  </div>
+  <div class="modal-footer">
+    <button title="Cancel" ng-if="!vm.setCancel" id="cancelBtn" class="btn btn-default pull-left" type="button" ng-click="vm.confirmCancel('cancel')">Cancel</button>
+    <button title="No" ng-if="!vm.setCancel" id="noBtn" class="btn btn-default pull-left" type="button" ng-click="vm.confirmCancel('no')">No</button>
+    <button title="Save" ng-if="!vm.setCancel" id="saveBtn" class="btn btn-primary" type="button" ng-click="vm.confirmCancel('save')">Save</button>
+    <button title="Cancel" ng-if="vm.setCancel" id="cancelnoBtn" class="btn btn-default pull-left" type="button" ng-click="vm.confirmCancel('No')">Cancel</button>
+    <button title="Abandon changes" ng-if="vm.setCancel" id="cancelyesBtn" class="btn btn-primary" type="button" ng-click="vm.confirmCancel('Yes')">Abandon
+      changes</button>
+  </div>
+</div>

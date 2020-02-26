@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<sql-query name="getAppealAssigneesForRole">
+	<![CDATA[
+	select FIRST_NM as "firstName",
+	MIDDLE_NM as "middleName",
+	LAST_NM as "lastName",
+	APPLICATION_USER_ID as "assigneeNumber",
+	end_effective_dt as "endDate"
+	from application_user
+where APPLICATION_USER_ID IN 
+(select aur.FK_APPLICATION_USER_ID from 
+application_user au, application_user_role aur, stnd_user_role sur
+ where sur.user_role_id = aur.fk_user_role_id
+  and
+aur.fk_application_user_id = au.application_user_id and 
+sur.user_role_nm = :userRole)order by LOWER(LAST_NM) asc
+  ]]>
+	</sql-query>
+	
+	<sql-query name="getApplicationUserId">
+	<![CDATA[
+	Select au.user_id FROM APPLICATION_USER_ROLE
+	aur,APPLICATION_USER au 
+	WHERE
+	au.APPLICATION_USER_ID = aur.FK_APPLICATION_USER_ID 
+    AND
+    au.USER_ID = 'acarome' 
+    AND 
+    au.END_EFFECTIVE_DT is NULL
+    AND aur.END_EFFECTIVE_DT is NULL;
+  ]]>
+	</sql-query>
+
+	
+	<sql-query name="getAssigneesForUserPrivileges">
+	<![CDATA[
+	select FIRST_NM as "firstName",
+	MIDDLE_NM as "middleName",
+	LAST_NM as "lastName",
+	APPLICATION_USER_ID as "assigneeNumber",
+	end_effective_dt as "endDate"
+	from application_user
+where APPLICATION_USER_ID IN 
+(select FK_APPLICATION_USER_ID from 
+ application_user_role where  APPLICATION_USER_ROLE_ID in (select acl.FK_APPLICATION_USER_ROLE_ID from ACCESS_CONTROL_LIST acl, STND_RESOURCE_OBJECT sur 
+ where acl.FK_RESOURCE_OBJECT_ID=sur.RESOURCE_OBJECT_ID and sur.RESOURCE_OBJECT_NM= :identifier))order by LOWER(LAST_NM) asc
+  ]]>
+	</sql-query>
+	
+	
+
+	<sql-query name="validUserId">
+	<![CDATA[
+	select Application_user_id as "applicationUserId" from application_user where Application_user_id = :applicationUserId
+	 ]]>
+	</sql-query>
+
+
+	<sql-query name="fetchApplUserName">
+	<![CDATA[
+	select last_nm || ', ' || first_nm from application_user where application_user_id = :userId
+	 ]]>
+	</sql-query>
+
+	<sql-query name="getUserCountByUserId">
+       <![CDATA[
+	select application_user_id from application_user where user_id = LOWER(:userId)
+	 ]]>
+	</sql-query>
+
+	<sql-query name="fetchAssigneeInfoForListOfIds">
+	<![CDATA[
+		select  au.FIRST_NM as "firstName",
+	au.MIDDLE_NM as "middleName",
+	au.LAST_NM as "lastName",
+	au.APPLICATION_USER_ID as "assigneeNumber",
+   sur.user_role_nm as "role",
+  sur.description_tx as "description",
+  au.END_EFFECTIVE_DT as "endDate"
+	from 
+  application_user au,
+  stnd_user_Role sur,
+  application_user_role aur 
+  where 
+aur.FK_USER_ROLE_ID =  sur.user_role_id and
+  aur.FK_APPLICATION_USER_ID = au.application_user_id and
+  au.application_user_id in (:applicationUseridList) 
+ order by LOWER(LAST_NM) asc
+  ]]></sql-query>
+  
+  	<sql-query name="getApplicationUserIds">
+	<![CDATA[
+SELECT APPLICATION_USER_ID        AS "applicationUserId",
+  USER_CT                         AS "userCt",
+  CFK_PATRON_ID                   AS "cfkPatronId",
+  CFK_EMPLOYEE_ID                 AS "cfkEmployeeId",
+  BEGIN_EFFECTIVE_DT              AS "beginEffectiveDt",
+  END_EFFECTIVE_DT                AS "endEffectiveDt",
+  EMAIL_ADDRESS_TX                AS "emailAddressTx",
+  CREATE_USER_ID                  AS "createUserId",
+  CREATE_TS                       AS "createTs",
+  LAST_MOD_USER_ID                AS "lastModUserId",
+  LAST_MOD_TS                     AS "lastModTs",
+  LOCK_CONTROL_NO                 AS "lockControlNo",
+  FIRST_NM                        AS "firstNm",
+ LAST_NM                         AS "lastNm",
+  MIDDLE_NM                       AS "middleNm",
+  LAST_LOGIN_TS                   AS "lastLoginTs",
+  USER_ID                         AS "userId",
+  APPEALS_AFFILIATION_CT           AS "appealsAffiliationCt",
+  FK_ACTS_EMPLOYEE_NO             AS "fkActsEmployeeNo"
+FROM APPLICATION_USER 
+WHERE UPPER(FIRST_NM) like  ''|| UPPER(:first_nm) || '%' 
+AND UPPER(LAST_NM) = UPPER(:LAST_NM)
+
+  ]]></sql-query>
+  
+  <sql-query name="getAppealDisciplines">
+	<![CDATA[
+
+select description_tx from code_reference where value_tx=(select discipline_Cd  from application_user where application_user_id=:judgeIdentifier) and type_Cd='APJ DISCIPLINE'
+  ]]></sql-query>
+
+	<sql-query name="privilagesData">
+	<![CDATA[
+	select CONFIG_DOC from STND_RESOURCE_OBJECT where DESCRIPTION_TX='Admin Users' and RESOURCE_OBJECT_ID in (select FK_RESOURCE_OBJECT_ID from ACCESS_CONTROL_LIST where FK_APPLICATION_USER_ROLE_ID=:roleid)
+  ]]>
+	</sql-query>
+	
+		<sql-query name="privilagesNormalData">
+	<![CDATA[
+	select CONFIG_DOC from STND_RESOURCE_OBJECT where DESCRIPTION_TX='Admin Users' and RESOURCE_OBJECT_ID=:roleid
+  ]]>
+	</sql-query>
+	
+			<sql-query name="judgesData">
+	<![CDATA[
+	select CFK_EMPLOYEE_ID from APPLICATION_USER where APPLICATION_USER_ID in (select FK_APPLICATION_USER_ID from APPLICATION_USER_ROLE where FK_USER_ROLE_ID=:roleid) and CFK_EMPLOYEE_ID <> ' '
+  ]]>
+	</sql-query>
+	
+<!-- 	<sql-query name="getRoleDiscription">
+	<![CDATA[
+
+select DESCRIPTION_TX from STND_USER_ROLE where USER_ROLE_ID=(select FK_USER_ROLE_ID from APPLICATION_USER_ROLE where FK_APPLICATION_USER_ID=:applicationUserId and ROWNUM=1)
+  ]]></sql-query> -->
+  
+  	<sql-query name="getRoleDiscription">
+	<![CDATA[
+
+select DESCRIPTION_TX from STND_USER_ROLE where USER_ROLE_ID=(select FK_USER_ROLE_ID from APPLICATION_USER_ROLE where FK_APPLICATION_USER_ID=:applicationUserId LIMIT 1)
+  ]]></sql-query>
+
+<!-- <sql-query name="accessiblePrivilages">
+	<![CDATA[
+
+select RESOURCE_OBJECT_NM from STND_RESOURCE_OBJECT where RESOURCE_OBJECT_ID in(select FK_RESOURCE_OBJECT_ID from ACCESS_CONTROL_LIST where FK_APPLICATION_USER_ROLE_ID=(select APPLICATION_USER_ROLE_ID from APPLICATION_USER_ROLE where FK_APPLICATION_USER_ID=:applicationUserId and ROWNUM=1))
+  ]]></sql-query> -->
+  
+  <sql-query name="accessiblePrivilages">
+	<![CDATA[
+
+select RESOURCE_OBJECT_NM from STND_RESOURCE_OBJECT where RESOURCE_OBJECT_ID in(select FK_RESOURCE_OBJECT_ID from ACCESS_CONTROL_LIST where FK_APPLICATION_USER_ROLE_ID=(select APPLICATION_USER_ROLE_ID from APPLICATION_USER_ROLE where FK_APPLICATION_USER_ID=:applicationUserId LIMIT 1))
+  ]]></sql-query>
+  
+  
+<sql-query name="getValiedUserRole">
+	<![CDATA[
+  select au.user_id from application_user_role aur, application_user au 
+where 
+au.application_user_id=aur.fk_application_user_id
+and au.user_id=:userId
+and au.end_effective_dt is null
+ and aur.end_effective_dt is null
+  ]]></sql-query>
+  
+  
+  
+  <sql-query name="getConfigurredResourceObjectsByUserId">
+	<![CDATA[
+ select  sro.resource_object_nm 
+from application_user_role aur, application_user au, stnd_resource_object sro, access_control_list acl
+,code_reference cr
+where au.application_user_id=aur.fk_application_user_id 
+and au.user_id=:userId
+and acl.fk_application_user_role_id=aur.application_user_role_id
+and sro.resource_object_id=acl.fk_resource_object_id
+and cr.description_tx = to_char(sro.resource_object_id)
+and cr.type_cd='USR_PRVLGE_ACCESS'
+  ]]></sql-query>
+  
+    <sql-query name="getDueDateAccessByUserId">
+	<![CDATA[
+ select  sro.resource_object_nm 
+from application_user_role aur, application_user au, stnd_resource_object sro, access_control_list acl
+,code_reference cr
+where au.application_user_id=aur.fk_application_user_id 
+and au.user_id=:userId
+and acl.fk_application_user_role_id=aur.application_user_role_id
+and sro.resource_object_id=acl.fk_resource_object_id
+and cr.description_tx = to_char(sro.resource_object_id)
+and cr.type_cd='DUE_DATE_EDIT_ACCESS'
+  ]]></sql-query>
+  
+      <sql-query name="getLoginModalAccessByUserId">
+	<![CDATA[
+ select  sro.resource_object_nm 
+from application_user_role aur, application_user au, stnd_resource_object sro, access_control_list acl
+,code_reference cr
+where au.application_user_id=aur.fk_application_user_id 
+and au.user_id=:userId
+and acl.fk_application_user_role_id=aur.application_user_role_id
+and sro.resource_object_id=acl.fk_resource_object_id
+and cr.description_tx = to_char(sro.resource_object_id)
+and cr.type_cd='LOGIN_MODAL_ACCESS'
+  ]]></sql-query>
+  
+  <sql-query name="testCodeReference">
+	<![CDATA[
+ select  type_cd from code_reference where type_cd = 'TYPE'
+  ]]></sql-query>
+  
+</hibernate-mapping>
+

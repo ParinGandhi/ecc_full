@@ -1,0 +1,263 @@
+{
+  "columnDetails":[ {
+      "name": "proceedingId",
+      "label": "Proceeding Identifier ",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",
+      "selected":false
+    },
+     {
+      "name": "proceedingNumber",
+      "label": "AIA Review #",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",
+      "selected":true
+    },
+	{
+      "name": "status",
+      "label": "AIA Review Status ",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",
+      "selected":true
+    },
+    {
+      "name": "filingDate",
+      "label": "Petition Submission Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",
+      "selected":true
+    },
+    {
+      "name": "noticeOfAccordedFilingDate",
+      "label": "NOFDA Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",
+      "selected":true
+    },
+	{
+      "name": "prelimRespDate",
+      "label": "Preliminary Response Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",
+      "selected":true
+    },
+	{
+      "name": "instDecisionDate",
+      "label": "Institution Decision Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",
+      "selected":true
+    },
+	{
+      "name": "hearingDate",
+      "label": "Hearing Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",
+      "selected":true
+    },
+	{
+      "name": "terminationDate",
+      "label": "Termination Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",
+      "selected":true
+    },
+    {
+      "name": "petitionerAppId",
+      "label": "Petitioner's Appln #",
+      "typeDefinition": "Number",
+      "defaultOrder": "desc",
+      "selected":true
+    },
+    {
+      "name": "petitionerPatentNo",
+      "label": "Petitioner's Patent #",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",
+      "selected":true
+    },
+    {
+      "name": "petitionerName",
+      "label": "Petitioner's Name ",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",
+      "selected":true
+    }, 
+    {
+      "name": "petitionerTechcenter",
+      "label": "Petitioner's Tech Center",
+      "typeDefinition": "Number",
+      "defaultOrder": "desc",
+      "selected":true
+    },
+   	{
+      "name": "applicationNumber",
+      "label": "PO/Respondent Appln #",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",
+      "selected":true
+    },
+    {
+      "name": "patentNumber",
+      "label": "PO/Respondent Patent#",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",
+      "selected":true
+    },
+    {
+      "name": "patentOwnerName",
+      "label": "PO/Respondent Name ",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",
+      "selected":true
+    },
+    {
+      "name": "techCenter",
+      "label": "PO/Respondent Tech Center",
+      "typeDefinition": "Number",
+      "defaultOrder": "desc",
+      "selected":true
+    },
+    {
+      "name": "judgesAssigned",
+      "label": "Judges Assigned",
+      "typeDefinition": "String",
+      "defaultOrder": "desc",
+      "selected":true
+    },
+    {
+      "name": "countOfJudges",
+      "label": "Number Of Judges",
+      "typeDefinition": "Number",
+      "defaultOrder": "desc",
+      "selected":true
+    },
+    {
+      "name": "petAccordedFilingDate",
+      "label": "Accorded Filing Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",
+      "selected":false
+    },
+    {
+      "name": "finalWritenDeciDueDate",
+      "label": "Final Written Decision Due Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",
+      "selected":false
+    },
+    {
+      "name": "instDecisionDueDate",
+      "label": "Institution Decision Due Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",
+      "selected":false
+    }, 
+    {
+      "name": "jointAppNoticeDate",
+      "label": "Joint Appeal Notice Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",
+      "selected":false
+    }, 
+    {
+      "name": "jointCourtDecisionDate",
+      "label": "Joint Court Decision Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",
+      "selected":false
+    },
+    {
+      "name": "jointRehearDecisionDate",
+      "label": "Joint Rehearing Decision Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",
+      "selected":false
+    },
+    {
+      "name": "jointRehearReqDate",
+      "label": "Joint Rehearing Request Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",
+      "selected":false
+    },
+    {
+      "name": "poAppNoticeDate",
+      "label": "Patent Owner Appeal Notice Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",
+      "selected":false
+    },
+    {
+      "name": "poCourtDecisionDate",
+      "label": "Patent Owner Court Decision Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",
+      "selected":false
+    },
+    {
+      "name": "poRehearDecisionDate",
+      "label": "Patent Owner Rehearing Decision Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",
+      "selected":false
+    },
+    {
+      "name": "poRehearReqDate",
+      "label": "Patent Owner Rehearing Request Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",
+      "selected":false
+    },
+    {
+      "name": "petAppNoticeDate",
+      "label": "Petitioner Appeal Notice Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",
+      "selected":false
+    },
+    {
+      "name": "petCourtDecisionDate",
+      "label": "Petitioner Court Decision Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",
+      "selected":false
+    },
+    {
+      "name": "petRehearDecisionDate",
+      "label": "Petitioner Rehearing Decision Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",
+      "selected":false
+    },
+    {
+      "name": "petRehearReqDate",
+      "label": "Petitioner Rehearing Request Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",
+      "selected":false
+    },
+    {
+      "name": "poPrelimRespDueDate",
+      "label": "Preliminary Response Due Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",
+      "selected":false
+    },   
+    {
+      "name": "totalPendency",
+      "label": "Total Pendency",
+      "typeDefinition": "Number",
+      "defaultOrder": "desc",
+      "selected":false
+    },
+    {
+      "name": "trialCertificateDate",
+      "label": "Trial Certificate Date",
+      "typeDefinition": "Date",
+      "defaultOrder": "desc",
+      "selected":false
+    }	
+	
+ ]
+}

@@ -1,0 +1,54 @@
+{
+  "columnDetails":[{
+      "name": "lastModifiedDate",
+      "label": "When updated",
+      "typeDefinition": "Date"
+    },
+    {
+      "name": "lastModifierName",
+      "label": "Who changed ",
+      "typeDefinition": "String"
+    },
+     {
+      "name": "titleText",
+      "label": "Title ",
+      "typeDefinition": "String"
+    },
+     {
+      "name": "descriptionText",
+      "label": "Description",
+      "typeDefinition": "String"
+    },
+	{
+      "name": "assignmentType",
+      "label": "Assignment type ",
+      "typeDefinition": "String"
+    },
+    {
+      "name": "assignedToName",
+      "label": "Assigned to ",
+      "typeDefinition": "String"
+    },
+    {
+      "name": "dueDate",
+      "label": "Due date",
+      "typeDefinition": "Date"
+    },
+    {
+      "name": "completedDate",
+      "label": "Completed date",
+      "typeDefinition": "Date"
+    },
+    {
+      "name": "statusIndicator",
+      "label": "Status",
+      "typeDefinition": "String"
+    },
+    {
+      "name": "noteText",
+      "label": "Update",
+      "typeDefinition": "String"
+    }	
+	
+ ]
+}

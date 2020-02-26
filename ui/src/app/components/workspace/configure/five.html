@@ -1,0 +1,238 @@
+<div class="row">
+  <div class="col-md-12">
+    <strong>Zone 4</strong>
+    <div class="four508">
+      <ul id="ZoneTwo" data-ng-model="favorites" class="list-unstyled configMargin" role="list">
+        <li ng-repeat="widget in vm.four track by $index" class="item widgte-item" role="listitem">
+          <span class="pull-left">
+            <button title="Move down" ng-disabled="$last" ng-class="{ 'disableIcon': $last }"
+              ng-click="vm.listDown(vm.four,$index)" class="widget-action-btn unstyled-button" title="Move down"
+              type="button" id="move-dn-btn-{{$index}}">
+              <span class="fas fa-angle-down"></span>
+              <span class="sr-only">Move down.</span>
+            </button>
+            <button title="Move up" ng-disabled="$first" ng-class="{ 'disableIcon': $first }"
+              ng-click="vm.listUp(vm.four,$index)" class="widget-action-btn unstyled-button" title="Move up"
+              type="button" id="move-up-btn-{{$index}}">
+              <span class="fas fa-angle-up"></span>
+              <span class="sr-only">Move up.</span>
+            </button>
+            &nbsp;
+          </span>
+          <span style="max-width: 90%;display: inline-block;word-break: break-all; hyphens: auto" title=""
+            class="truncateTitle" id="{{widget.userWorkspaceWidgetIdentifier}}">{{widget.widgetCustomName}}</span>
+          <span class="btn-group pull-right widgetDropdown" uib-dropdown>
+            <button id="widget-btn-{{$index}}" title="change zone" type="button"
+              class="widget-action-btn unstyled-button" uib-dropdown-toggle>
+              <span class="fas fa-arrows-alt"></span>
+              <span class="sr-only">Move.</span>
+            </button>
+            <ul class="dropdown-menu layoutDropdown" uib-dropdown-menu role="menu">
+              <li role="menuitem">
+                <a href="" ng-click="vm.moveSourcetoDestination(vm.four,vm.one,widget)">Zone 1 (Primary)</a>
+              </li>
+              <li role="menuitem">
+                <a href="" ng-click="vm.moveSourcetoDestination(vm.four,vm.two,widget)">Zone 2 </a>
+              </li>
+              <li role="menuitem">
+                <a href="" ng-click="vm.moveSourcetoDestination(vm.four,vm.three,widget)">Zone 3 </a>
+              </li>
+              <li role="menuitem">
+                <a href="" ng-click="vm.moveSourcetoDestination(vm.four,vm.five,widget)">Zone 5 </a>
+              </li>
+            </ul>
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-md-4" style="margin-left: 0px;">
+    <strong>Zone 1 (Primary)</strong>
+    <div class="four508">
+      <ul id="ZoneOne" data-ng-model="favorites" class="list-unstyled configMargin" role="list">
+        <li ng-repeat="widget in vm.one track by $index" class="item widgte-item" role="listitem">
+          <span class="pull-left">
+            <button title="Move down" ng-disabled="$last" ng-class="{ 'disableIcon': $last }"
+              ng-click="vm.listDown(vm.one,$index)" class="widget-action-btn unstyled-button" title="Move down"
+              type="button" id="move-dn-btn-{{$index}}">
+              <span class="fas fa-angle-down"></span>
+              <span class="sr-only">Move down.</span>
+            </button>
+            <button title="Move up" ng-disabled="$first" ng-class="{ 'disableIcon': $first }"
+              ng-click="vm.listUp(vm.one,$index)" class="widget-action-btn unstyled-button" title="Move up"
+              type="button" id="move-up-btn-{{$index}}">
+              <span class="fas fa-angle-up"></span>
+              <span class="sr-only">Move up.</span>
+            </button>
+            &nbsp;
+          </span>
+          <span style="max-width: 70%;display: inline-block;word-break: break-all; hyphens: auto" title=""
+            class="truncateTitle" id="{{widget.userWorkspaceWidgetIdentifier}}">{{widget.widgetCustomName}}</span>
+          <span class="btn-group pull-right widgetDropdown" uib-dropdown>
+            <button id="widget-btn-{{$index}}" title="change zone" type="button"
+              class="widget-action-btn unstyled-button" uib-dropdown-toggle>
+              <span class="fas fa-arrows-alt"></span>
+              <span class="sr-only">Move.</span>
+            </button>
+            <ul class="dropdown-menu layoutDropdown" uib-dropdown-menu role="menu">
+              <li role="menuitem">
+                <a href="" ng-click="vm.moveSourcetoDestination(vm.one,vm.two,widget)">Zone 2 </a>
+              </li>
+              <li role="menuitem">
+                <a href="" ng-click="vm.moveSourcetoDestination(vm.one,vm.three,widget)">Zone 3 </a>
+              </li>
+              <li role="menuitem">
+                <a href="" ng-click="vm.moveSourcetoDestination(vm.one,vm.four,widget)">Zone 4 </a>
+              </li>
+              <li role="menuitem">
+                <a href="" ng-click="vm.moveSourcetoDestination(vm.one,vm.five,widget)">Zone 5 </a>
+              </li>
+            </ul>
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <strong>Zone 2</strong>
+    <div class="four508">
+      <ul id="zoneTwo" data-ng-model="favorites" class=" list-unstyled configMargin" role="list">
+        <li ng-repeat="widget in vm.two track by $index" class="item widgte-item" role="listitem">
+          <span class="pull-left">
+            <button title="Move down" ng-disabled="$last" ng-class="{ 'disableIcon': $last }"
+              ng-click="vm.listDown(vm.two,$index)" class="widget-action-btn unstyled-button" title="Move down"
+              type="button" id="move-dn-btn-{{$index}}">
+              <span class="fas fa-angle-down"></span>
+              <span class="sr-only">Move down.</span>
+            </button>
+            <button title="Move up" ng-disabled="$first" ng-class="{ 'disableIcon': $first }"
+              ng-click="vm.listUp(vm.two,$index)" class="widget-action-btn unstyled-button" title="Move up"
+              type="button" id="move-up-btn-{{$index}}">
+              <span class="fas fa-angle-up"></span>
+              <span class="sr-only">Move up.</span>
+            </button>
+            &nbsp;
+          </span>
+          <span style="max-width: 70%;display: inline-block;word-break: break-all; hyphens: auto" title=""
+            class="truncateTitle" id="{{widget.userWorkspaceWidgetIdentifier}}">{{widget.widgetCustomName}}</span>
+          <span class="btn-group pull-right widgetDropdown" uib-dropdown>
+            <button id="widget-btn-{{$index}}" title="change zone" type="button"
+              class="widget-action-btn unstyled-button" uib-dropdown-toggle>
+              <span class="fas fa-arrows-alt"></span>
+              <span class="sr-only">Move.</span>
+            </button>
+            <ul class="dropdown-menu layoutDropdown" uib-dropdown-menu role="menu">
+              <li role="menuitem">
+                <a href="" ng-click="vm.moveSourcetoDestination(vm.two,vm.one,widget)">Zone 1 (primary) </a>
+              </li>
+              <li role="menuitem">
+                <a href="" ng-click="vm.moveSourcetoDestination(vm.two,vm.three,widget)">Zone 3 </a>
+              </li>
+              <li role="menuitem">
+                <a href="" ng-click="vm.moveSourcetoDestination(vm.two,vm.four,widget)">Zone 4 </a>
+              </li>
+              <li role="menuitem">
+                <a href="" ng-click="vm.moveSourcetoDestination(vm.two,vm.five,widget)">Zone 5 </a>
+              </li>
+            </ul>
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <strong>Zone 3</strong>
+    <div class="four508">
+      <ul id="zoneThree" data-ng-model="favorites" class=" list-unstyled configMargin" role="list">
+        <li ng-repeat="widget in vm.three track by $index" class="item widgte-item" role="listitem">
+          <span class="pull-left">
+            <button title="Move down" ng-disabled="$last" ng-class="{ 'disableIcon': $last }"
+              ng-click="vm.listDown(vm.three,$index)" class="widget-action-btn unstyled-button" title="Move down"
+              type="button" id="move-dn-btn-{{$index}}">
+              <span class="fas fa-angle-down"></span>
+              <span class="sr-only">Move down.</span>
+            </button>
+            <button title="Move up" ng-disabled="$first" ng-class="{ 'disableIcon': $first }"
+              ng-click="vm.listUp(vm.three,$index)" class="widget-action-btn unstyled-button" title="Move up"
+              type="button" id="move-up-btn-{{$index}}">
+              <span class="fas fa-angle-up"></span>
+              <span class="sr-only">Move up.</span>
+            </button>
+            &nbsp;
+          </span>
+          <span style="max-width: 70%;display: inline-block;word-break: break-all; hyphens: auto" title=""
+            class="truncateTitle" id="{{widget.userWorkspaceWidgetIdentifier}}">{{widget.widgetCustomName}}</span>
+          <span class="btn-group pull-right widgetDropdown" uib-dropdown>
+            <button id="widget-btn-{{$index}}" title="change zone" type="button"
+              class="widget-action-btn unstyled-button" uib-dropdown-toggle>
+              <span class="fas fa-arrows-alt"></span>
+              <span class="sr-only">Move.</span>
+            </button>
+            <ul class="dropdown-menu layoutDropdown" uib-dropdown-menu role="menu">
+              <li role="menuitem">
+                <a href="" ng-click="vm.moveSourcetoDestination(vm.three,vm.one,widget)">Zone 1 (Primary) </a>
+              </li>
+              <li role="menuitem">
+                <a href="" ng-click="vm.moveSourcetoDestination(vm.three,vm.two,widget)">Zone 2 </a>
+              </li>
+              <li role="menuitem">
+                <a href="" ng-click="vm.moveSourcetoDestination(vm.three,vm.four,widget)">Zone 4 </a>
+              </li>
+              <li role="menuitem">
+                <a href="" ng-click="vm.moveSourcetoDestination(vm.three,vm.five,widget)">Zone 5 </a>
+              </li>
+            </ul>
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-md-12">
+    <strong>Zone 5</strong>
+    <div class="four508">
+      <ul id="ZoneTwo" data-ng-model="favorites" class="list-unstyled configMargin" role="list">
+        <li ng-repeat="widget in vm.five track by $index" class="item widgte-item" role="listitem">
+          <span class="pull-left">
+            <button title="Move down" ng-disabled="$last" ng-class="{ 'disableIcon': $last }"
+              ng-click="vm.listDown(vm.five,$index)" class="widget-action-btn unstyled-button" title="Move down"
+              type="button" id="move-dn-btn-{{$index}}">
+              <span class="fas fa-angle-down"></span>
+              <span class="sr-only">Move down.</span>
+            </button>
+            <button title="Move up" ng-disabled="$first" ng-class="{ 'disableIcon': $first }"
+              ng-click="vm.listUp(vm.five,$index)" class="widget-action-btn unstyled-button" title="Move up"
+              type="button" id="move-up-btn-{{$index}}">
+              <span class="fas fa-angle-up"></span>
+              <span class="sr-only">Move up.</span>
+            </button>
+            &nbsp;
+          </span>
+          <span style="max-width: 90%;display: inline-block;word-break: break-all; hyphens: auto" title=""
+            class="truncateTitle" id="{{widget.userWorkspaceWidgetIdentifier}}">{{widget.widgetCustomName}}</span>
+          <span class="btn-group pull-right widgetDropdown" uib-dropdown>
+            <button id="widget-btn-{{$index}}" title="change zone" type="button"
+              class="widget-action-btn unstyled-button" uib-dropdown-toggle>
+              <span class="fas fa-arrows-alt"></span>
+              <span class="sr-only">Move.</span>
+            </button>
+            <ul class="dropdown-menu layoutDropdown" uib-dropdown-menu role="menu">
+              <li role="menuitem">
+                <a href="" ng-click="vm.moveSourcetoDestination(vm.five,vm.one,widget)">Zone 1 (Primary)</a>
+              </li>
+              <li role="menuitem">
+                <a href="" ng-click="vm.moveSourcetoDestination(vm.five,vm.two,widget)">Zone 2 </a>
+              </li>
+              <li role="menuitem">
+                <a href="" ng-click="vm.moveSourcetoDestination(vm.five,vm.three,widget)">Zone 3 </a>
+              </li>
+              <li role="menuitem">
+                <a href="" ng-click="vm.moveSourcetoDestination(vm.five,vm.four,widget)">Zone 4 </a>
+              </li>
+            </ul>
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

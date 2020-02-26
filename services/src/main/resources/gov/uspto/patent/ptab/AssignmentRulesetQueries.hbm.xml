@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+<sql-query  name="fetchAssignmentRuleset">
+       <![CDATA[
+       
+       SELECT
+		ASSIGNMENT_RULE_ID           as "id",
+		FK_CURRENT_APPEAL_STATE_CD            as "currAppealStatus",
+		FK_ASSIGNMENT_TYPE_ID                       as "assignmentTypeId",
+		CURRENT_APPEAL_PHASE_CT             as "currAppealPhase",
+		ASSIGNMENT_COMPLETION_CODE_NM       as "completionCd",
+		APPLICATION_TYPE_TX                 as "applicationType",  
+		APPL_STATUS_CODE_TX               as "applStatus",
+		APPL_SERIES_CODE_TX          as "applSeriesCd",
+		PETITION_LOOK_UP_CODE_TX                 as "petitionLookUp",
+		ASSIGNMENT_TO_BE_CREATED_TX         as "assgnmntToBeCreated",
+		ASSIGNMENT_TO_BE_CLOSED_TX         as "assgnmntToBeClosed",
+		FK_ASSIGNMENT_TARGET_NM                as "assignmentTarget",
+		ASSIGMENT_AUTOCOMPLTE_IN         as "autocompleteInd",
+		TRANSACTION_TO_BE_PERFORM_NM   as "palmAction",
+		NOTIFICATION_REQUIRE_IN         as "notificationIn",
+		DOCUMENT_UPLOAD_REQUIRE_IN      as "docUploadReqInd",
+		FK_TARGET_APPEAL_STATE_CD             as "targetAppealStatus",
+		TARGET_APPEAL_PHASE_CT              as "targedtAppealPhase",
+		FK_DEFAULT_ASSIGNMENT_WRKR_NO         as "assignmentWrkrNo",
+		DAY_TO_DUE_DATE_QT                 as "daysToDueDate",
+		B_H_TYPE						   as "bhTypeCode",
+		HEARING_IN                          as "hearingIndicator",
+		CLEAR_PANEL_IN                      as "clearPanelIndicator",
+		ALERT_ASSIGNEE						as "alertAssignee",
+		 sat.description_tx as "assignmentDesc"
+		from
+		stnd_assignment_rule  , stnd_assignment_type sat
+		where
+			FK_CURRENT_APPEAL_STATE_CD 		= :currAppealStatus
+		and upper(CURRENT_APPEAL_PHASE_CT) 		= upper(:currAppealPhase)
+		and upper(APPLICATION_TYPE_TX) 			= upper(:applicationType)
+		-- and ASSIGNMENT = :assignment
+		and FK_ASSIGNMENT_TYPE_ID = sat.ASSIGNMENT_TYPE_ID
+		and sat.ASSIGNMENT_TYPE_cd = :assignment
+		and APPL_STATUS_CODE_TX			like '%' || :applStatus || '%'
+		and APPL_SERIES_CODE_TX 	like '%' || :applSeriesCd || '%'
+		and PETITION_LOOK_UP_CODE_TX			like '%' || :petitionLookUp || '%'
+		and UPPER(ASSIGNMENT_COMPLETION_CODE_NM)  = upper(:completionCd)
+		and (B_H_TYPE is null OR B_H_TYPE like '%' || :bhTypeCode || '%')
+	--	and		ASSIGNMENT_TO_BE_CREATED_TX = sat.assignment_type_cd(+)
+       
+       	]]>
+	</sql-query>
+	
+
+	
+</hibernate-mapping>

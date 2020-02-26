@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<sql-query name="fetchAppealJudgePanel">
+	<![CDATA[
+SELECT AA.FK_AD_FK_AA_SERIAL_NO   AS "fkAdFkAaSerialNo",
+  AA.FK_AD_FK_APPEAL_NO           AS "fkAdFkAppealNo",
+  AA.PANEL_APJ_RANK_NO            AS"panelApjRankNo",
+  AA.ACTIVE_IN                    AS "activeIn",
+  AA.PANEL_ASSIGNMENT_DT          AS "panelAssignmentDt",
+  AA.RULING_CT                    AS "rulingCt",
+  AA.PRODUCTIVITY_CREDIT_IN       AS "productivityCreditIn",
+  AA.LAST_MODIFIED_TS             AS "lastModifiedTs",
+  AA.LAST_MODIFIED_USER_ID        AS"lastModifiedUserId",
+  AA.FK_BE_NO                     AS "fkBeNo",
+  AA.SPECIAL_PANEL_IN             AS "specialPanelIn",
+  AA.APJ_DOCKET_DT                AS "apjDocketDt",
+  AA.FK_AD_SEQUENCE_NO            AS "fkAdSequenceNo",
+  AA.FK_AD_RECONSIDER_SEQUENCE_NO AS "fkAdReconsiderSequenceNo"
+FROM Appeal_Judge_Panel AA
+WHERE AA.FK_AD_FK_APPEAL_NO      = :fkAdFkAppealNo
+AND AA.FK_AD_FK_AA_SERIAL_NO		 = :fkAdFkAaSerialNo
+AND AA.ACTIVE_IN IN ('Y','P')
+ORDER BY AA.LAST_MODIFIED_TS DESC
+	]]>
+	</sql-query>
+	
+		<sql-query name="fetchCurrentActiveJudgePanel">
+	<![CDATA[
+SELECT apj1.FK_AD_FK_AA_SERIAL_NO   AS "fkAdFkAaSerialNo",
+  apj1.FK_AD_FK_APPEAL_NO           AS "fkAdFkAppealNo",
+  apj1.PANEL_APJ_RANK_NO            AS"panelApjRankNo",
+  apj1.ACTIVE_IN                    AS "activeIn",
+  apj1.PANEL_ASSIGNMENT_DT          AS "panelAssignmentDt",
+  apj1.RULING_CT                    AS "rulingCt",
+  apj1.PRODUCTIVITY_CREDIT_IN       AS "productivityCreditIn",
+  apj1.LAST_MODIFIED_TS             AS "lastModifiedTs",
+  apj1.LAST_MODIFIED_USER_ID        AS"lastModifiedUserId",
+  apj1.FK_BE_NO                     AS "fkBeNo",
+  apj1.SPECIAL_PANEL_IN             AS "specialPanelIn",
+  apj1.APJ_DOCKET_DT                AS "apjDocketDt",
+  apj1.FK_AD_SEQUENCE_NO            AS "fkAdSequenceNo",
+  apj1.FK_AD_RECONSIDER_SEQUENCE_NO AS "fkAdReconsiderSequenceNo"
+FROM appeal_judge_panel apj1
+WHERE (apj1.FK_AD_SEQUENCE_NO, apj1.FK_AD_RECONSIDER_SEQUENCE_NO,apj1.FK_AD_FK_AA_SERIAL_NO,apj1.FK_AD_FK_APPEAL_NO,apj1.ACTIVE_IN) IN
+  (SELECT FK_AD_SEQUENCE_NO,
+    FK_AD_RECONSIDER_SEQUENCE_NO,
+    FK_AD_FK_AA_SERIAL_NO,
+    FK_AD_FK_APPEAL_NO,
+    ACTIVE_IN
+  FROM
+    (select apj.*, row_number() over (order by apj.FK_AD_SEQUENCE_NO desc, apj.FK_AD_RECONSIDER_SEQUENCE_NO desc) as seqnum
+      from appeal_judge_panel apj
+      where apj.FK_AD_FK_AA_SERIAL_NO= :fkAdFkAaSerialNo and apj.FK_AD_FK_APPEAL_NO= :fkAdFkAppealNo and apj.ACTIVE_IN = 'Y') where  seqnum=1) order by PANEL_APJ_RANK_NO
+
+	]]>
+	</sql-query>
+
+
+	<sql-query name="fetchActiveInactiveJudgePanels">
+	<![CDATA[
+SELECT AA.FK_AD_FK_AA_SERIAL_NO   AS "fkAdFkAaSerialNo",
+  AA.FK_AD_FK_APPEAL_NO           AS "fkAdFkAppealNo",
+  AA.PANEL_APJ_RANK_NO            AS"panelApjRankNo",
+  AA.ACTIVE_IN                    AS "activeIn",
+  AA.PANEL_ASSIGNMENT_DT          AS "panelAssignmentDt",
+  AA.RULING_CT                    AS "rulingCt",
+  AA.PRODUCTIVITY_CREDIT_IN       AS "productivityCreditIn",
+  AA.LAST_MODIFIED_TS             AS "lastModifiedTs",
+  AA.LAST_MODIFIED_USER_ID        AS"lastModifiedUserId",
+  AA.FK_BE_NO                     AS "fkBeNo",
+  AA.SPECIAL_PANEL_IN             AS "specialPanelIn",
+  AA.APJ_DOCKET_DT                AS "apjDocketDt",
+  AA.FK_AD_SEQUENCE_NO            AS "fkAdSequenceNo",
+  AA.FK_AD_RECONSIDER_SEQUENCE_NO AS "fkAdReconsiderSequenceNo"
+FROM Appeal_Judge_Panel AA
+WHERE AA.FK_AD_FK_APPEAL_NO      = :fkAdFkAppealNo
+AND AA.ACTIVE_IN IN ('Y','N')
+	]]>
+	</sql-query>
+
+	<sql-query name="deleteAppealJudgePanelwithP">
+	<![CDATA[
+	
+	delete APPEAL_JUDGE_PANEL
+	WHERE
+	FK_AD_FK_AA_SERIAL_NO                   = :fkAdFkAaSerialNo
+	AND
+	FK_AD_FK_APPEAL_NO                      = :fkAdFkAppealNo
+	AND
+	ACTIVE_IN                               = :activeIn
+	]]>
+	</sql-query>
+
+	<sql-query name="fetchActiveAppealJudgePanel">
+	<![CDATA[
+SELECT AA.FK_AD_FK_AA_SERIAL_NO   AS "fkAdFkAaSerialNo",
+  AA.FK_AD_FK_APPEAL_NO           AS "fkAdFkAppealNo",
+  AA.PANEL_APJ_RANK_NO            AS"panelApjRankNo",
+  AA.ACTIVE_IN                    AS "activeIn",
+  AA.PANEL_ASSIGNMENT_DT          AS "panelAssignmentDt",
+  AA.RULING_CT                    AS "rulingCt",
+  AA.PRODUCTIVITY_CREDIT_IN       AS "productivityCreditIn",
+  AA.LAST_MODIFIED_TS             AS "lastModifiedTs",
+  AA.LAST_MODIFIED_USER_ID        AS"lastModifiedUserId",
+  AA.FK_BE_NO                     AS "fkBeNo",
+  AA.SPECIAL_PANEL_IN             AS "specialPanelIn",
+  AA.APJ_DOCKET_DT                AS "apjDocketDt",
+  AA.FK_AD_SEQUENCE_NO            AS "fkAdSequenceNo",
+  AA.FK_AD_RECONSIDER_SEQUENCE_NO AS "fkAdReconsiderSequenceNo"
+FROM Appeal_Judge_Panel AA
+WHERE AA.FK_AD_FK_APPEAL_NO      = :fkAdFkAppealNo
+AND AA.FK_AD_FK_AA_SERIAL_NO = :fkAdFkAaSerialNo
+AND AA.FK_AD_RECONSIDER_SEQUENCE_NO =:fkAdReconsiderSequenceNo
+AND AA.FK_AD_SEQUENCE_NO =:fkAdSequenceNo
+AND AA.ACTIVE_IN ='Y'
+	]]>
+	</sql-query>
+
+	<sql-query name="fetchActiveJudgePanelWithBeNo">
+	<![CDATA[
+SELECT AA.FK_AD_FK_AA_SERIAL_NO   AS "fkAdFkAaSerialNo",
+  AA.FK_AD_FK_APPEAL_NO           AS "fkAdFkAppealNo",
+  AA.PANEL_APJ_RANK_NO            AS"panelApjRankNo",
+  AA.ACTIVE_IN                    AS "activeIn",
+  AA.PANEL_ASSIGNMENT_DT          AS "panelAssignmentDt",
+  AA.RULING_CT                    AS "rulingCt",
+  AA.PRODUCTIVITY_CREDIT_IN       AS "productivityCreditIn",
+  AA.LAST_MODIFIED_TS             AS "lastModifiedTs",
+  AA.LAST_MODIFIED_USER_ID        AS"lastModifiedUserId",
+  AA.FK_BE_NO                     AS "fkBeNo",
+  AA.SPECIAL_PANEL_IN             AS "specialPanelIn",
+  AA.APJ_DOCKET_DT                AS "apjDocketDt",
+  AA.FK_AD_SEQUENCE_NO            AS "fkAdSequenceNo",
+  AA.FK_AD_RECONSIDER_SEQUENCE_NO AS "fkAdReconsiderSequenceNo"
+FROM Appeal_Judge_Panel AA
+WHERE AA.FK_AD_FK_APPEAL_NO      = :fkAdFkAppealNo
+AND AA.FK_AD_FK_AA_SERIAL_NO = :fkAdFkAaSerialNo
+AND AA.FK_BE_NO =:fkBeNo
+AND AA.PANEL_APJ_RANK_NO =:panelApjRankNo
+AND AA.ACTIVE_IN ='Y'
+ORDER BY AA.LAST_MODIFIED_TS DESC
+	]]>
+	</sql-query>
+
+	<sql-query name="updateAppealJudgePanel">
+
+<![CDATA[ 
+UPDATE Appeal_Judge_Panel AA
+SET AA.ACTIVE_IN                    = :activeIn,
+AA.LAST_MODIFIED_TS                 = :lastModifiedTs,
+AA.LAST_MODIFIED_USER_ID 			= :lastModifiedUserId,
+AA.RULING_CT						= :rulingCt
+WHERE AA.FK_AD_FK_AA_SERIAL_NO      = :fkAdFkAaSerialNo
+AND AA.FK_AD_FK_APPEAL_NO           = :fkAdFkAppealNo
+AND AA.FK_BE_NO                     = :fkBeNo
+AND AA.FK_AD_SEQUENCE_NO            = :fkAdSequenceNo
+AND AA.FK_AD_RECONSIDER_SEQUENCE_NO = :fkAdReconsiderSequenceNo
+AND AA.ACTIVE_IN ='Y'
+
+ ]]>
+
+	</sql-query>
+
+	<sql-query name="createAppealJudgePanel">
+
+<![CDATA[ 
+INSERT INTO Appeal_Judge_Panel AA
+(AA.FK_AD_FK_AA_SERIAL_NO,   
+  AA.FK_AD_FK_APPEAL_NO,          
+  AA.PANEL_APJ_RANK_NO,           
+  AA.ACTIVE_IN,                   
+  AA.PANEL_ASSIGNMENT_DT,          
+  AA.RULING_CT,                    
+  AA.PRODUCTIVITY_CREDIT_IN,       
+  AA.LAST_MODIFIED_TS,             
+  AA.LAST_MODIFIED_USER_ID,        
+  AA.FK_BE_NO,                     
+  AA.SPECIAL_PANEL_IN,            
+  AA.APJ_DOCKET_DT,               
+  AA.FK_AD_SEQUENCE_NO,            
+  AA.FK_AD_RECONSIDER_SEQUENCE_NO)
+  VALUES
+  (:fkAdFkAaSerialNo,
+  :fkAdFkAppealNo,
+  :panelApjRankNo,
+  :activeIn,
+  :panelAssignmentDt,
+  :rulingCt,
+  :productivityCreditIn,
+  :lastModifiedTs,
+  :lastModifiedUserId,
+  :fkBeNo,
+  :specialPanelIn,
+  :apjDocketDt,
+  :fkAdSequenceNo,
+  :fkAdReconsiderSequenceNo)
+    
+]]>
+
+	</sql-query>
+	
+
+	
+	<sql-query name="updateCustomDatesForPanel">
+       <![CDATA[ 
+		update Appeal_Judge_Panel
+		set 
+		CUSTOM_CONFIG_DATES = :cofigdates
+		where
+		FK_AD_FK_AA_SERIAL_NO = :serialNumber
+		AND FK_AD_FK_APPEAL_NO = :appealNumber
+		AND FK_BE_NO = :fkBeNo
+ 		]]>
+	</sql-query>
+
+</hibernate-mapping>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<sql-query name="getNextSeqForUserFavorites">
+       <![CDATA[ 
+      select USER_FAVORITE_LINK_SEQ.NEXTVAL from dual
+	 ]]>
+	</sql-query>
+
+</hibernate-mapping>
+

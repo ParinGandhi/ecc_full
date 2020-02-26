@@ -1,0 +1,236 @@
+<style>
+  .timeColumn {
+    width: 6em;
+  }
+
+  .columnWithData {
+    width: 32em;
+  }
+
+
+  .hearing-body {
+    height: 56em;
+    overflow: auto;
+  }
+
+  .popover {
+    width: 15em;
+    height: 12em;
+    max-width: 40em;
+    padding: 0;
+  }
+
+  .popover-content {
+    padding: 0;
+  }
+
+  .calendarRow {
+    background-color: #ebebeb;
+  }
+
+  .roomClosed {
+
+    border-bottom: 5px solid;
+  }
+
+  .roomLabel {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .roomLabel1 {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .weekDayLabel {
+    font-weight: 600;
+    font-size: 12pt;
+    color: white;
+  }
+
+</style>
+<div ng-init="vm.getWeekDates()">
+  <acme-navbar whoami-callback="vm.loadHearingSchedule" creation-date="main.creationDate" show-header="vm.showHeader" hearing-schedule-start-date="vm.hearingStartDate" hearing-schedule-monday="vm.monday" hearing-schedule-friday="vm.friday" hearing-date-callback="vm.dateChanged" hearing-date-previous-week="vm.previousWeekChanged" hearing-date-future-week="vm.weekChanged"></acme-navbar>
+</div>
+
+<div style="margin:13.8em;"></div>
+
+
+
+<div style="margin-bottom:.51em;"></div>
+<grid-loader></grid-loader>
+<div>
+
+
+  <table class="table table-bordered" style="width:99%;margin-left:1em;">
+
+    <thead ng-if="vm.viewWeek==='current'">
+      <tr style="background:#9BB8D3">
+        <th class="timeColumn">
+          <label class="weekDayLabel">Time</label>
+        </th>
+        <th class="columnWithData" style="text-align:center">
+          <label class="weekDayLabel">Monday ({{vm.diaplayMonday}})
+          </label>
+        </th>
+        <th class="columnWithData" style="text-align:center">
+          <label class="weekDayLabel">Tuesday ({{vm.diaplayTuesday}})</label>
+        </th>
+        <th class="columnWithData" style="text-align:center">
+          <label class="weekDayLabel">Wednesday ({{vm.diaplayWednesday}})
+          </label>
+        </th>
+        <th class="columnWithData" style="text-align:center">
+          <label class="weekDayLabel">Thursday ({{vm.diaplayThursday }})</label>
+        </th>
+        <th class="columnWithData" style="text-align:center">
+          <label class="weekDayLabel">Friday ({{vm.diaplayFriday}})</label>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody ng-repeat="datatime in hearingData  | orderBy:'locationDescription'">
+      <tr class="calendarRow" ng-class="{'roomClosed':!datatime.locationIdentifier}">
+        <td colspan="6">
+          <button ng-click="datatime.locationIdentifier=!datatime.locationIdentifier" style="background:none;" class="btn btn-icon-only">
+            <i ng-if="datatime.locationIdentifier" class="fa fa-angle-down"></i>
+            <i ng-if="!datatime.locationIdentifier" class="fa fa-angle-right"></i>
+            <span class="sr-only">Close Room</span>
+          </button>
+          <label ng-if="datatime.locationIdentifier" class="roomLabel">{{datatime.locationDescription}}</label>
+          <label ng-if="!datatime.locationIdentifier" class="roomLabel1"> {{datatime.locationDescription}}</label>
+        </td>
+      </tr>
+      <tr ng-if="datatime.locationIdentifier" ng-repeat="datain in datatime.hearingSchdules | unique : 'hearingTime'">
+
+        <td> {{datain.hearingTime|split:' ':0|split:':':0}}:{{datain.hearingTime|split:' ':0|split:':':1}}
+          {{datain.hearingTime|split:' ':1}}
+          {{datain.hearingTime|split:' ':2}}
+        </td>
+        <td>
+          <div ng-repeat="dataUsed in datatime.hearingSchdules | filter: { hearingTime: datain.hearingTime } | filter: { hearingDate: vm.mondayTime } | limitTo: -1">
+            <button class="btn btn-default btn-icon-only pull-right" ng-click="vm.openSessionSchedule(dataUsed,datatime.locationIdentifier)" title="View session hearing schedule">
+              <i class="fas fa-eye"></i>
+              <span class="sr-only">View session hearing schedule</span>
+            </button>
+          </div>
+
+
+          <div class="truncateTitle" style="width:90%" ng-repeat="dataPanel in datatime.hearingSchdules | filter: { hearingTime: datain.hearingTime } | filter: { hearingDate: vm.mondayTime } | unique : 'panelAPJFullName' ">
+
+            <label>{{dataPanel.panelAPJFullName}}
+            </label>
+            <br>
+
+            <div style="display: inline" class="truncateTitle" ng-repeat="dataUsed in datatime.hearingSchdules | filter: { hearingTime: datain.hearingTime } | filter: { hearingDate: vm.mondayTime } | filter: { panelAPJFullName: dataPanel.panelAPJFullName }">
+              <a href="" ng-click="vm.openCaseViewer(dataUsed.serialNumber, dataUsed.appealNumber)">{{dataUsed.appealNumber}}</a>-
+              <span ng-repeat="dataOut in dataUsed.panels | filter: { rankNumber: '!1' }">{{dataOut.apjName}}{{$last ? '' : '; '}}
+              </span>
+              <br>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div ng-repeat="dataUsed in datatime.hearingSchdules | filter: { hearingTime: datain.hearingTime } | filter: { hearingDate: vm.tuesday } | limitTo: -1">
+            <button class="btn btn-default btn-icon-only pull-right" ng-click="vm.openSessionSchedule(dataUsed,datatime.locationIdentifier)" title="View session hearing schedule">
+              <i class="fas fa-eye"></i>
+              <span class="sr-only">View session hearing schedule</span>
+            </button>
+          </div>
+          <div class="truncateTitle" style="width:90%" ng-repeat="dataPanel in datatime.hearingSchdules | filter: { hearingTime: datain.hearingTime } | filter: { hearingDate: vm.tuesday } | unique : 'panelAPJFullName' ">
+
+            <label>{{dataPanel.panelAPJFullName}}
+            </label>
+            <br>
+
+            <div style="display: inline" class="truncateTitle" ng-repeat="dataUsed in datatime.hearingSchdules | filter: { hearingTime: datain.hearingTime } | filter: { hearingDate: vm.tuesday } | filter: { panelAPJFullName: dataPanel.panelAPJFullName }">
+              <a href="" ng-click="vm.openCaseViewer(dataUsed.serialNumber, dataUsed.appealNumber)">{{dataUsed.appealNumber}}</a>-
+              <span ng-repeat="dataOut in dataUsed.panels | filter: { rankNumber: '!1' }">{{dataOut.apjName}}{{$last ? '' : '; '}}
+              </span>
+              <br>
+            </div>
+          </div>
+
+        </td>
+        <td>
+          <div ng-repeat="dataUsed in datatime.hearingSchdules | filter: { hearingTime: datain.hearingTime } | filter: { hearingDate: vm.wednesday } | limitTo: -1">
+            <button class="btn btn-default btn-icon-only pull-right" ng-click="vm.openSessionSchedule(dataUsed,datatime.locationIdentifier)" title="View session hearing schedule">
+              <i class="fas fa-eye"></i>
+              <span class="sr-only">View session hearing schedule</span>
+            </button>
+          </div>
+
+
+          <div class="truncateTitle" style="width:90%" ng-repeat="dataPanel in datatime.hearingSchdules | filter: { hearingTime: datain.hearingTime } | filter: { hearingDate: vm.wednesday } | unique : 'panelAPJFullName' ">
+
+            <label>{{dataPanel.panelAPJFullName}}
+            </label>
+            <br>
+
+            <div style="display: inline" class="truncateTitle" ng-repeat="dataUsed in datatime.hearingSchdules | filter: { hearingTime: datain.hearingTime } | filter: { hearingDate: vm.wednesday } | filter: { panelAPJFullName: dataPanel.panelAPJFullName }">
+              <a href="" ng-click="vm.openCaseViewer(dataUsed.serialNumber, dataUsed.appealNumber)">{{dataUsed.appealNumber}}</a>-
+              <span ng-repeat="dataOut in dataUsed.panels | filter: { rankNumber: '!1' }">{{dataOut.apjName}}{{$last ? '' : '; '}}
+              </span>
+              <br>
+            </div>
+          </div>
+
+        </td>
+        <td>
+
+          <div ng-repeat="dataUsed in datatime.hearingSchdules | filter: { hearingTime: datain.hearingTime } | filter: { hearingDate: vm.thursday } | limitTo: -1">
+            <button class="btn btn-default btn-icon-only pull-right" ng-click="vm.openSessionSchedule(dataUsed,datatime.locationIdentifier)" title="View session hearing schedule">
+              <i class="fas fa-eye"></i>
+              <span class="sr-only">View session hearing schedule</span>
+            </button>
+          </div>
+
+
+
+          <div class="truncateTitle" style="width:90%" ng-repeat="dataPanel in datatime.hearingSchdules | filter: { hearingTime: datain.hearingTime } | filter: { hearingDate: vm.thursday } | unique : 'panelAPJFullName' ">
+
+            <label>{{dataPanel.panelAPJFullName}}
+            </label>
+            <br>
+
+            <div style="display: inline" class="truncateTitle" ng-repeat="dataUsed in datatime.hearingSchdules | filter: { hearingTime: datain.hearingTime } | filter: { hearingDate: vm.thursday } | filter: { panelAPJFullName: dataPanel.panelAPJFullName }">
+              <a href="" ng-click="vm.openCaseViewer(dataUsed.serialNumber, dataUsed.appealNumber)">{{dataUsed.appealNumber}}</a>-
+              <span ng-repeat="dataOut in dataUsed.panels | filter: { rankNumber: '!1' }">{{dataOut.apjName}}{{$last ? '' : '; '}}
+              </span>
+              <br>
+            </div>
+          </div>
+        </td>
+        <td>
+
+          <div ng-repeat="dataUsed in datatime.hearingSchdules | filter: { hearingTime: datain.hearingTime } | filter: { hearingDate: vm.fridayTime } | limitTo: -1">
+            <button class="btn btn-default btn-icon-only pull-right" ng-click="vm.openSessionSchedule(dataUsed,datatime.locationIdentifier)" title="View session hearing schedule">
+              <i class="fas fa-eye"></i>
+              <span class="sr-only">View session hearing schedule</span>
+            </button>
+          </div>
+
+
+          <div class="truncateTitle" style="width:90%" ng-repeat="dataPanel in datatime.hearingSchdules | filter: { hearingTime: datain.hearingTime } | filter: { hearingDate:  vm.fridayTime } | unique : 'panelAPJFullName' ">
+
+            <label>{{dataPanel.panelAPJFullName}}
+            </label>
+            <br>
+
+            <div style="display: inline" class="truncateTitle" ng-repeat="dataUsed in datatime.hearingSchdules | filter: { hearingTime: datain.hearingTime } | filter: { hearingDate:  vm.fridayTime } | filter: { panelAPJFullName: dataPanel.panelAPJFullName }">
+              <a href="" ng-click="vm.openCaseViewer(dataUsed.serialNumber, dataUsed.appealNumber)">{{dataUsed.appealNumber}}</a>-
+              <span ng-repeat="dataOut in dataUsed.panels | filter: { rankNumber: '!1' }">{{dataOut.apjName}}{{$last ? '' : '; '}}
+              </span>
+              <br>
+            </div>
+          </div>
+        </td>
+
+      </tr>
+
+
+    </tbody>
+  </table>
+
+</div>

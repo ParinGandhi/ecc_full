@@ -1,0 +1,156 @@
+<!--Start global header -->
+<header id="global-header" class="navbar-fixed-top" role="banner">
+  <div class="uspto-header-top">
+    <nav class="nav navbar">
+      <a class="navbar-brand" href="#" style="color: white; font-size: 4rem;">ECC</a>
+      <div class="container-fluid">
+        <span class="header-middle-label">
+          <p ng-if="vm.editMode"
+            style="position: fixed; top: 49px; width:101.3%; margin-left: -28px; font-size: 13px; font-weight:0; z-index: 1099;"
+            class="editMode truncateTitle">
+            <span tooltip-placement="bottom-left"
+              uib-tooltip="You are in workspace editing mode. You can add, remove, copy, and delete widgets. When you are finished, click the 'Done editing' button to save your changes"
+              tooltip-popup-delay="2000" class="editModeContent">
+              You are in workspace editing mode. You can add, remove, copy, and delete widgets. When you are finished,
+              click the 'Done
+              editing' button to save your changes</span>
+            <button title="Done editing" style="margin-right: 1em;" id="doneEditButton"
+              class="pull-right btn btn-primary" ng-click="vm.doneEditing()">Done editing</button>
+          </p>
+        </span>
+        <!-- <span style="margin-top:6px;" ng-if="vm.userInfo" class="pull-right">
+          <span>
+            <a href="" title="You have {{vm.newAlertNum}} new notifications."
+              ng-click="vm.openNotificationModal();"><span class="sr-only">{{vm.newAlertNum}} notifications</span><i
+                class="fas fa-bell fa-inverse"></i>
+              <span ng-if="vm.newAlertNum >0"
+                ng-class="{'ex-header-icon-badge': vm.newAlertNum < 99,'moreAlerts': vm.newAlertNum >=99}"><span
+                  ng-if="vm.newAlertNum <= 99">{{vm.newAlertNum}} </span><span
+                  ng-if="vm.newAlertNum > 99">99+</span></a>
+          </span>
+          
+          <div class="btn-group" uib-dropdown is-open="status.isopen">
+            
+            <button type="button" tabindex="11" class="btn btn-default dropdown-toggle ex-btn-inverse"
+              uib-dropdown-toggle data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="hidden-xs">{{vm.userInfo.displayName}} &nbsp;
+                <span class="caret"></span>
+              </span>
+              <span class="visible-xs fa-btn">
+                <span class="fa fa-user fa-inverse"></span>
+              </span>
+              <span class="sr-only">User menu</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right" uib-dropdown-menu
+              style="width: max-content; cursor: pointer;">
+
+              <li ng-repeat="item in vm.adminArray">
+                <a tabindex="14" class="white" id="Menu" data-index="2" href="javascript:void(0);"
+                  ng-click="openAdminConsole(item)">
+                  <span class="{{item.icon}}"></span>&nbsp;
+                  <span class="sr-only">{{item.label}}</span>{{item.label}} </a>
+              </li>
+            </ul>
+            
+          </div>
+        </span> -->
+        <!-- /.pull-right -->
+      </div>
+      <!-- /.container-fluid -->
+    </nav>
+  </div>
+  <!-- /.uspto-header-top -->
+  <!-- <div class="uspto-header-middle hidden-xs">
+    <div class="container-fluid" id="navbar-header" style="height: 42px;">
+      <span class="header-middle-label">
+        <p ng-if="vm.editMode"
+          style="position: fixed; top: 86px; width:101.3%; margin-left: -28px; font-size: 13px; font-weight:0; z-index: 1099;"
+          class="editMode truncateTitle">
+          <span tooltip-placement="bottom-left"
+            uib-tooltip="You are in workspace editing mode. You can add, remove, copy, and delete widgets. When you are finished, click the 'Done editing' button to save your changes"
+            tooltip-popup-delay="2000" class="editModeContent">
+            You are in workspace editing mode. You can add, remove, copy, and delete widgets. When you are finished,
+            click the 'Done
+            editing' button to save your changes</span>
+          <button title="Done editing" style="margin-right: 1em;" id="doneEditButton" class="pull-right btn btn-primary"
+            ng-click="vm.doneEditing()">Done editing</button>
+        </p>
+      </span>
+    </div>
+  </div> -->
+  <!-- /.uspto-header-middle -->
+
+
+  <!-- /.uspto-header-bottom -->
+  <div ng-if="vm.caseViewerMode" style="margin-top:1em;">
+    <!-- <div ng-include="'app/caseViewer/caseHeader.html'"></div> -->
+    <chevron-directive chevron-callback="vm.loadChevron" call-back-function='vm.chevronCallBack'
+      fn-callback="vm.refreshOwner" chevron-refresh-data="vm.refreshData" application-number="vm.appNumber"
+      case-number="vm.caseNum" case-type="vm.caseType" refresh-function='vm.refreshActionfrom'></chevron-directive>
+  </div>
+  <div ng-if="vm.hearingScheduleMode">
+    <nav class="nav navbar" style="margin-top:-.1em;background:white;">
+      <div class="col-md-12" style="margin-top:1em;">
+        <div class="col-md-4">
+          <label class="pull-left" style="margin-top:0.5em;">All times local</label>
+        </div>
+
+        <div class="col-md-8">
+          <h4 style="margin-top:-.1em;">
+            <button title="Previous week" ng-click="vm.showPreviousWeek();" style="margin-top:-.4em;"
+              class="btn btn-icon-only btn-hover btn-default"><i class="fa fa-caret-left"></i><span
+                class="sr-only">Previous week</span></button>
+            <button title="Next week" ng-click="vm.showFutureWeek();" style="margin-top:-.4em;"
+              class="btn btn-icon-only btn-hover btn-default"><i class="fa fa-caret-right"></i><span
+                class="sr-only">Next week</span></button>
+            {{vm.hearingScheduleMonday | date:'MMMM dd'}} - {{vm.hearingScheduleFriday | date:'MMMM dd yyyy'}}
+            <button title="Select date" ng-click="vm.showDateSelection();" style="background:none;margin-top:-.4em;"
+              class="btn btn-icon-only btn-lg"><i class="far fa-calendar"></i><span class="sr-only">Open
+                calendar</span></button></h4>
+
+
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+
+<div ng-hide="vm.display=== false" id="toast-container" class="toast-bottom-right"
+  style="pointer-events: auto; position: fixed; z-index: 999999; right: 2px; bottom: 84px;">
+  <div class="toast toast-info">
+    <div class="toast-header">
+      <strong style="color:black; font-size:17px;" title="Open notifications">PTAB E2E</strong>
+      <button type="button" class="close pull-right" ng-click="vm.closeAlertToastr();" title="Close">
+        <span>×</span>
+      </button>
+    </div>
+    <div class="toast-content" style="color:black">
+
+      <table>
+        <tr>
+          <td style="font-weight: 600; text-align: left; padding: 3px;"> Case# </td>
+          <td><a href style="text-decoration: underline;" ng-click="openCaseViewer()" title="Open case viewer">
+              {{vm.alertcaseNum}} <span class="sr-only">Open case viewer</span></a></td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; text-align: left; padding: 3px">Message </td>
+          <td> {{ vm.alertMessage}}</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600; text-align: left; padding: 3px">Assignment Title </td>
+          <td> {{ vm.alertAssignmentTitle}}</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; text-align: left; padding: 3px">Received</td>
+          <td>{{ vm.alertReceived |  date:'MM/dd/yyyy hh:mm:ss a'}} </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td><a href style="text-decoration: underline;" ng-click="vm.openNotificationModal(); vm.closeAlertToastr();">
+              Open notifications </a></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

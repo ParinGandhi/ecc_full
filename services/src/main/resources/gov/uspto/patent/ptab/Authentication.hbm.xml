@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+
+<sql-query name="fetchApplUserDetails">
+       <![CDATA[
+       select 
+	   to_char(au.application_user_id) as "applUserId",
+	   au.first_nm as "firstName",
+	   au.middle_nm as "middleName",
+	   au.last_nm as "lastName",
+		au.email_address_tx as "emailId",
+au.cfk_employee_id as "employeeId",
+sur.user_role_nm as "userRole"
+
+from
+application_user au,
+application_user_role aur,
+stnd_user_role sur
+where
+aur.fk_application_user_id = au.application_user_id and
+aur.fk_user_role_id = sur.user_role_id and
+au.user_id = :userId
+        ]]>
+	</sql-query>
+
+
+
+	<sql-query name="fetchRedirectorAndDashboardUrl">
+       <![CDATA[
+     select  
+    (select  description_tx  from code_reference where type_cd = 'REDIRECT_HTML_URL') as "redirectorUrl",    
+	(select  description_tx  from code_reference where type_cd = 'DASHBOARD_REFIRECT_URL' and value_tx = :role) as "dashboardUrl" 	
+	 from dual
+        ]]>
+	</sql-query>
+
+	
+</hibernate-mapping>

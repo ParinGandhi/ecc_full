@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<sql-query name="fetchAppealForSerialNumber">
+	<![CDATA[
+SELECT fk_aa_serial_no FROM appeal WHERE fk_aa_serial_no = :fkAaSerialNo
+ ]]>
+	</sql-query>
+
+
+	<sql-query name="fetchSerialNumbersForPendingPanel">
+	<![CDATA[
+SELECT AA.fk_aa_serial_no  AS "serialNumber",
+  aa.no                    AS "appealNumber",
+  aa.case_discipline_cd    AS "caseDisciplineText",
+  aa.FK_PROCEEDING_DISCIPLINE_CD    AS "panelingDiscipline",
+  aa.brief_hearing_type_cd AS "briefHearingTypeCode",
+  aa.received_dt           AS "ptabReceivedDate",
+  ash.create_ts            AS "assignedDate"
+FROM appeal AA,
+  ptab_assignment ASH
+WHERE aa.brief_hearing_type_cd IN('B','H')
+AND aa.fk_aa_serial_no          = ash.fk_ad_fk_aa_serial_no
+AND aa.no                       = ash.fk_ad_fk_appeal_no
+AND ash.fk_assignment_type_id  IN(16,59)
+AND ash.fk_assignment_status_cd = 'A'
+ ]]>
+	</sql-query>
+
+
+</hibernate-mapping>
+

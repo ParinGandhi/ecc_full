@@ -1,0 +1,26 @@
+<div class="modalWidth">
+  <div class="modal-header">
+    <!-- <button type="button" class="close modalClose" ng-click="vm.cancelAddWorkspaceModal()">&times;</button> -->
+    <button id="getUserModalCancelX" type="button" class="close" ng-click="vm.cancelAddWorkspaceModal()">
+      <i class="fas fa-times fa-sm"></i>
+    </button>
+    <h4 class="modal-title truncateTitle" id="modal-title">User Info</h4>
+  </div>
+  <div class="modal-body" id="modal-body">
+    <div class="col-md-12">
+      <label for="workerNumber" class="truncateTitle">Enter user ID:</label>
+    </div>
+    <div class="row">
+
+      <div class="col-md-10">
+        <input type="search" class="form-control" id="workerNumber" ng-model="vm.workerNumber" ng-keyup="vm.pressEnter($event)">
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button id="getUserModalCancelBtn" class="btn btn-default getUserButtonBlock getUserButtonMargin pull-left truncateTitle"
+      type="button" ng-click="vm.cancelAddWorkspaceModal()">Cancel</button>
+    <button id="retrieveUserBtn" class="btn btn-primary getUserButtonBlock truncateTitle" type="button" ng-click="vm.getWorker()"
+      ng-disabled="!vm.workerNumber">Retrieve</button>
+  </div>
+</div>

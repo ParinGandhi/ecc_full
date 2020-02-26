@@ -1,0 +1,78 @@
+<div class="row">
+  <div class="col-md-3 col-md-offset-1">
+    <strong>Zone 2</strong>
+    <div class="right508 zoneHeight">
+      <ul id="ZoneTwo" data-ng-model="favorites" class="list-unstyled configMargin" role="list">
+        <li ng-repeat="widget in vm.two track by $index" class="item widgte-item" role="listitem">
+          <span class="pull-left">
+            <button title="Move down" ng-disabled="$last" ng-class="{ 'disableIcon': $last }"
+              ng-click="vm.listDown(vm.two,$index)" class="widget-action-btn unstyled-button" title="Move down"
+              type="button" id="move-dn-btn-{{$index}}">
+              <span class="fas fa-angle-down"></span>
+              <span class="sr-only">Move down.</span>
+            </button>
+            <button title="Move up" ng-disabled="$first" ng-class="{ 'disableIcon': $first }"
+              ng-click="vm.listUp(vm.two,$index)" class="widget-action-btn unstyled-button" title="Move up"
+              type="button" id="move-up-btn-{{$index}}">
+              <span class="fas fa-angle-up"></span>
+              <span class="sr-only">Move up.</span>
+            </button>
+            &nbsp;
+          </span>
+          <span style="max-width: 60%;display: inline-block;word-break: break-all; hyphens: auto" title=""
+            class="truncateTitle" id="{{widget.userWorkspaceWidgetIdentifier}}">{{widget.widgetCustomName}}</span>
+          <span class="btn-group pull-right widgetDropdown" uib-dropdown>
+            <button id="widget-btn-{{$index}}" title="change zone" type="button"
+              class="widget-action-btn unstyled-button" uib-dropdown-toggle>
+              <span class="fas fa-arrows-alt"></span>
+              <span class="sr-only">Move.</span>
+            </button>
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+              <li role="menuitem">
+                <a href="" ng-click="vm.moveSourcetoDestination(vm.two,vm.one,widget)">Zone 1 (Primary)</a>
+              </li>
+            </ul>
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-md-6 col-md-offset-1">
+    <strong>Zone 1 (Primary)</strong>
+    <div class="right508 zoneHeight">
+      <ul id="ZoneOne" data-ng-model="favorites" class="list-unstyled configMargin" role="list">
+        <li ng-repeat="widget in vm.one track by $index" class="item widgte-item" role="listitem">
+          <span class="pull-left">
+            <button title="Move down" ng-disabled="$last" ng-class="{ 'disableIcon': $last }"
+              ng-click="vm.listDown(vm.one,$index)" class="widget-action-btn unstyled-button" title="Move down"
+              type="button" id="move-dn-btn-{{$index}}">
+              <span class="fas fa-angle-down"></span>
+              <span class="sr-only">Move down.</span>
+            </button>
+            <button title="Move up" ng-disabled="$first" ng-class="{ 'disableIcon': $first }"
+              ng-click="vm.listUp(vm.one,$index)" class="widget-action-btn unstyled-button" title="Move up"
+              type="button" id="move-up-btn-{{$index}}">
+              <span class="fas fa-angle-up"></span>
+              <span class="sr-only">Move up.</span>
+            </button>
+            &nbsp;
+          </span>
+          <span style="max-width: 85%;display: inline-block;word-break: break-all; hyphens: auto" title=""
+            class="truncateTitle" id="{{widget.userWorkspaceWidgetIdentifier}}">{{widget.widgetCustomName}}</span>
+          <span class="btn-group pull-right widgetDropdown" uib-dropdown>
+            <button id="widget-btn-{{$index}}" title="change zone" type="button"
+              class="widget-action-btn unstyled-button" uib-dropdown-toggle>
+              <span class="fas fa-arrows-alt"></span>
+              <span class="sr-only">Move.</span>
+            </button>
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+              <li role="menuitem">
+                <a href="" ng-click="vm.moveSourcetoDestination(vm.one,vm.two,widget)">Zone 2 </a>
+              </li>
+            </ul>
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,340 @@
+{
+  "columnDetails":[ {
+      "name": "sequenceNo",
+      "label": "Sequence #",
+      "typeDefinition": "Number",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true",
+      "defaultOrder":"asc",
+      "mandatory":false,
+         "width":140
+      
+    },
+	{
+      "name": "fkAssignmentTypeCd",
+      "label": "Assignment Type Code",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true",
+      "defaultOrder":"asc",
+      "mandatory":false,
+         "width":140
+      
+    },
+    {
+      "name": "activeIn",
+      "label": "Active Indicator",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true",
+      "defaultOrder":"asc",
+      "mandatory":false,
+         "width":140
+      
+    },
+    {
+      "name": "completionDt",
+      "label": "Completion Date",
+      "typeDefinition": "Date",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true",
+      "defaultOrder":"asc",
+      "mandatory":false,
+         "width":140
+      
+    },
+    {
+      "name": "pendingLocationTx",
+      "label": "Pending Location ",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true",
+      "defaultOrder":"asc",
+      "mandatory":false,
+         "width":140
+      
+    },
+    {
+      "name": "lastModifiedTs",
+      "label": "Last Modified TimeStamp",
+      "typeDefinition": "Date",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true",
+      "defaultOrder":"asc",
+      "mandatory":false,
+         "width":140
+      
+    },
+    {
+      "name": "lastModifiedUserId",
+      "label": "Last Modified User Identifier",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true",
+      "defaultOrder":"asc",
+      "mandatory":false,
+         "width":140
+      
+    },
+	{
+      "name": "fkAssigneeBeNo",
+      "label": "AssigneeBe #",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true",
+      "defaultOrder":"asc",
+      "mandatory":false,
+         "width":140
+      
+    },
+	{
+      "name": "fkAdFkAppealNo",
+      "label": "FkAdFkAppeal #",
+      "typeDefinition": "Number",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true",
+      "defaultOrder":"asc",
+      "mandatory":false,
+         "width":140
+      
+    },
+	{
+      "name": "fkAdFkAaSerialNo",
+      "label": "FkAdFkAaSerial #",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true",
+      "defaultOrder":"asc",
+      "mandatory":false,
+         "width":140
+      
+    },
+	{
+      "name": "fkAdSequenceNo",
+      "label": "Sequence #",
+      "typeDefinition": "Number",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true",
+      "defaultOrder":"asc",
+      "mandatory":false,
+         "width":140
+      
+    },
+    {
+      "name": "fkAdReconsiderSequenceNo",
+      "label": "Reconsider Sequence #",
+      "typeDefinition": "Number",
+      "pinToLeft": "false",
+      "pinToRight": "true",
+      "selected": "true",
+      "defaultOrder":"desc",
+      "mandatory":false,
+         "width":140
+      
+    },
+    {
+      "name": "palmMailedDt",
+      "label": "Palm Mailed Date",
+      "typeDefinition": "Date",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "true",
+      "defaultOrder":"asc",
+      "mandatory":false,
+         "width":140
+      
+    }, 
+    {
+      "name": "assignmentNo",
+      "label": "Assignment #",
+      "typeDefinition": "Number",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false",
+      "defaultOrder":"desc",
+      "mandatory":false,
+         "width":140
+      
+    },   
+    {
+      "name": "taskTitleTx",
+      "label": "Task Title",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false",
+      "defaultOrder":"asc",
+      "mandatory":false,
+         "width":140
+      
+    },  
+    {
+      "name": "taskDescTx",
+      "label": "Task Description",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false",
+      "defaultOrder":"asc",
+      "mandatory":false,
+         "width":140
+      
+    }, 
+    {
+      "name": "fkAssignorBeNo",
+      "label": "AssignorBe #",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false",
+      "defaultOrder":"desc",
+      "mandatory":false,
+         "width":140
+      
+    }, 
+    {
+      "name": "creatorUserId",
+      "label": "Creator User Identifier",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false",
+      "defaultOrder":"asc",
+      "mandatory":false,
+         "width":140
+      
+    }, 
+    {
+      "name": "createTs",
+      "label": "Create TimeStamp",
+      "typeDefinition": "Date",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false",
+      "defaultOrder":"asc",
+      "mandatory":false,
+         "width":140
+      
+    }, 
+    {
+      "name": "assignmentDueDt",
+      "label": "Assignment Due Date",
+      "typeDefinition": "Date",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false",
+      "defaultOrder":"desc",
+      "mandatory":false,
+         "width":140
+      
+    }, 
+    {
+      "name": "fkAssignmentStatusCd",
+      "label": "Assignment Status Code",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false",
+      "defaultOrder":"desc",
+      "mandatory":false,
+         "width":140
+      
+    }, 
+    {
+      "name": "ptabAssignmentId",
+      "label": "PTAB Assignment Identifier",
+      "typeDefinition": "Number",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false",
+      "defaultOrder":"asc",
+      "mandatory":false,
+         "width":140
+      
+    }, 
+   	{
+      "name": "fkTaskAssignmentCt",
+      "label": "Task Assignment Ct",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false",
+      "defaultOrder":"desc",
+      "mandatory":false,
+         "width":140
+      
+    },
+    {
+      "name": "fkTaskCreatorUserId",
+      "label": "Task Creator User Identifier",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false",
+      "defaultOrder":"asc",
+      "mandatory":false,
+         "width":140
+      
+    }, 
+    {
+      "name": "taskCreatedTs",
+      "label": "Task Created TimeStamp",
+      "typeDefinition": "Date",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false",
+      "defaultOrder":"asc",
+      "mandatory":false,
+         "width":140
+      
+    }, 
+    {
+      "name": "lockControlNo",
+      "label": "Lock Control #",
+      "typeDefinition": "Number",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false",
+      "defaultOrder":"asc",
+      "mandatory":false,
+         "width":140
+      
+    }, 
+    {
+      "name": "noteText",
+      "label": "Note Text",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false",
+      "defaultOrder":"desc",
+      "mandatory":false,
+         "width":140
+      
+    }, 
+   	{
+      "name": "fkPreExistentId",
+      "label": "Pre-Existent Identifier",
+      "typeDefinition": "String",
+      "pinToLeft": "false",
+      "pinToRight": "false",
+      "selected": "false",
+      "defaultOrder":"desc",
+      "mandatory":false,
+         "width":140
+      
+    }
+	
+ ]
+}

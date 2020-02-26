@@ -1,0 +1,92 @@
+<app-dashboard-library>
+  <widget-library style="overflow: hidden; height:716px;">
+    <div class="modal-header">
+      <button title="Cancel" type="button" class="close" ng-click="vm.cancelAddWidgetModal()">
+        <i class="fas fa-times fa-sm"></i>
+        <span class="sr-only">Cancel</span>
+      </button>
+      <h3 class="modal-title truncateTitle" id="modal-title">Widget library</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+      <div class="wl-modal-content">
+        <div>
+          <button aria-controls="widgetTabMenu" aria-expanded="true" aria-hidden="true"
+            aria-label="toggle widget library tabs" class="navbar-toggle" data-target="#widgetTabMenu"
+            data-toggle="collapse" type="button">
+            <span>
+              <i class="fa fa-bars" aria-hidden="true"></i>
+            </span>
+          </button>
+          <nav>
+            <ul class="collapse navbar-collapse widgetTabMenu" id="widgetTabMenu" role="tablist"
+              ng-init="widgetFilter.subcategory=''">
+              <li ng-class="{ 'active' :  widgetFilter.subcategory===''}">
+                <button role="tab" id="menu-btn-0" ng-click="widgetFilter.subcategory='';">
+                  All
+                </button>
+              </li>
+              <li ng-class="{ 'active' :  widgetFilter.subcategory==='Chat'}">
+                <button role="tab" id="menu-btn-1" ng-click="widgetFilter.subcategory='Chat';">
+                  Chat
+                </button>
+              </li>
+              <li ng-class="{ 'active' :  widgetFilter.subcategory==='Video'}">
+                <button role="tab" id="menu-btn-2" ng-click="widgetFilter.subcategory='Video';">
+                  Video
+                </button>
+              </li>
+              <li ng-class="{ 'active' :  widgetFilter.subcategory==='Voice'}">
+                <button role="tab" id="menu-btn-3" ng-click="widgetFilter.subcategory='Voice';">
+                  Voice
+                </button>
+              </li>
+              <li ng-class="{ 'active' :  widgetFilter.subcategory==='Map'}">
+                <button role="tab" id="menu-btn-3" ng-click="widgetFilter.subcategory='Map';">
+                  Map
+                </button>
+              </li>
+            </ul>
+          </nav>
+          <section class="widget-menu" style="overflow: auto; height:603px;">
+            <div style="padding-top: 20px;">
+              <ul role="tabpanel">
+                <li ng-repeat="widget in vm.widgets | filter: widgetFilter | orderBy : 'displayOrder'">
+                  <div>
+                    <div class="widget-card-body">
+                      <h3 class="widget-title truncateTitle" style="word-break: break-all;">
+                        <span>{{widget.title}}</span>
+                      </h3>
+                      <p title="Add {{widget.title}} widget" class="widget-desc">
+                        <img ng-click="vm.addWidget(widget)" class="img-responsive setWidgetHeight widgetImage"
+                          min-width="200px" src="assets/images/{{widget.type}}.PNG" alt="{{widget.title}}" />
+                      </p>
+                    </div>
+                    <div class="widget-card-footer">
+                      <button title="Add {{widget.title}} widget" class="widget-add" type="button"
+                        ng-click="vm.addWidget(widget)">
+                        Add
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button title="Cancel" class="btn btn-default mrgn btblk pull-left" type="button"
+        ng-click="vm.cancelAddWidgetModal()">
+        Cancel
+      </button>
+      <button title="Save" class="btn btn-primary btblk" type="button" ng-click="vm.saveAddWidgetModal()">
+        Save
+      </button>
+      <button title="Save and close" class="btn btn-primary btblk" type="button"
+        ng-click="vm.saveAddWidgetModalClose()">
+        Save and close
+      </button>
+    </div>
+  </widget-library>
+</app-dashboard-library>

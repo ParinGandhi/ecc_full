@@ -1,0 +1,15 @@
+<div class="modal-header">
+  <button id="closeKeepDate" type="button" class="close" ng-click="closeThisDialog()">
+    <i class="fas fa-times fa-sm"></i>
+    <span class="sr-only">Close</span>
+  </button>
+  <h3 class="modal-title truncateTitle" id="modal-title">Selected date is in the past!</h3>
+</div>
+<div class="modal-body" id="modal-body">
+  Do you want to select this date that has passed?
+</div>
+<div class="modal-footer">
+  <button id="noKeepDate" class="btn btn-default pull-left" type="button" ng-click="closeThisDialog()">No</button>
+  <button id="yesKeepDate" class="btn btn-primary" type="button" ng-click="confirm()">Yes</button>
+</div>
+</div>

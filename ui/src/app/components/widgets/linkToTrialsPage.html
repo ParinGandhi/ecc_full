@@ -1,0 +1,8 @@
+<div style="padding-top:5px;  margin-left:7px;">
+  <a ng-if="row.entity.REDIRECT_URL !== null" ng-click="grid.appScope.getRedirectUrl(row.entity.REDIRECT_URL)" style="cursor: pointer; color: blue; float:left;">
+    <u>{{row.entity.PROCEEDING_SUPPLEMENTARY_ID}}</u>
+  </a>
+  <a ng-if="row.entity.REDIRECT_URL === null" ng-click="grid.appScope.openCaseViewerwithAppeal(row)" style="cursor: pointer; color: blue;">
+    <u>{{row.entity.PROCEEDING_SUPPLEMENTARY_ID}}</u>
+  </a>
+</div>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<sql-query name="getPreAppealSpecialTypeDetails">
+        <![CDATA[
+           select PAST_CD from PRE_APPEAL_SPECIAL_TYPE where FK_PA_FK_AA_SERIAL_NO = :applicationNumber
+
+    ]]>
+	</sql-query>
+
+
+</hibernate-mapping>

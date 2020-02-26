@@ -1,0 +1,32 @@
+<div style=" padding-top:5px;">
+
+  <a href="" ng-click="grid.appScope.openCaseViewer(row)" target="_blank" class="reportListName" id="{{COL_FIELD}}"
+    style="color:blue !important; float:left; margin-left:5px;">
+    <u>{{COL_FIELD}}</u>
+  </a>
+  &nbsp;&nbsp;
+  <div class="btn-group dropdown" uib-dropdown="" dropdown-append-to-body>
+    <button class="btn btn-default btn-xs " uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="true">
+      <i class="fas fa-info" style=" margin-left: 7px;"></i>
+      <span class="caret"></span>
+      <span class="sr-only">View case</span>
+    </button>
+
+    <ul role="menubar" class="dropdown-menu" uib-dropdown-menu="" role="menu" style="z-index: 10000; ">
+      <li role="none">
+        <a role="menuitem"
+          href="http://palmapps-fqt.etc.uspto.gov/cgi-bin/expo/GenInfo/snquery.pl?APPL_ID={{COL_FIELD}}" target="_blank"
+          ng-click="">Open in PALM </a>
+      </li>
+      <li role="none">
+        <a role="menuitem" href="http://dav.fqt.uspto.gov/webapp/applicationViewer.html?casenumber={{COL_FIELD}}"
+          target="_blank" ng-click="">Open in DAV</a>
+      </li>
+      <li role="none">
+        <a role="menuitem"
+          href="https://feeprocessingportal-qa.pvt.uspto.gov/fpng/fees/historyservice?postingReferenceText={{COL_FIELD}}"
+          target="_blank" ng-click="">Open in FPNG</a>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<sql-query name="getAssignmentRoles">
+	<![CDATA[
+  select 
+  distinct user_role_nm as "role",
+  description_tx as "description"
+  from stnd_user_role order by user_role_nm asc
+ 
+  ]]>
+	</sql-query>
+
+</hibernate-mapping>	

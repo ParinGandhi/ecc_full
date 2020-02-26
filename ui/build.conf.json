@@ -1,0 +1,11 @@
+{
+    
+
+    "paths": {
+        
+        "vendor": {
+            "styles": "src/vendor/uspto/usptostrap/css/**/*.css"
+
+        }
+    }
+}

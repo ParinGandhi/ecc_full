@@ -1,0 +1,10 @@
+@unitBaseSize: 10;  // Default font-size;
+
+.unit-fallback(@property; @units) {
+    // @property [CSS property name]
+    // @units [size units in pixels]
+    @pxValue: @units;
+    @remValue: (@units / @unitBaseSize);
+    @{property}: ~"@{pxValue}px";
+    @{property}: ~"@{remValue}rem";
+}

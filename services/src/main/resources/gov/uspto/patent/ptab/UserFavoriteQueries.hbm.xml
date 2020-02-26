@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	
+<sql-query  name="fetchStndURLNmByRole">
+	  <![CDATA[ 
+SELECT FAVORITE_NM AS "favoriteName",
+  FAVORITE_URL_TX  AS "favoriteUrlText"
+FROM STND_FAVORITE_LINK
+WHERE FAVORITE_LINK_ID IN
+  (SELECT distinct fk_FAVORITE_LINK_ID
+  FROM ROLE_FAVORITE_LINK
+  WHERE FK_USER_ROLE_ID IN
+    (SELECT APPLICATION_USER_ROLE.FK_USER_ROLE_ID
+    FROM APPLICATION_USER_ROLE
+    WHERE APPLICATION_USER_ROLE.FK_APPLICATION_USER_ID= :applicationUserId
+    )
+  )
+  
+	 ]]>
+	 </sql-query>
+	 
+	 
+	 
+<sql-query  name="selectFavURLForUserId">
+	  <![CDATA[ 
+	SELECT UFL.FAVORITE_URL_TX
+FROM
+ APPLICATION_USER AU,
+  APPLICATION_USER_ROLE AUR,
+  USER_FAVORITE_LINK UFL
+WHERE
+  AU.APPLICATION_USER_ID=AUR.FK_APPLICATION_USER_ID
+AND AUR.FK_APPLICATION_USER_ID =UFL.FK_APPLICATION_USER_ID
+AND AU.USER_ID          = :applicationUserId
+	 ]]>
+	 </sql-query>
+
+	 
+<sql-query  name="getMaxSeqForUserFavLink">
+	  <![CDATA[ 
+	SELECT
+  CASE
+    WHEN MAX(UFL.FAVORITE_PRIORITY_NO) IS NULL
+    THEN 0
+    ELSE MAX(UFL.FAVORITE_PRIORITY_NO )
+  END
+FROM APPLICATION_USER AU,
+  USER_FAVORITE_LINK UFL
+WHERE AU.APPLICATION_USER_ID=UFL.FK_APPLICATION_USER_ID
+AND AU.USER_ID              = :applicationUserId
+	 ]]>
+	 </sql-query>
+
+<sql-query  name="userHasRole">
+	  <![CDATA[ 
+	SELECT count(
+  FK_USER_ROLE_ID)
+FROM
+  APPLICATION_USER AU,
+  APPLICATION_USER_ROLE AUR
+WHERE
+  AU.APPLICATION_USER_ID=AUR.FK_APPLICATION_USER_ID
+AND AU.USER_ID          = :applicationUserId
+	 ]]>
+	 </sql-query>
+
+
+</hibernate-mapping>
+

@@ -1,0 +1,1104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<sql-query name="getAppealData">
+	<![CDATA[
+SELECT PROCEEDING_CORE_ID        AS "proceedingCoreIdentifier",
+  PROCEEDING_NO                  AS "proceedingNumber",
+  PROCEEDING_SUPPLEMENTARY_ID    AS "proceedingSupplementaryId",
+  ADRECONSIDERSEQUENCENUMBER     AS "reconsiderSequenceNumber",
+  DECISIONTYPE                   AS "decisionType",
+  NEXT_DISPOSITION_DT            AS "nextDispositionDate",
+  ASSIGNMENTDATE                 AS "assignmentDate",
+  apj1userId1                    AS "rankOneJudgeIdentifier",
+  apj1userId2                    AS "rankTwoJudgeIdentifier",
+  apj1userId3                    AS "rankThreeJudgeIdentifier",
+  apj1userId4                    AS "rankFourJudgeIdentifier",
+  apj1userId5                    AS "rankFiveJudgeIdentifier",
+  apj1userId6                    AS "rankSixJudgeIdentifier",
+  apj1userId7                    AS "rankSevenJudgeIdentifier",
+  apj1userId8                    AS "rankEightJudgeIdentifier",
+  apj1userId9                    AS "rankNineJudgeIdentifier",
+  ATTYNUMBER                     AS "attorneyIdentifier",
+  ADMINISTRATIVE_PATENT_JDG_1_NM AS "rankOneJudgeName",
+  ADMINISTRATIVE_PATENT_JDG_2_NM AS "rankTwoJudgeName",
+  ADMINISTRATIVE_PATENT_JDG_3_NM AS "rankThreeJudgeName",
+  ADMINISTRATIVE_PATENT_JDG_4_NM AS "rankFourJudgeName",
+  ADMINISTRATIVE_PATENT_JDG_5_NM AS "rankFiveJudgeName",
+  ADMINISTRATIVE_PATENT_JDG_6_NM AS "rankSixJudgeName",
+  ADMINISTRATIVE_PATENT_JDG_7_NM AS "rankSevenJudgeName",
+  ADMINISTRATIVE_PATENT_JDG_8_NM AS "rankEightJudgeName",
+  ADMINISTRATIVE_PATENT_JDG_9_NM AS "rankNineJudgeName",
+  ATTORNEY_NM                    AS "attorneyName",
+  HEARINGDATE                    AS "hearingDate",
+  HEARINGSTATUS                  AS "hearingStatus",
+  APPLICATIONTYPE                AS "applicationType",
+  PROCEEDING_TYPE_NM             AS "proceedingTypeName",
+  APPLICATIONCLASS               AS "applicationClass",
+  APPLICATIONSUBCLASS            AS "applicationSubClass",
+  ARTUNITNUMBER                  AS "groupArtUnitNumber",
+  SPECIALTYPE                    AS "specialType",
+  EMPLOYEENUMBER                 AS "employeeIdentifier",
+  PROCEEDING_STATUS_NM           AS "proceedingStatus",
+  PROCEEDING_STATUS_DESC         AS "proceedingStatusDescriptionTx",
+  PROCEEDINGTYPE                 AS "proceedingType",
+  PROCEEDING_SUB_TYPE            AS "proceedingSubType"
+FROM
+  (SELECT DISTINCT ad.fk_ad_fk_aa_serial_no AS PROCEEDING_CORE_ID,
+    ad.fk_ad_fk_appeal_no                   AS PROCEEDING_NO,
+    ad.fk_ad_sequence_no                    AS PROCEEDING_SUPPLEMENTARY_ID,
+    ad.fk_ad_reconsider_sequence_no         AS adReconsiderSequenceNumber,
+    CASE
+      WHEN ad.fk_ad_reconsider_sequence_no = 0
+      THEN 'Decision '
+        || ad.fk_ad_sequence_no
+      ELSE 'Reconsideration '
+        || ad.fk_ad_reconsider_sequence_no
+        || '(D'
+        || ad.fk_ad_sequence_no
+        || ')'
+    END                                                                                                                                                                                                                                                                                                        AS decisionType,
+    ad.decision_due_dt                                                                                                                                                                                                                                                                                         AS NEXT_DISPOSITION_DT,
+    apj_docket_dt                                                                                                                                                                                                                                                                                              AS assignmentDate,
+    apjno1                                                                                                                                                                                                                                                                                                     AS apjNumberOne,
+    apjno2                                                                                                                                                                                                                                                                                                     AS apjNumberTwo,
+    apjno3                                                                                                                                                                                                                                                                                                     AS apjNumberThree,
+    apjno4                                                                                                                                                                                                                                                                                                     AS apjNumberFour,
+    apjno5                                                                                                                                                                                                                                                                                                     AS apjNumberFive,
+    apjno6                                                                                                                                                                                                                                                                                                     AS apjNumberSix,
+    apjno7                                                                                                                                                                                                                                                                                                     AS apjNumberSeven,
+    apjno8                                                                                                                                                                                                                                                                                                     AS apjNumberEight,
+    apjno9                                                                                                                                                                                                                                                                                                     AS apjNumberNine,
+    attyno                                                                                                                                                                                                                                                                                                     AS attyNumber,
+    APJ1                                                                                                                                                                                                                                                                                                       AS ADMINISTRATIVE_PATENT_JDG_1_NM,
+    APJ2                                                                                                                                                                                                                                                                                                       AS ADMINISTRATIVE_PATENT_JDG_2_NM,
+    APJ3                                                                                                                                                                                                                                                                                                       AS ADMINISTRATIVE_PATENT_JDG_3_NM,
+    APJ4                                                                                                                                                                                                                                                                                                       AS ADMINISTRATIVE_PATENT_JDG_4_NM,
+    APJ5                                                                                                                                                                                                                                                                                                       AS ADMINISTRATIVE_PATENT_JDG_5_NM,
+    APJ6                                                                                                                                                                                                                                                                                                       AS ADMINISTRATIVE_PATENT_JDG_6_NM,
+    APJ7                                                                                                                                                                                                                                                                                                       AS ADMINISTRATIVE_PATENT_JDG_7_NM,
+    APJ8                                                                                                                                                                                                                                                                                                       AS ADMINISTRATIVE_PATENT_JDG_8_NM,
+    APJ9                                                                                                                                                                                                                                                                                                       AS ADMINISTRATIVE_PATENT_JDG_9_NM,
+    ATTY                                                                                                                                                                                                                                                                                                       AS ATTORNEY_NM,
+    apjnoau1                                                                                                                                                                                                                                                                                                   AS apj1userId1,
+    apjnoau2                                                                                                                                                                                                                                                                                                   AS apj1userId2,
+    apjnoau3                                                                                                                                                                                                                                                                                                   AS apj1userId3,
+    apjnoau4                                                                                                                                                                                                                                                                                                   AS apj1userId4,
+    apjnoau5                                                                                                                                                                                                                                                                                                   AS apj1userId5,
+    apjnoau6                                                                                                                                                                                                                                                                                                   AS apj1userId6,
+    apjnoau7                                                                                                                                                                                                                                                                                                   AS apj1userId7,
+    apjnoau8                                                                                                                                                                                                                                                                                                   AS apj1userId8,
+    apjnoau9                                                                                                                                                                                                                                                                                                   AS apj1userId9,
+    hrr.hearing_dt                                                                                                                                                                                                                                                                                             AS hearingDate,
+    DECODE (hrr.status_cd, 'A', 'Appearance made', 'AB', 'Abandoned', 'AR', 'Awaiting Response to NOH', 'C', 'Confirmed', 'N', 'No Show', 'P', 'Postponed', 'V', 'Hearing Vacated', 'W', 'Waived', 'D', 'Dismissed', 'Z', 'Other', 'PD', 'Hearing Postponement Denied', 'PG', 'Hearing Postponement Granted' ) AS hearingStatus,
+    aa.application_type_tx                                                                                                                                                                                                                                                                                     AS applicationType,
+    NVL(CR.DESCRIPTION_TX,a.brief_hearing_type_cd)                                                                                                                                                                                                                                                             AS PROCEEDING_TYPE_NM,
+    aa.class_no                                                                                                                                                                                                                                                                                                AS applicationClass,
+    aa.subclass_no                                                                                                                                                                                                                                                                                             AS applicationSubClass,
+    aa.art_unit_no                                                                                                                                                                                                                                                                                             AS artUnitNumber,
+    DECODE(sp.AST_CD, 'PT', 'Petition', 'RR', 'Return Remand', 'PD', 'Prior Decision', 'SU', 'Suspended', 'UT', '101- Utility', 'EP', 'Expanded Panel', 'PL', 'Plant', 'DP', '101- Double Patenting', 'RE', 'Reexam', 'RI', 'Reissue', 'DI', 'Design', 'RH', 'Rehearing' )                                     AS specialType,
+    apjno1                                                                                                                                                                                                                                                                                                     AS employeeNumber,
+    ash.type_cd                                                                                                                                                                                                                                                                                                AS PROCEEDING_STATUS_NM,
+    NVL(ASTAT.DESCRIPTION_TX,a.brief_hearing_type_cd)                                                                                                                                                                                                                                                          AS PROCEEDING_STATUS_DESC,
+    'APP'                                                                                                                                                                                                                                                                                                      AS PROCEEDINGTYPE,
+    'EX'                                                                                                                                                                                                                                                                                                       AS proceeding_sub_type
+  FROM
+    (SELECT ajp.fk_ad_fk_aa_serial_no,
+      ajp.fk_ad_fk_appeal_no,
+      ajp.fk_ad_sequence_no,
+      ajp.fk_ad_reconsider_sequence_no,
+      decision_due_dt,
+      due_date_assigned_dt,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 1
+        AND active_in          = 'Y'
+        OR panel_apj_rank_no   in(0,91)
+        AND active_in          = 'Y'
+        THEN apj_docket_dt
+        ELSE NULL
+      END) apj_docket_dt,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 1
+        THEN fk_be_no
+        ELSE ''
+      END) apjno1,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 2
+        THEN fk_be_no
+        ELSE ''
+      END) apjno2,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 3
+        THEN fk_be_no
+        ELSE ''
+      END) apjno3,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 4
+        THEN fk_be_no
+        ELSE ''
+      END) apjno4,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 5
+        THEN fk_be_no
+        ELSE ''
+      END) apjno5,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 6
+        THEN fk_be_no
+        ELSE ''
+      END) apjno6,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 7
+        THEN fk_be_no
+        ELSE ''
+      END) apjno7,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 8
+        THEN fk_be_no
+        ELSE ''
+      END) apjno8,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 9
+        THEN fk_be_no
+        ELSE ''
+      END) apjno9,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no in(0,91)
+        THEN fk_be_no
+        ELSE ''
+      END) attyno,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 1
+        THEN au.first_nm
+          ||', '
+          ||au.last_nm
+        ELSE ''
+      END) APJ1,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 2
+        THEN au.first_nm
+          ||', '
+          ||au.last_nm
+        ELSE ''
+      END) APJ2,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 3
+        THEN au.first_nm
+          ||', '
+          ||au.last_nm
+        ELSE ''
+      END) APJ3,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 4
+        THEN au.first_nm
+          ||', '
+          ||au.last_nm
+        ELSE ''
+      END) APJ4,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 5
+        THEN au.first_nm
+          ||', '
+          ||au.last_nm
+        ELSE ''
+      END) APJ5,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 6
+        THEN au.first_nm
+          ||', '
+          ||au.last_nm
+        ELSE ''
+      END) APJ6,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 7
+        THEN au.first_nm
+          ||', '
+          ||au.last_nm
+        ELSE ''
+      END) APJ7,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 8
+        THEN au.first_nm
+          ||', '
+          ||au.last_nm
+        ELSE ''
+      END) APJ8,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 9
+        THEN au.first_nm
+          ||', '
+          ||au.last_nm
+        ELSE ''
+      END) APJ9,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no in(0,91)
+        THEN au.first_nm
+          ||', '
+          ||au.last_nm
+        ELSE ''
+      END) ATTY,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 1
+        THEN au.application_user_id
+        ELSE 0
+      END) apjnoau1,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 2
+        THEN au.application_user_id
+        ELSE 0
+      END) apjnoau2,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 3
+        THEN au.application_user_id
+        ELSE 0
+      END) apjnoau3,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 4
+        THEN au.application_user_id
+        ELSE 0
+      END) apjnoau4,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 5
+        THEN au.application_user_id
+        ELSE 0
+      END) apjnoau5,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 6
+        THEN au.application_user_id
+        ELSE 0
+      END) apjnoau6,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 7
+        THEN au.application_user_id
+        ELSE 0
+      END) apjnoau7,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 8
+        THEN au.application_user_id
+        ELSE 0
+      END) apjnoau8,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no = 9
+        THEN au.application_user_id
+        ELSE 0
+      END) apjnoau9,
+      MAX(
+      CASE
+        WHEN panel_apj_rank_no in(0,91)
+        THEN au.application_user_id
+        ELSE 0
+      END) apjnoauatty
+    FROM appeal_judge_panel ajp,
+      application_user au,
+      appeal_decision ad,
+      (SELECT ajp.fk_ad_fk_aa_serial_no ,
+        ajp.fk_ad_fk_appeal_no ,
+        ajp.fk_ad_sequence_no ,
+        ajp.fk_ad_reconsider_sequence_no
+      FROM appeal_judge_panel ajp
+      WHERE ajp.active_in IN ('R', 'Y') --and ajp.fk_be_no = '83707'
+      )ed
+    WHERE ad.fk_appeal_fk_aa_serial_no(+) = ajp.fk_ad_fk_aa_serial_no
+    AND ad.fk_appeal_no(+)                = ajp.fk_ad_fk_appeal_no
+    AND ad.ad_sequence_no(+)              = ajp.fk_ad_sequence_no
+    AND ad.ad_reconsider_sequence_no(+)   = ajp.fk_ad_reconsider_sequence_no
+    AND ajp.fk_be_no                      = au.cfk_employee_id
+    AND ajp.active_in                    IN ('R', 'Y')
+    AND ed.fk_ad_fk_aa_serial_no          = ajp.fk_ad_fk_aa_serial_no
+    AND ed.fk_ad_fk_appeal_no             = ajp.fk_ad_fk_appeal_no
+    AND ed.fk_ad_sequence_no              = ajp.fk_ad_sequence_no
+    AND ed.fk_ad_reconsider_sequence_no   = ajp.fk_ad_reconsider_sequence_no
+    GROUP BY ajp.fk_ad_fk_aa_serial_no,
+      ajp.fk_ad_fk_appeal_no,
+      ajp.fk_ad_sequence_no,
+      ajp.fk_ad_reconsider_sequence_no,
+      decision_due_dt,
+      due_date_assigned_dt
+    ) ad,
+    hearing_room_roster hrr,
+    appeal_application aa,
+    appeal a,
+    appeal_special_type sp,
+    appeal_status_history ash ,
+    (SELECT VALUE_TX,
+      DESCRIPTION_TX
+    FROM CODE_REFERENCE
+    WHERE upper(TYPE_CD)= 'BRIEF HEARING TYPE'
+    ORDER BY VALUE_TX
+    ) CR,
+    (SELECT VALUE_TX,
+      DESCRIPTION_TX
+    FROM CODE_REFERENCE
+    WHERE upper(TYPE_CD)= 'APPEAL STATUS'
+    ORDER BY VALUE_TX
+    ) ASTAT
+  WHERE aa.serial_no                  = a.fk_aa_serial_no
+  AND a.fk_aa_serial_no               = ad.fk_ad_fk_aa_serial_no
+  AND ad.fk_ad_fk_aa_serial_no        = hrr.fk_ad_fk_aa_serial_no(+)
+  AND a.no                            = ad.fk_ad_fk_appeal_no
+  AND ad.fk_ad_fk_appeal_no           = hrr.fk_ad_fk_appeal_no (+)
+  AND ad.fk_ad_sequence_no            = hrr.fk_ad_sequence_no (+)
+  AND ad.fk_ad_reconsider_sequence_no = hrr.fk_ad_reconsider_sequence_no(+)
+  AND ad.fk_ad_fk_aa_serial_no        = sp.fk_appeal_fk_aa_serial_no (+)
+  AND ad.fk_ad_fk_appeal_no           = sp.fk_appeal_no (+)
+  AND a.brief_hearing_type_cd         = CR.VALUE_TX (+)
+  AND ash.fk_ad_fk_aa_serial_no       = a.fk_aa_serial_no(+)
+  AND ash.sequence_no                 =
+    (SELECT MAX(ash2.sequence_no)
+    FROM appeal_status_history ash2
+    WHERE ash2.fk_ad_fk_appeal_no=ash.fk_ad_fk_appeal_no
+    )
+  AND ash.fk_ad_fk_appeal_no   = a.no (+)
+  AND ash.TYPE_CD              = ASTAT.VALUE_TX (+)
+  AND ad.fk_ad_fk_aa_serial_no = :serialNumber
+  AND ad.fk_ad_fk_appeal_no    = :appealNumber
+  )
+WHERE rowNum=1
+
+	
+  ]]>
+	</sql-query>
+
+	<sql-query name="getAIAData">
+	<![CDATA[
+select distinct inv.APPLICATION_ID as "proceedingCoreIdentifier" ,
+p.PATENT_NO as "patentNumber",
+p.PROCEEDING_NO AS "proceedingNumber",
+'0' as "proceedingSupplementaryId",
+PM.MILESTONE_DT as "nextDispositionDate",
+aup.CFK_EMPLOYEE_ID1 as "rankOneJudgeIdentifier",
+aup.CFK_EMPLOYEE_ID2 as "rankTwoJudgeIdentifier",
+aup.CFK_EMPLOYEE_ID3 as "rankThreeJudgeIdentifier" ,
+aup.APJ1 as "rankOneJudgeName",
+aup.APJ2 as "rankTwoJudgeName",
+aup.APJ3 as "rankThreeJudgeName",
+pm3.MILESTONE_DT as "hearingDate",
+inv.ART_UNIT_CD AS "groupArtUnitNumber",
+CFK_EMPLOYEE_ID1 as "employeeIdentifier",
+SMT.MILESTONE_TYPE_NM as "proceedingStatusDescriptionTx",
+'AIA' as "proceedingType",
+SUBSTR(p.PROCEEDING_NO,1,3) as "proceedingSubType",
+rtrim(p.PATENT_OWNER_NM) as "patentOwnerName",
+p.PROCEEDING_NAME_TX as "proceedingName"
+From proceeding_fsm_instance pfi,proceeding p,proceeding_party_group ppg, PROCEEDING_MILESTONE PM,STND_MILESTONE_TYPE SMT,
+proceeding_party ppar, PRCDNG_INVENTION_DISCLOSURE inv,PROCEEDING_MILESTONE PM3,
+(select pp.fk_proceeding_id,
+max(case when pp.panelist_sequence_id = 1 then au.FIRST_NM||', '||au.LAST_NM else '' end)  APJ1,
+max(case when pp.panelist_sequence_id = 2 then au.FIRST_NM||', '||au.LAST_NM else '' end)  APJ2,
+max(case when pp.panelist_sequence_id = 3 then au.FIRST_NM||', '||au.LAST_NM else '' end)  APJ3,
+max(case when pp.panelist_sequence_id = 1 then au.APPLICATION_USER_ID else 0 end)  CFK_EMPLOYEE_ID1,
+max(case when pp.panelist_sequence_id = 2 then au.APPLICATION_USER_ID else 0 end)  CFK_EMPLOYEE_ID2,
+max(case when pp.panelist_sequence_id = 3 then au.APPLICATION_USER_ID else 0 end)  CFK_EMPLOYEE_ID3
+from proceeding_panelist pp, application_user au
+where au.APPLICATION_USER_ID = pp.FK_PANELIST_ID
+group by pp.fk_proceeding_id) aup
+where aup.FK_PROCEEDING_ID  = pfi.FK_PROCEEDING_ID
+and p.PROCEEDING_ID =  pfi.FK_PROCEEDING_ID
+and pfi.CFK_CURRENT_FSM_STATE_ID not in (1011,1005,1006,1012,1019,1010,1007,1020,1014,1024,1023)
+and ppg.FK_PROCEEDING_ID = p.PROCEEDING_ID
+and ppg.PROCEEDING_PARTY_GROUP_ID = ppar.FK_PROCEEDING_PARTY_GROUP_ID
+and ppar.RANK_NO=1
+and ppar.FK_PRCDNG_PARTY_TYPE_CD='REAL PARTY'
+and inv.FK_PROCEEDING_ID = p.PROCEEDING_ID
+and PM.FK_PROCEEDING_ID = p.PROCEEDING_ID
+and PM3.FK_PROCEEDING_ID(+) = p.PROCEEDING_ID
+and pm3.FK_MILESTONE_TYPE_ID(+) = 11
+and pm.FK_MILESTONE_TYPE_ID = SMT.MILESTONE_TYPE_ID
+AND PM.MILESTONE_DT                   =
+  (SELECT MAX(pm2.milestone_dt)
+  FROM PROCEEDING_MILESTONE pm2
+  WHERE pm2.fk_proceeding_id=pm.fk_proceeding_id
+  )
+and inv.APPLICATION_ID = :serialNumber
+and inv.FK_PROCEEDING_ID = :proceedingIdentifier
+  ]]>
+	</sql-query>
+
+	<sql-query name="getTrialData">
+	<![CDATA[
+SELECT PID.APPLICATION_ID                  AS "proceedingCoreIdentifier" ,
+  P.PROCEEDING_ID                          AS "proceedingSupplementaryId" ,
+  'TRIAL'                                  AS "proceedingTypeCt" ,
+  NVL(P.PRELIMINARY_RESPONSE_FILED_IN,'N') AS "prelimRespFiledIn" ,
+  P.PROCEEDING_NAME_TX                     AS "proceedingNameTx" ,
+  P.PATENT_NO                              AS "patentNo" ,
+  P.PROCEEDING_NO                          AS "proceedingNo" ,
+  P.PATENT_OWNER_NM                        AS "patentOwnerNm" ,
+  P.FISCAL_YEAR_NO                         AS "fiscalYearNo" ,
+  P.CLAIM_LIST_TX                          AS "claimListTx" ,
+  P.CHALLENGED_CLAIM_QT                    AS "challengedClaimQt" ,
+  NVL(P.CONFIDENTIALITY_IN,'N')            AS "confidentialityIn" ,
+  P.CONTENT_MANAGEMENT_PATH_DIR            AS "contentManagementPathDir" ,
+  P.PROCEEDING_HEADER_TX                   AS "proceedingHeaderTx" ,
+  NVL(P.AUTHORIZE_PAYMENT_IN,'N')          AS "authorizePaymentIn" ,
+  P.INSTITUTED_CLAIM_QT                    AS "institutedClaimQt" ,
+  P.SOURCE_SYSTEM_CT                       AS "sourceSystemCt" ,
+  SBO.BOARD_OPINION_NM                     AS "boardOpinion" ,
+  SIDT.DESCRIPTION_TX                      AS "instDecisionType" ,
+  STT.TERMINATION_TYPE_NM                  AS "terminationType" ,
+  SPT.PROCEEDING_TYPE_DESC_TX              AS "proceedingType" ,
+  PFI.CFK_CURRENT_FSM_STATE_ID             AS "currentFsmStateId" ,
+  SFTS.STATE_DESCRIPTION_TX                AS "proceedingStateDesc" ,
+  SMTNDD.MILESTONE_TYPE_NM                 AS "nextDispositionName" ,
+  MD.* ,
+  RJ.*
+FROM proceeding P
+JOIN PRCDNG_INVENTION_DISCLOSURE PID
+ON PID.FK_PROCEEDING_ID = P.PROCEEDING_ID
+LEFT OUTER JOIN STND_BOARD_OPINION SBO
+ON SBO.BOARD_OPINION_ID = P.FK_BOARD_OPINION_ID
+LEFT OUTER JOIN STND_INST_DCSN_TYPE SIDT
+ON SIDT.INST_DCSN_TYPE_ID = P.FK_INST_DCSN_TYPE_ID
+LEFT OUTER JOIN STND_TERMINATION_TYPE STT
+ON STT.TERMINATION_TYPE_ID = P.FK_TERMINATION_TYPE_ID
+LEFT OUTER JOIN STND_PROCEEDING_TYPE SPT
+ON SPT.PROCEEDING_TYPE_ID = P.FK_PROCEEDING_TYPE_ID
+LEFT OUTER JOIN PROCEEDING_FSM_INSTANCE PFI
+ON PFI.FK_PROCEEDING_ID               = P.PROCEEDING_ID
+AND PFI.CFK_CURRENT_FSM_STATE_ID NOT IN (1011,1005,1006,1012,1019,1010,1007,1020,1014,1024,1023)
+LEFT OUTER JOIN STND_FSM_TYPE_STATE SFTS
+ON SFTS.FSM_STATE_ID=PFI.CFK_CURRENT_FSM_STATE_ID
+LEFT OUTER JOIN
+  (SELECT FK_PROCEEDING_ID AS "mileStoneProceedingId" ,
+    MAX(
+    CASE
+      WHEN PM.FK_MILESTONE_TYPE_ID = 7
+      THEN PM.MILESTONE_DT
+      ELSE NULL
+    END) AS "preliminaryResponseDueDate" ,
+    MAX(
+    CASE
+      WHEN PM.FK_MILESTONE_TYPE_ID = 8
+      THEN PM.MILESTONE_DT
+      ELSE NULL
+    END) AS "decisiontoInstituteDueDate" ,
+    MAX(
+    CASE
+      WHEN PM.FK_MILESTONE_TYPE_ID = 9
+      THEN PM.MILESTONE_DT
+      ELSE NULL
+    END)                 AS "finalDecisionDueDate" ,
+    MAX(PM.MILESTONE_DT) AS "nextDispositionDt"
+  FROM PROCEEDING_MILESTONE PM
+  WHERE FK_MILESTONE_TYPE_ID IN (7,8,9)
+  GROUP BY PM.FK_PROCEEDING_ID
+  )MD
+ON MD."mileStoneProceedingId" = P.PROCEEDING_ID
+LEFT OUTER JOIN
+  (SELECT PP.FK_PROCEEDING_ID AS "panelistProceedingId" ,
+    MAX(
+    CASE
+      WHEN PP.PANELIST_SEQUENCE_ID = 1
+      THEN PP.FK_PANELIST_ID
+      ELSE NULL
+    END) AS "rankOneJudgeIdentifier" ,
+    MAX(
+    CASE
+      WHEN PP.PANELIST_SEQUENCE_ID = 2
+      THEN PP.FK_PANELIST_ID
+      ELSE NULL
+    END) AS "rankTwoJudgeIdentifier" ,
+    MAX(
+    CASE
+      WHEN PP.PANELIST_SEQUENCE_ID = 3
+      THEN PP.FK_PANELIST_ID
+      ELSE NULL
+    END) AS "rankThreeJudgeIdentifier" ,
+    MAX(
+    CASE
+      WHEN PP.PANELIST_SEQUENCE_ID = 4
+      THEN PP.FK_PANELIST_ID
+      ELSE NULL
+    END) AS "rankFourJudgeIdentifier" ,
+    MAX(
+    CASE
+      WHEN PP.PANELIST_SEQUENCE_ID = 5
+      THEN PP.FK_PANELIST_ID
+      ELSE NULL
+    END) AS "rankFiveJudgeIdentifier" ,
+    MAX(
+    CASE
+      WHEN PP.PANELIST_SEQUENCE_ID = 6
+      THEN PP.FK_PANELIST_ID
+      ELSE NULL
+    END) AS "rankSixJudgeIdentifier" ,
+    MAX(
+    CASE
+      WHEN PP.PANELIST_SEQUENCE_ID = 7
+      THEN PP.FK_PANELIST_ID
+      ELSE NULL
+    END) AS "rankSevenJudgeIdentifier" ,
+    MAX(
+    CASE
+      WHEN PP.PANELIST_SEQUENCE_ID = 8
+      THEN PP.FK_PANELIST_ID
+      ELSE NULL
+    END) AS "rankEightJudgeIdentifier" ,
+    MAX(
+    CASE
+      WHEN PP.PANELIST_SEQUENCE_ID = 9
+      THEN PP.FK_PANELIST_ID
+      ELSE NULL
+    END) AS "rankNineJudgeIdentifier"
+  FROM PROCEEDING_PANELIST PP
+  WHERE PP.END_EFFECTIVE_DT IS NULL
+  GROUP BY PP.FK_PROCEEDING_ID
+  )RJ
+ON RJ."panelistProceedingId" = P.PROCEEDING_ID
+LEFT OUTER JOIN
+  (SELECT FK_PROCEEDING_ID       AS "mileStoneProceedingId" ,
+    MAX(PM.MILESTONE_DT)         AS "nextDispositionDt" ,
+    MAX(PM.FK_MILESTONE_TYPE_ID) AS "mileStoneId"
+  FROM PROCEEDING_MILESTONE PM
+  WHERE FK_MILESTONE_TYPE_ID IN (7,8,9)
+  GROUP BY PM.FK_PROCEEDING_ID,
+    PM.MILESTONE_DT
+  ) NDD
+ON NDD."mileStoneProceedingId" = P.PROCEEDING_ID
+AND MD."nextDispositionDt"     = NDD."nextDispositionDt"
+LEFT OUTER JOIN STND_MILESTONE_TYPE SMTNDD
+ON NDD."mileStoneId"   = SMTNDD.MILESTONE_TYPE_ID
+WHERE P.PROCEEDING_ID  = :proceedingIdentifier
+AND PID.APPLICATION_ID = :serialNumber
+ORDER BY P.PROCEEDING_ID
+    ]]>
+	</sql-query>
+
+
+	<sql-query name="getTrialDataForViewCaseDocket">
+	<![CDATA[
+SELECT CONCAT(to_char(MILESTONE_DT,'MM/DD/YYYY'),
+      CASE FK_MILESTONE_TYPE_ID  
+         WHEN 1 THEN ' - Filing Date'  
+         WHEN 2 THEN ' - Accorded Filing Date'  
+         WHEN 3 THEN ' - Notice Of Accorded Filing Date'
+        WHEN 4 THEN ' - Preliminary Response Date'  
+         WHEN 5 THEN ' - Decision To Institute Date'  
+         WHEN 6 THEN ' - Final Decision Date' 
+          WHEN 7 THEN ' - Preliminary Response Due Date'  
+         WHEN 8 THEN ' - Decision To Institute Due Date'  
+         WHEN 9 THEN ' - Final Decision Due Date' 
+          WHEN 10 THEN ' - Termination Decision Date'  
+         WHEN 11 THEN ' - Hearing Date'  
+         WHEN 12 THEN ' - Reinstitution Date' 
+          WHEN 13 THEN ' - Trial Certificate Date' 
+      END) AS DESCRIPTION
+FROM PROCEEDING_MILESTONE PM
+join  dn_docket DN on DN.PROCEEDING_SUPPLEMENTARY_ID = PM.FK_PROCEEDING_ID  
+WHERE DN.PROCEEDING_CORE_ID= :serialNumber
+AND  dn.proceeding_supplementary_id=:proceedingIdentifier
+order by PM.MILESTONE_DT asc
+    ]]>
+	</sql-query>
+
+	<sql-query name="getPartyList">
+	<![CDATA[
+SELECT PID.APPLICATION_ID        AS "proceedingCoreIdentifier" ,
+  PP.FK_PROCEEDING_ID            AS "proceedingSupplementaryId" ,
+  SPT.PRCDNG_PARTY_GROUP_TYPE_CD AS "partyType" ,
+  COUNT(*)                       AS "partyCount" ,
+  LISTAGG(
+  CASE P.FK_PARTY_TYPE_ID
+    WHEN 1
+    THEN
+       (ip.last_nm
+        ||' '
+        || ip.first_nm )
+            
+       WHEN 2
+    THEN
+      op.organization_nm
+      
+  END, ',' ) WITHIN GROUP (
+ORDER BY P.PARTY_ID) "partyList"
+FROM PARTY P
+JOIN PROCEEDING_PARTY PP
+ON PP.FK_PARTY_ID = P.PARTY_ID
+JOIN PRCDNG_INVENTION_DISCLOSURE PID
+ON PID.FK_PROCEEDING_ID = PP.fk_PROCEEDING_ID
+LEFT OUTER JOIN PROCEEDING_PARTY_GROUP PPG
+ON PPG.PROCEEDING_PARTY_GROUP_ID = PP.FK_PROCEEDING_PARTY_GROUP_ID
+LEFT OUTER JOIN STND_PRCDNG_PARTY_GROUP_TYPE SPT
+ON SPT.PRCDNG_PARTY_GROUP_TYPE_ID = PPG.FK_PRCDNG_PARTY_GROUP_TYPE_ID
+LEFT OUTER JOIN ORGANIZATION_PARTY OP
+ON OP.FK_PARTY_ID = P.PARTY_ID
+LEFT OUTER JOIN INDIVIDUAL_PARTY IP
+ON IP.FK_PARTY_ID = P.PARTY_ID
+WHERE PP.FK_PROCEEDING_ID = :proceedingIdentifier
+  and PID.APPLICATION_ID = :serialNumber
+GROUP BY PP.FK_PROCEEDING_ID,
+  PID.APPLICATION_ID ,
+  SPT.PRCDNG_PARTY_GROUP_TYPE_CD
+    ]]>
+	</sql-query>
+
+
+	<sql-query name="getPostDecisions">
+
+<![CDATA[
+
+
+SELECT a1.no AS "appealNumber",
+a1.fk_aa_serial_no AS "serialNumber",
+  dn.patent_no                        AS "patentNumber",
+  (
+  CASE
+    WHEN trim(AUA.first_nm) IS NOT NULL
+    AND trim(AUA.last_nm)   IS NOT NULL
+    THEN
+      CASE
+        WHEN trim(AUA.middle_nm) IS NOT NULL
+        THEN
+          CASE
+            WHEN LENGTH(trim(AUA.middle_nm))=1
+            THEN AUA.last_nm
+              ||', '
+              ||AUA.first_nm
+              ||' '
+              ||AUA.middle_nm
+              ||'.'
+            ELSE AUA.last_nm
+              ||', '
+              ||AUA.first_nm
+              ||' '
+              ||AUA.middle_nm
+          END
+        ELSE AUA.last_nm
+          ||', '
+          ||AUA.first_nm
+      END
+    ELSE
+      CASE
+        WHEN trim(AUA.first_nm) IS NOT NULL
+        AND trim(AUA.last_nm)   IS NULL
+        THEN
+          CASE
+            WHEN trim(AUA.middle_nm) IS NOT NULL
+            THEN
+              CASE
+                WHEN LENGTH(trim(AUA.middle_nm))=1
+                THEN AUA.first_nm
+                  ||' '
+                  ||AUA.middle_nm
+                  ||'.'
+                ELSE AUA.first_nm
+                  ||' '
+                  ||AUA.middle_nm
+              END
+            ELSE AUA.first_nm
+          END
+        ELSE
+          CASE
+            WHEN trim(AUA.first_nm) IS NULL
+            AND trim(AUA.last_nm)   IS NOT NULL
+            THEN
+              CASE
+                WHEN trim(AUA.middle_nm) IS NOT NULL
+                THEN
+                  CASE
+                    WHEN LENGTH(trim(AUA.middle_nm))=1
+                    THEN AUA.last_nm
+                      ||', '
+                      ||AUA.middle_nm
+                      ||'.'
+                    ELSE AUA.last_nm
+                      ||', '
+                      ||AUA.middle_nm
+                  END
+                ELSE AUA.last_nm
+              END
+            ELSE
+              CASE
+                WHEN trim(AUA.first_nm) IS NULL
+                AND trim(AUA.last_nm)   IS NULL
+                THEN
+                  CASE
+                    WHEN trim(AUA.middle_nm) IS NOT NULL
+                    THEN
+                      CASE
+                        WHEN LENGTH(trim(AUA.middle_nm))=1
+                        THEN AUA.middle_nm
+                          ||'.'
+                        ELSE AUA.middle_nm
+                      END
+                    ELSE NULL
+                  END
+                ELSE NULL
+              END
+          END
+      END
+  END) AS "judgeNameOne" ,
+  (
+  CASE
+    WHEN trim(AUB.first_nm) IS NOT NULL
+    AND trim(AUB.last_nm)   IS NOT NULL
+    THEN
+      CASE
+        WHEN trim(AUB.middle_nm) IS NOT NULL
+        THEN
+          CASE
+            WHEN LENGTH(trim(AUB.middle_nm))=1
+            THEN AUB.last_nm
+              ||', '
+              ||AUB.first_nm
+              ||' '
+              ||AUB.middle_nm
+              ||'.'
+            ELSE AUB.last_nm
+              ||', '
+              ||AUB.first_nm
+              ||' '
+              ||AUB.middle_nm
+          END
+        ELSE AUB.last_nm
+          ||', '
+          ||AUB.first_nm
+      END
+    ELSE
+      CASE
+        WHEN trim(AUB.first_nm) IS NOT NULL
+        AND trim(AUB.last_nm)   IS NULL
+        THEN
+          CASE
+            WHEN trim(AUB.middle_nm) IS NOT NULL
+            THEN
+              CASE
+                WHEN LENGTH(trim(AUB.middle_nm))=1
+                THEN AUB.first_nm
+                  ||' '
+                  ||AUB.middle_nm
+                  ||'.'
+                ELSE AUB.first_nm
+                  ||' '
+                  ||AUB.middle_nm
+              END
+            ELSE AUB.first_nm
+          END
+        ELSE
+          CASE
+            WHEN trim(AUB.first_nm) IS NULL
+            AND trim(AUB.last_nm)   IS NOT NULL
+            THEN
+              CASE
+                WHEN trim(AUB.middle_nm) IS NOT NULL
+                THEN
+                  CASE
+                    WHEN LENGTH(trim(AUB.middle_nm))=1
+                    THEN AUB.last_nm
+                      ||', '
+                      ||AUB.middle_nm
+                      ||'.'
+                    ELSE AUB.last_nm
+                      ||', '
+                      ||AUB.middle_nm
+                  END
+                ELSE AUB.last_nm
+              END
+            ELSE
+              CASE
+                WHEN trim(AUA.first_nm) IS NULL
+                AND trim(AUA.last_nm)   IS NULL
+                THEN
+                  CASE
+                    WHEN trim(AUA.middle_nm) IS NOT NULL
+                    THEN
+                      CASE
+                        WHEN LENGTH(trim(AUA.middle_nm))=1
+                        THEN AUA.middle_nm
+                          ||'.'
+                        ELSE AUA.middle_nm
+                      END
+                    ELSE NULL
+                  END
+                ELSE NULL
+              END
+          END
+      END
+  END) AS "judgeNameTwo",
+  (
+  CASE
+    WHEN trim(AUC.first_nm) IS NOT NULL
+    AND trim(AUC.last_nm)   IS NOT NULL
+    THEN
+      CASE
+        WHEN trim(AUC.middle_nm) IS NOT NULL
+        THEN
+          CASE
+            WHEN LENGTH(trim(AUC.middle_nm))=1
+            THEN AUC.last_nm
+              ||', '
+              ||AUC.first_nm
+              ||' '
+              ||AUC.middle_nm
+              ||'.'
+            ELSE AUC.last_nm
+              ||', '
+              ||AUC.first_nm
+              ||' '
+              ||AUC.middle_nm
+          END
+        ELSE AUC.last_nm
+          ||', '
+          ||AUC.first_nm
+      END
+    ELSE
+      CASE
+        WHEN trim(AUC.first_nm) IS NOT NULL
+        AND trim(AUC.last_nm)   IS NULL
+        THEN
+          CASE
+            WHEN trim(AUC.middle_nm) IS NOT NULL
+            THEN
+              CASE
+                WHEN LENGTH(trim(AUC.middle_nm))=1
+                THEN AUC.first_nm
+                  ||' '
+                  ||AUC.middle_nm
+                  ||'.'
+                ELSE AUC.first_nm
+                  ||' '
+                  ||AUC.middle_nm
+              END
+            ELSE AUC.first_nm
+          END
+        ELSE
+          CASE
+            WHEN trim(AUC.first_nm) IS NULL
+            AND trim(AUC.last_nm)   IS NOT NULL
+            THEN
+              CASE
+                WHEN trim(AUC.middle_nm) IS NOT NULL
+                THEN
+                  CASE
+                    WHEN LENGTH(trim(AUC.middle_nm))=1
+                    THEN AUC.last_nm
+                      ||', '
+                      ||AUC.middle_nm
+                      ||'.'
+                    ELSE AUC.last_nm
+                      ||', '
+                      ||AUC.middle_nm
+                  END
+                ELSE AUC.last_nm
+              END
+            ELSE
+              CASE
+                WHEN trim(AUC.first_nm) IS NULL
+                AND trim(AUC.last_nm)   IS NULL
+                THEN
+                  CASE
+                    WHEN trim(AUC.middle_nm) IS NOT NULL
+                    THEN
+                      CASE
+                        WHEN LENGTH(trim(AUC.middle_nm))=1
+                        THEN AUC.middle_nm
+                          ||'.'
+                        ELSE AUC.middle_nm
+                      END
+                    ELSE NULL
+                  END
+                ELSE NULL
+              END
+          END
+      END
+  END)                        AS "judgeNameThree" ,
+    (
+  CASE
+    WHEN trim(AU.first_nm) IS NOT NULL
+    AND trim(AU.last_nm)   IS NOT NULL
+    THEN
+      CASE
+        WHEN trim(AU.middle_nm) IS NOT NULL
+        THEN
+          CASE
+            WHEN LENGTH(trim(AU.middle_nm))=1
+            THEN AU.last_nm
+              ||', '
+              ||AU.first_nm
+              ||' '
+              ||AU.middle_nm
+              ||'.'
+            ELSE AU.last_nm
+              ||', '
+              ||AU.first_nm
+              ||' '
+              ||AU.middle_nm
+          END
+        ELSE AU.last_nm
+          ||', '
+          ||AU.first_nm
+      END
+    ELSE
+      CASE
+        WHEN trim(AU.first_nm) IS NOT NULL
+        AND trim(AU.last_nm)   IS NULL
+        THEN
+          CASE
+            WHEN trim(AU.middle_nm) IS NOT NULL
+            THEN
+              CASE
+                WHEN LENGTH(trim(AU.middle_nm))=1
+                THEN AU.first_nm
+                  ||' '
+                  ||AU.middle_nm
+                  ||'.'
+                ELSE AU.first_nm
+                  ||' '
+                  ||AU.middle_nm
+              END
+            ELSE AU.first_nm
+          END
+        ELSE
+          CASE
+            WHEN trim(AU.first_nm) IS NULL
+            AND trim(AU.last_nm)   IS NOT NULL
+            THEN
+              CASE
+                WHEN trim(AU.middle_nm) IS NOT NULL
+                THEN
+                  CASE
+                    WHEN LENGTH(trim(AU.middle_nm))=1
+                    THEN AU.last_nm
+                      ||', '
+                      ||AU.middle_nm
+                      ||'.'
+                    ELSE AU.last_nm
+                      ||', '
+                      ||AU.middle_nm
+                  END
+                ELSE AU.last_nm
+              END
+            ELSE
+              CASE
+                WHEN trim(AU.first_nm) IS NULL
+                AND trim(AU.last_nm)   IS NULL
+                THEN
+                  CASE
+                    WHEN trim(AU.middle_nm) IS NOT NULL
+                    THEN
+                      CASE
+                        WHEN LENGTH(trim(AU.middle_nm))=1
+                        THEN AU.middle_nm
+                          ||'.'
+                        ELSE AU.middle_nm
+                      END
+                    ELSE NULL
+                  END
+                ELSE NULL
+              END
+          END
+      END
+  END)                        AS "patentAttorney" ,       
+  a1.APELLANT_NAME_TX AS "appellant",
+  a1.RECEIVED_DT AS "appealDate",
+  dn.APPLICATION_TYPE_NM AS "applicationTypeCategory",
+  dn.LATEST_PALM_STATUS_NO AS "statusCode"
+FROM  APPEAL a1
+ LEFT outer join dn_docket dn
+  on a1.fk_aa_serial_no = dn.proceeding_core_id
+LEFT OUTER JOIN APPLICATION_USER AU
+ON dn.ATTORNEY_WORKER_ID = AU.APPLICATION_USER_ID
+LEFT OUTER JOIN APPLICATION_USER AUA
+ON dn.apj1_worker_id= AUA.APPLICATION_USER_ID
+LEFT OUTER JOIN APPLICATION_USER AUB
+ON dn.apj2_worker_id= AUB.APPLICATION_USER_ID
+LEFT OUTER JOIN APPLICATION_USER AUC
+ON dn.apj3_worker_id     = AUC.APPLICATION_USER_ID
+WHERE 
+a1.no=(select max(a2.no) from appeal a2 where a2.fk_aa_serial_no=a1.fk_aa_serial_no )
+AND a1.fk_aa_serial_no IN :serialNumber
+  
+  ]]>
+
+	</sql-query>
+
+
+	<sql-query name="getPostDecisions1">
+
+<![CDATA[ select a.no as "appealNumber", a.apellant_name_tx as "appellant", ad.ad_reconsider_sequence_no as "adReconsiderSequenceNo", ad.decision_dt as "decisionDt", dd.attorney_worker_id as "patentAttorney", dd.apj1_worker_id AS "judgeNameOne", dd.apj2_worker_id AS "judgeNameTwo", dd.apj3_worker_id AS "judgeNameThree", ad.decision_type_cd as "decisionTypeCd" from appeal a, appeal_decision ad,dn_docket dd where a.fk_aa_serial_no=:serialNumber and ad.fk_appeal_fk_aa_serial_no (+)= a.fk_aa_serial_no and dd.proceeding_core_id (+)=a.fk_aa_serial_no order by ad.ad_reconsider_sequence_no ]]>
+
+	</sql-query>
+
+
+	<sql-query name="getPostDecisions2">
+
+<![CDATA[ select a.no as "appealNumber", a.apellant_name_tx as "appellant", ad.ad_reconsider_sequence_no as "adReconsiderSequenceNo", ad.decision_dt as "decisionDt", dd.attorney_worker_id as "patentAttorney", dd.apj1_worker_id AS "judgeNameOne", dd.apj2_worker_id AS "judgeNameTwo", dd.apj3_worker_id AS "judgeNameThree", ad.decision_type_cd as "decisionTypeCd" ,(select * from (select appealstat0_.dt from appeal_status_history appealstat0_ where appealstat0_.fk_ad_fk_aa_serial_no=:serialNumber and appealstat0_.type_cd='APAS' order by appealstat0_.dt ) where rownum<2 ) as "apasDt" from appeal a, appeal_decision ad,dn_docket dd where a.fk_aa_serial_no=:serialNumber and ad.fk_appeal_fk_aa_serial_no (+)= a.fk_aa_serial_no and dd.proceeding_core_id (+)=a.fk_aa_serial_no order by ad.ad_reconsider_sequence_no ]]>
+	</sql-query>
+
+	<sql-query name="getPanelingDate">
+	<![CDATA[
+select max(PANEL_ASSIGNMENT_DT) from APPEAL_JUDGE_PANEL where FK_AD_FK_AA_SERIAL_NO= :serialNumber and FK_AD_FK_APPEAL_NO= :appealNumber
+
+ ]]>
+	</sql-query>
+
+	<sql-query name="getHearingDate">
+	<![CDATA[
+select max(PANEL_ASSIGNMENT_DT) from APPEAL_JUDGE_PANEL where FK_AD_FK_AA_SERIAL_NO= :serialNumber and FK_AD_FK_APPEAL_NO= :appealNumber
+
+ ]]>
+	</sql-query>
+
+
+
+	<sql-query name="getPanelNames">
+	<![CDATA[
+SELECT pa.APJ1_WORKER_ID,
+  au_apj1.FIRST_NM  AS "apj1firstName",
+  au_apj1.MIDDLE_NM AS "apj1middleName",
+  au_apj1.LAST_NM   AS "apj1lastName",
+  pa.APJ2_WORKER_ID,
+  au_apj2.FIRST_NM  AS "apj2firstName",
+  au_apj2.MIDDLE_NM AS "apj2middleName",
+  au_apj2.LAST_NM   AS "apj2lastName",
+  pa.APJ3_WORKER_ID,
+  au_apj3.FIRST_NM  AS "apj3firstName",
+  au_apj3.MIDDLE_NM AS "apj3middleName",
+  au_apj3.LAST_NM   AS "apj3lastName"
+FROM DN_DOCKET pa,
+  application_user au_apj1,
+  application_user au_apj2,
+  application_user au_apj3
+WHERE pa.APJ1_WORKER_ID = :apj1WorkerId
+AND pa.APJ2_WORKER_ID   = :apj2WorkerId
+AND pa.APJ3_WORKER_ID   = :apj3WorkerId;
+
+ ]]>
+	</sql-query>
+
+</hibernate-mapping>
+

@@ -1,0 +1,78 @@
+{
+	"columnDetails": [
+	{
+			"name": "alertPriorityCategory",
+			"displayName": "!",
+			"headerTooltip": "!",
+			"type": "string",
+			"cellTemplate" :"<div style=\"margin-left:8px;padding-top:5px;\" ng-class=\"{'bold-alert':row.entity.read === false}\"><span ng-show=\"row.entity.alertPriorityCategory === 'High'\" title=\"Important\"><i class=\"fas fa-exclamation\" style=\"color:#E4002B;\"></i></span><a ng-if=\"row.entity.read === false\" title=\"New alert\"><i class=\"fas fa-circle\" style=\"font-size: 9px\"></i></a></div>",
+			"enableSorting": true,
+			"enableFiltering": true,
+			"visible": true,
+			"width": "4%"
+		},
+		{
+			"name": "appealNumber",
+			"displayName": "Case #",
+			"headerTooltip": "Case #",
+			"type": "string",
+			"cellTemplate": "<div style=\"margin-left: 8px; padding-top:5px; text-decoration: underline; color: blue\" class=\"truncateTitle\" ng-class=\"{'bold-alert':row.entity.read === false}\" > <a href  ng-click=\"grid.appScope.openCaseViewer(row)\" title=\"Open {{row.entity.appealNumber}} in case viewer\" target=\"_blank\" >{{row.entity.appealNumber}}</a> </span></div>",
+			"enableSorting": true,
+			"enableFiltering": true,
+			"visible": true,
+			"width": "9%"
+		},
+		{
+			"name": "messageText",
+			"displayName": "Message",
+			"headerTooltip": "Message",
+			"type": "string",
+			"cellTemplate": "<div title=\"{{row.entity.messageText}}\" style=\"margin-left: 8px; padding-top:5px;\" class=\"truncateTitle\" ng-class=\"{'bold-alert':row.entity.read === false}\" >{{row.entity.messageText}}</div>",
+			"enableSorting": true,
+			"visible": true,
+			"enableFiltering": true
+		},
+		{
+			"name": "sentTimestamp",
+			"displayName": "Received",
+			"headerTooltip": "Received",
+			"type": "date",
+			"cellFilter": "date:\"MM/dd/yyyy hh:mm:ss a\"",
+			"cellTemplate": "<div title=\" {{row.entity.sentTimestamp | date:'MM/dd/yyyy hh:mm:ss a' }}\" style=\" margin-left: 8px; padding-top:5px;\" ng-class=\"{'bold-alert':row.entity.read === false}\">{{row.entity.sentTimestamp | date:\"MM/dd/yyyy hh:mm:ss a\"}} </div>",
+			"enableSorting": true,
+			"visible": true,
+			"enableFiltering": true,
+			"width" : "16%" 
+		},
+		{
+			"name": "assignmentTitle",
+			"displayName": "Assignment title",
+			"headerTooltip": "Assignment title",
+			"type": "string",
+			"cellTemplate": "<div title=\"{{row.entity.assignmentTitle}}\" style=\" margin-left: 8px; padding-top:5px;\" class=\"truncateTitle\" ng-class=\"{'bold-alert':row.entity.read === false}\" >{{row.entity.assignmentTitle}}</div>",
+			"enableSorting": true,
+			"visible": false,
+			"enableFiltering": true
+		},
+		{
+			"name": "assignmentType",
+			"displayName": "Assignment type",
+			"headerTooltip": "Assignment type",
+			"type": "string",
+			"cellTemplate": "<div title=\"{{row.entity.assignmentType}}\" style=\" margin-left: 8px; padding-top:5px;\" class=\"truncateTitle\" ng-class=\"{'bold-alert':row.entity.read === false}\" >{{row.entity.assignmentType}}</div>",
+			"enableSorting": true,
+			"visible": false,
+			"enableFiltering": true
+		},
+		{
+			"name": "Actions",
+			"displayName": "Actions",
+			"headerTooltip": "Actions",
+			"cellTemplate": "<div data-toggle=\"tooltip\" title=\"Delete\" class=\"truncateTitle\" style=\"cursor: pointer; margin-left:2em; padding-top:5px;\"> <a ng-click=\"grid.appScope.deleteRows(row)\"> <i class=\"far fa-trash-alt\"></i></a></div>",
+			"enableFiltering": false,
+			"enableSorting": false,
+			"visible": true,
+			"width": "8%"
+		}
+	]
+}

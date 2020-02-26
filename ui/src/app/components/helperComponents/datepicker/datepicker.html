@@ -1,0 +1,44 @@
+<style>
+  .uib-datepicker-popup > li div > table .btn-info,
+  .uib-datepicker-popup > li div > table .btn-info:hover {
+    color: #004C97;
+    font-weight: bold;
+    background-color: #EEEEEE;
+    border: 2px solid #004C97 !important;
+}
+
+ .uib-datepicker-popup > li.uib-button-bar > span .uib-datepicker-current,
+  .uib-datepicker-popup > li .uib-close,
+  .uib-datepicker-popup > li.uib-button-bar > span .uib-clear{
+    color: #444 !important;
+    background-color: #e0e0e0 !important;
+    border-color: #adadad !important;
+  }
+
+.uib-datepicker-popup > li div > table .btn-default,
+  .uib-datepicker-popup > li div > table .btn-default:hover {
+    border-color: transparent;
+}
+.uib-datepicker-popup > li div > table .btn-default.active,
+  .uib-datepicker-popup > li div > table .btn-default.active:hover{
+    border: 1px solid #adadad;
+}
+
+</style>
+<div class="input-group" style="margin-bottom:0px;" ng-class="{'form-control-width-md': vm.customClass}">
+
+
+<!--   <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="vm.selectedDate" is-open="popup1.opened" -->
+<!--     datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" style="z-index: 0;" -->
+<!--     ng-change="vm.onChange();" /> -->
+
+<input ng-disabled="vm.customDisabled" name="{{vm.customName}}" ng-readonly="vm.readOnly" type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="vm.selectedDate" is-open="popup1.opened" id="{{vm.dateId}}" ng-maxlength="10" maxlength="10"
+  placeholder="mm/dd/yyyy"  ng-blur="vm.onBlur();" datepicker-options="dateOptions" ng-change="vm.onChange();" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" style="z-index: 0;" ng-keyup="change();"
+     />
+
+  <span class="input-group-btn">
+    <button ng-disabled="vm.readOnly" title="Open calendar" type="button" class="btn btn-default" ng-click="open1()" style="z-index: 0;">
+      <i class="far fa-calendar"></i><span class="sr-only">Open calendar</span>
+    </button>
+  </span>
+</div>

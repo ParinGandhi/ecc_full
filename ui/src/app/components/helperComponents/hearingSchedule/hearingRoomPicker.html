@@ -1,0 +1,118 @@
+<style>
+  .select {
+    border: 0px solid #ccc;
+    overflow: hidden;
+    position: relative;
+    display: block;
+  }
+
+  select {
+    height: 40px;
+    padding: 5px;
+    border: 0;
+    width: 240px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
+  .select:after {
+    content: "\f0d7";
+    font-family: FontAwesome;
+    font-size: 13px;
+    color: #000;
+    padding: 6px 17px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
+    text-align: center;
+    width: 10%;
+    height: 100%;
+    pointer-events: none;
+    box-sizing: border-box;
+  }
+
+</style>
+<div class="modal-header">
+  <button type="button" title="Cancel" ng-click="closeThisDialog()" class="close">
+    <i class="fas fa-times fa-sm"></i>
+    <span class="sr-only">Close</span>
+  </button>
+  <h4 class="modal-title ng-binding truncateTitle">Select room and date/time</h4>
+</div>
+<div class="modal-body">
+  <div style="margin-top:.5em;"></div>
+  <div class="row horizontal-form">
+    <div class="col-sm-2">
+      <label style="min-width:4em;" for="hearingRoomDate">Date *</label>
+    </div>
+    <div class="col-sm-6" style="margin-left:.4em;">
+      <date-picker show-weeks="false" date-id="'hearingRoomDate'" ng-model="vm.sessionDate"
+        selected-date="vm.sessionDate" aria-label="Report From Date" error-describedby="'invalidStartDateErrorMsg'"
+        class="ng-isolate-scope" on-date-blur="vm.validateBusinnessdateSelected" past-date="noPastdateValidation">
+      </date-picker>
+      <!-- <span class="errorMsg help-block" ng-if="showErrorMsgDueDate">{{errorMessageDueDate}}</span> -->
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2">
+      <label for="hearingRoomName" style="min-width:4em;">Room *</label>
+    </div>
+    <div class="col-sm-6">
+      <div class="btn-group dropdown control-label required" uib-dropdown is-open="status.isopen"
+        style="width: 100%;margin-left:.39em;">
+
+        <button ng-disabled="disableRoom" id="hearingRoomName" aria-label="Hearing room name"
+          class="btn btn-default  btn-xs currentAssignmentbtn" uib-dropdown-toggle="" aria-haspopup="true"
+          aria-expanded="true" style="width: 95%; padding-top: 6px; padding-bottom: 24px; margin-top: 0px !important;">
+          <span class="pull-left truncateTitle" style="max-width: 93%;">{{vm.locationName}}</span>
+          <span class="caret pull-right" style=" margin-top: 8px;"></span>
+
+        </button>
+        <ul class="uib-dropdown-menu" uib-dropdown-menu="" role="menu"
+          style="z-index: 10000; width: max-content; min-height: 0px; max-height: 400px; overflow-y: scroll;">
+          <li ng-repeat="content in vm.sessionData  | orderBy:'locationDescription'" style="cursor: pointer;">
+            <a href="javascript:void(0);" ng-click="vm.setSelectedRoom(content)">
+              <span>{{content.locationDescription}}</span>
+              </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2">
+      <label for="hearingTime">Time *</label>
+    </div>
+    <div class="col-sm-6">
+      <div class="btn-group dropdown control-label required" uib-dropdown is-open="status2.isopen"
+        style="width: 100%;margin-left:.39em;">
+        <button ng-disabled="disableTime" id="hearingTime" aria-label="Hearing time"
+          class="btn btn-default  btn-xs currentAssignmentbtn" uib-dropdown-toggle="" aria-haspopup="true"
+          aria-expanded="true" style="width: 95%; padding-top: 6px; padding-bottom: 24px; margin-top: 0px !important;">
+          <span class="pull-left truncateTitle" style="max-width: 93%;">{{vm.selectedTime}}</span>
+          <span class="caret pull-right" style=" margin-top: 8px;"></span>
+
+        </button>
+        <ul class="uib-dropdown-menu" uib-dropdown-menu="" role="menu"
+          style="z-index: 10000; width: max-content; min-height: 0px; max-height: 400px; overflow-y: scroll;">
+          <li ng-repeat="datanoe in assignmentTypes | orderBy:'-'" style="cursor: pointer;">
+            <a href="javascript:void(0);" ng-click="vm.setSelectedTime(datanoe)">
+              <span>{{datanoe}}</span>
+              </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <div>
+    <button class="btn btn-default pull-left" title="Cancel" ng-click="closeThisDialog()">Cancel</button>
+    <button ng-disabled="openSession" class="btn btn-default pull-right" title="Open session hearing docket"
+      ng-click="vm.showSessionSchedule()">OK</button>
+  </div>
+</div>

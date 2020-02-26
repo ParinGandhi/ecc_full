@@ -1,0 +1,27 @@
+<div class="modalWidth">
+  <div class="modal-header">
+    <button id="interferenceModalCloseX" type="button" class="close" ng-click="closeThisDialog()">
+      <i class="fas fa-times fa-sm"></i>
+    </button>
+    <h4 class="modal-title truncateTitle" id="modal-title">Internet Explorer required</h4>
+  </div>
+  <div class="modal-body" id="modal-body">
+    <div>
+      <div class="col-md-12">
+        <p>Interference portal can only be opened in Internet Explorer. Please click the Copy icon &nbsp;<i class="far fa-copy fa-xs" style="color:black;"></i>&nbsp;below, open Internet Explorer, and paste the URL in the address bar.</p>
+      </div>
+    </div>
+    <label for="interferencePortalLink">Interference Portal URL</label>
+
+
+    <div class="input-group col-md-11">
+      <input type="text" class="form-control" id="interferencePortalLink" readonly ng-model="interferencePortalUrl" style="background: white;">
+      <span class="input-group-btn">
+        <button title="Copy Interference portal URL" class="btn btn-primary btn-icon-only" ng-click="copyToClipBoard(interferencePortalUrl)"><i class="far fa-copy"></i><span class="sr-only">Copy URL</span></button>
+      </span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button title="Close dialog" class="btn btn-default pull-left" type="button" ng-click="closeThisDialog()">Close</button>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="modalWidth">
+        <div class="modal-body" id="modal-body">
+          <button title="Cancel" id="cancelAddWidgetX" type="button" class="close" ng-click="closeThisDialog();">
+            <i class="fas fa-times fa-sm"></i>
+            <span class="sr-only">Cancel</span>
+          </button>
+          <h4 class="abandonTitle">
+            <strong>
+              Abandon changes?
+            </strong>
+          </h4>
+          <p ng-if="flagData">Do you wish to save the current changes before moving to the new tab?</p>
+          <p ng-if="!flagData">You have unsaved changes. Your changes will be lost.</p>
+        </div>
+        <div class="modal-footer">
+          <button title="Cancel" ng-if="flagData" id="cancelBtn" class="btn btn-default pull-left" type="button" ng-click="closeThisDialog();">Cancel</button>
+          <button title="No" ng-if="flagData" id="noBtn" class="btn btn-default pull-left" type="button" ng-click="closeParties()">No</button>
+          <button title="Save" ng-if="flagData" id="saveBtn" class="btn btn-primary" type="button" ng-click="putInventors()">Save</button>
+          <button title="Cancel" ng-if="!flagData" id="cancelnoBtn" class="btn btn-default pull-left" type="button" ng-click="closeThisDialog();">Cancel</button>
+          <button title="Abandon changes" ng-if="!flagData" id="cancelyesBtn" class="btn btn-primary" type="button" ng-click="closeAllParties(); closeThisDialog();">Abandon
+            changes</button>
+        </div>
+      </div>
+      

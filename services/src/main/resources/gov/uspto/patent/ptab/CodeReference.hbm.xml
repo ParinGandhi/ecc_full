@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<sql-query name="fetchAppealStatus"> 
+<![CDATA[ 
+select DESCRIPTION_TX from CODE_REFERENCE where UPPER(TYPE_CD)= 'APPEAL STATUS' and UPPER(VALUE_TX) = (select TYPE_CD from APPEAL_STATUS_HISTORY where FK_AD_FK_AA_SERIAL_NO = :appealSerialNumber and SEQUENCE_NO = :sequenceNumber) 
+]]>
+	</sql-query>
+
+	<sql-query name="getValueAndDescriptionByType">
+		select DESCRIPTION_TX as "description"
+		from code_reference
+		where
+		type_cd='ASSIGNMENT-TYPE-DNMA' and value_tx=:value_tx
+	</sql-query>
+
+
+</hibernate-mapping>
+

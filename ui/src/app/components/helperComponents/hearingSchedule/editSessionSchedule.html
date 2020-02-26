@@ -1,0 +1,121 @@
+<style>
+    #selectSpecialHearingTypeBtn .dropdown-menu li > a {
+        width: 320px;
+    }
+    #selectSpecialHearingTypeBtn .dropdown-menu-form {
+        top: 30px !important;
+    }
+
+    </style>
+<div class="modal-header">
+    <div class="col-md-12">
+
+        <div class="col-md-4">
+            <h4 class="modal-title ng-binding truncateTitle">Update hearing info
+            </h4>
+        </div>
+        <div class="col-md-8">
+            <button type="button" id="cancelPrintSchedule" ng-click="closeThisDialog()" class="close pull-right">
+                <i class="fas fa-times fa-sm"></i>
+                <span class="sr-only">Close</span>
+            </button>
+
+        </div>
+    </div>
+</div>
+
+<div style="margin-bottom:.51em;"></div>
+<div class="modal-body hearing-body" style="height: 400px; overflow:visible;">
+    <div class="col-md-6">
+        <dl class="dl-horizontal" style="margin-bottom: 0;overflow:visible;">
+
+            <dt>Transaction date</dt>
+            <dd style="width:12.7em;">
+                    {{vm.eroh.transactionDate | date:'MM/dd/yyyy'}}
+                <!-- <date-picker selected-date="vm.date" ></date-picker> -->
+            </dd>
+            
+            <dt style="margin-top:.5em;"><div ng-class="{'has-error':vm.showErrorMsgTitletx}"><label for="calendarNumber" class="control-label required">Calendar # *</label></div></dt>
+            <dd><div ng-class="{'has-error':vm.showErrorMsgTitletx}"><input class="form-control" id="calendarNumber" type="number"  min="0" style="width: 60%;" read-only=true ng-model="vm.eroh.calendarNumber"  ng-keyup="vm.checkCalendertx()" ng-blur="vm.checkCalendertx()">
+                <span class="errorMsg help-block" ng-if="vm.showErrorMsgTitletx">{{vm.errorMessageTitletx}}</span></div></dd>
+
+            
+            <dt style="margin-top:.5em;">Hearing status</dt>
+            <dd style="margin-top:.5em;">
+
+
+                {{vm.eroh.statusCodeDescription}}
+
+
+            </dd>
+            <dt><label for="specialHearingType">Special hearing type</label></dt>
+            <dd>
+                <div id="specialHearingType" class="btn-group dropdown " uib-dropdown is-open="responseNoh.isopen2" style="width: 100%;">
+
+                    <button ng-disabled="caseTypeDisable" id="assignmentType " aria-label="Select Assingment Type for Assignment"
+                        class="btn btn-default  btn-xs currentAssignmentbtn" uib-dropdown-toggle="" aria-haspopup="true"
+                        aria-expanded="true" style="width: 95%; padding-top: 6px; padding-bottom: 24px; margin-top: 0px !important;">
+                        <span class="pull-left truncateTitle" style="max-width: 90%;">{{vm.specialHearingType.selectedStatusDisplay}}</span>
+                        <span class="caret pull-right" style=" margin-top: 8px;"></span>
+
+                    </button>
+                    <!-- </div> -->
+                    <ul class="uib-dropdown-menu" uib-dropdown-menu="" role="menu" aria-labelledby="single-button"
+                        style="z-index: 10000; width: max-content; min-height: 0px; max-height: 400px; overflow-y: scroll;">
+                        <li ng-repeat="value in vm.special" style="cursor: pointer;">
+                            <a href="javascript:void(0);" ng-click="vm.setSelectedSpecialType(value.valueText,value.descriptionText);">
+                                <span>{{value.descriptionText}}</span>
+                                </span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </dd>
+
+        </dl>
+    </div>
+    <div class="col-md-6">
+        <dl class="dl-horizontal" style="margin-bottom: 0;overflow:hidden;">
+
+            <dt>Hearing date/time</dt>
+            <dd>{{vm.eroh.hearingDate | date:'MM/dd/yyyy'}}&nbsp;{{vm.eroh.hearingTime}}</dd>
+            <dt>Location/Room</dt>
+            <dd>{{vm.eroh.locationDescription}}</dd>
+            <dt>Hearing docket</dt>
+            <dd>{{vm.eroh.hearingDocketNumber}}</dd>
+            <dt>Counsel</dt>
+            <dd>{{vm.eroh.counselFullName}}</dd>
+            <dt>Notice mailed by</dt>
+            <dd>{{vm.eroh.noticeMailedBy}}</dd>
+            <dt>Mail date from PALM</dt>
+            <dd>{{vm.eroh.palmMailedDate | date:'MM/dd/yyyy'}}</dd>
+
+
+        </dl>
+    </div>
+    <br>
+    <br>
+
+    <div class="col-md-12" style="margin-top:1.3em;">
+        <dl class="dl-horizontal" style="margin-bottom: 0;overflow:visible;">
+            <div class="form-group">
+                    <dt><label for="enohNotetext">Hearing notes</label></dt>
+                    <dd><textarea  aria-label="Hearing notes" id="enohNotetext" ng-model="vm.eroh.hearingNoteText"
+                       style="min-height: 110px; width: -webkit-fill-available;" required=""
+                      aria-invalid="false" ng-class="" ng-keyup="" ng-blur="" maxlength="500">
+                    </textarea></dd>
+                    <span class="help-block pull-right">
+                            <strong>{{!vm.eroh.hearingNoteText.length ? 0 : vm.eroh.hearingNoteText.length}} / 500</strong>
+                    </span>
+            </div>
+        </dl>
+    </div>
+    <br>
+</div>
+
+<div class="modal-footer">
+
+    <button class="btn btn-default pull-left" title="Cancel update hearing info" ng-click="closeThisDialog()">Cancel</button>
+    <button class="btn btn-primary pull-right" title="Update hearing info" ng-click="vm.submitResponse()">Update hearing</button>
+</div>

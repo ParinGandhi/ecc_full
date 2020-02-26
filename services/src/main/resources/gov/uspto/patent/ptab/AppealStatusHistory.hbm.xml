@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+
+	<sql-query name="fetchNextAppealStatusHistorySequenceNumber">
+	<![CDATA[
+	
+	select MAX(SEQUENCE_NO) as "maxSequenceNumber" 
+	from APPEAL_STATUS_HISTORY 
+	where FK_AD_FK_APPEAL_NO = :appealNumber
+	and FK_AD_FK_AA_SERIAL_NO = :applicationNumber
+	and FK_AD_SEQUENCE_NO = :adSequenceNumber
+	and FK_AD_RECONSIDER_SEQUENCE_NO = :reconsiderSequenceNumber
+	
+	 ]]>
+	</sql-query>
+	
+	<sql-query name="fetchCaseMilestoneDates">
+		 <![CDATA[
+			                SELECT DISTINCT
+  (SELECT MAX(DT)
+  FROM appeal_status_history
+  WHERE type_cd            ='NOHM'
+  AND fk_ad_fk_aa_serial_no= :serialNumber
+  AND FK_AD_FK_APPEAL_NO   =:appealNumber
+  ) AS "noticeOfHearingDate",
+    (SELECT MAX(PALM_STATUS_MAILED_DT)
+  FROM appeal_status_history
+  WHERE type_cd            ='NOHM'
+  AND fk_ad_fk_aa_serial_no= :serialNumber
+  AND FK_AD_FK_APPEAL_NO   =:appealNumber
+  ) AS "noticeOfHearingMailDate",
+      (SELECT MAX(DT)
+  FROM appeal_status_history
+  WHERE type_cd            ='UHADDC'
+  AND fk_ad_fk_aa_serial_no= :serialNumber
+  AND FK_AD_FK_APPEAL_NO   =:appealNumber
+  ) AS "hearingTranscriptDate",
+    (SELECT MAX(PALM_STATUS_MAILED_DT)
+  FROM appeal_status_history
+  WHERE type_cd            ='UHADDC'
+  AND fk_ad_fk_aa_serial_no= :serialNumber
+  AND FK_AD_FK_APPEAL_NO   =:appealNumber
+  ) AS "hearingTranscriptMailDate",
+  (SELECT Description_tx
+  FROM code_reference
+  WHERE value_tx =
+    (SELECT status_cd
+    FROM hearing_room_roster
+    WHERE FK_AD_FK_AA_SERIAL_NO = :serialNumber
+    AND FK_AD_FK_APPEAL_NO      =:appealNumber
+    AND rowNum                  =1
+    )
+  AND type_cd='HEARING_STATUS_DESC'
+  AND rowNum =1
+  ) AS "hearingStatus",
+  (SELECT MAX(DT)
+  FROM appeal_status_history
+  WHERE type_cd           IN ('DNMA', 'AEWFC')
+  AND fk_ad_fk_aa_serial_no= :serialNumber
+  AND FK_AD_FK_APPEAL_NO   =:appealNumber
+  )AS "docketingNoticeDate",
+  (SELECT MAX(PALM_STATUS_MAILED_DT)
+  FROM appeal_status_history
+  WHERE type_cd           IN ('DNMA', 'AEWFC')
+  AND fk_ad_fk_aa_serial_no= :serialNumber
+  AND FK_AD_FK_APPEAL_NO   =:appealNumber
+  )AS "docketingNoticeMailDate",
+  (SELECT HEARING_DT
+  FROM HEARING_ROOM_ROSTER
+  WHERE FK_AD_FK_AA_SERIAL_NO = :serialNumber
+  AND FK_AD_FK_APPEAL_NO      =:appealNumber
+  AND HRR_SEQUENCE_NO        IN
+    (SELECT MAX(HRR_SEQUENCE_NO)
+    FROM HEARING_ROOM_ROSTER
+    WHERE FK_AD_FK_AA_SERIAL_NO = :serialNumber
+    AND FK_AD_FK_APPEAL_NO      =:appealNumber
+    )
+  AND rowNum=1
+  ) AS "hearingDate"
+FROM APpeal_status_history
+WHERE fk_ad_fk_aa_serial_no = :serialNumber
+AND FK_AD_FK_APPEAL_NO      =:appealNumber
+
+		]]>
+	</sql-query>
+
+</hibernate-mapping>
+

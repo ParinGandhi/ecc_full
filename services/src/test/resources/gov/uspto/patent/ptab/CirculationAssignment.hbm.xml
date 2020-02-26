@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <sql-query name="getDisposedCirculationAssignment">
+    <![CDATA[ 
+       SELECT pa.ptab_assignment_id FROM ptab_assignment pa 
+		INNER JOIN circulation_assignment ca 
+		ON ca.FK_PTAB_ASSIGNMENT_ID = pa.ptab_assignment_id
+		WHERE pa.completion_dt IS NOT NULL 
+		AND ca.disposition_ts IS NOT NULL
+		AND ca.bypass_allowed_in <> 'Y'
+		AND ca.fk_ptab_assignment_id = :ptabAssignmentId
+    
+	 ]]>
+	</sql-query>
+	
+	<sql-query name="getPtabAssignmentWithAssignmentTypeCodeAndCirculationLevelId">
+    <![CDATA[ 
+    
+        SELECT pa.ptab_assignment_id AS "ptabAssignmentId",
+	    pa.assigned_dt AS "assignedDt",
+		pa.assignment_due_dt AS "assignmentDueDt",
+		pa.fk_ad_fk_aa_serial_no AS "fkAdFkAaSerialNo",
+		pa.fk_ad_fk_appeal_no AS "fkAdFkAppealNo",
+		pa.fk_assignee_be_no AS "fkAssigneeBeNo",
+		pa.task_title_tx AS "taskTitleTx",
+		pa.task_desc_tx AS "taskDescTx", 
+		pa.completion_dt AS "completionDt",
+		pa.last_modified_user_id AS "lastModifiedUserId"
+		FROM ptab_assignment pa 
+        INNER JOIN circulation_assignment ca 
+		ON pa.ptab_assignment_id = ca.fk_ptab_assignment_id
+		WHERE 
+		pa.fk_assignment_type_id   =  (select sat.assignment_type_id from stnd_assignment_type sat where sat.assignment_type_cd = :assignmentTypeCode )
+		AND pa.completion_dt IS NULL
+		AND ca.circulation_level_id = :circulationLevelId AND ca.fk_circulation_id = :circulationId		
+    
+	 ]]>
+	</sql-query>
+	
+</hibernate-mapping>

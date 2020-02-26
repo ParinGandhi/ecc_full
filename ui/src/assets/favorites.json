@@ -1,0 +1,74 @@
+[
+	{
+		"userFavoritesIdentifier": 281,
+		"userFavoritesName": "Google",
+		"userFavoritesURL": "http://www.google.com",
+		"applicationUserData": {
+			"applicationUserIdentifier": 5850
+		},
+		"defaultIndicator": false
+	},
+	{
+		"userFavoritesIdentifier": 461,
+		"userFavoritesName": "Yahoo",
+		"userFavoritesURL": "http://www.yahoo.com",
+		"applicationUserData": {
+			"applicationUserIdentifier": 5850
+		},
+		"defaultIndicator": false
+	},
+	{
+		"userFavoritesIdentifier": 462,
+		"userFavoritesName": "CNN",
+		"userFavoritesURL": "http://www.cnn.com",
+		"applicationUserData": {
+			"applicationUserIdentifier": 5850
+		},
+		"defaultIndicator": false
+	},
+	{
+		"userFavoritesIdentifier": 541,
+		"userFavoritesName": "BBC",
+		"userFavoritesURL": "http://www.bbc.com",
+		"applicationUserData": {
+			"applicationUserIdentifier": 5850
+		},
+		"defaultIndicator": false
+	},
+	{
+		"userFavoritesIdentifier": 542,
+		"userFavoritesName": "Bloomberg",
+		"userFavoritesURL": "https://www.bloomberg.com/",
+		"applicationUserData": {
+			"applicationUserIdentifier": 5850
+		},
+		"defaultIndicator": false
+	},
+	{
+		"userFavoritesIdentifier": 563,
+		"userFavoritesName": "Huffington Post",
+		"userFavoritesURL": "https://www.huffpost.com/",
+		"applicationUserData": {
+			"applicationUserIdentifier": 5850
+		},
+		"defaultIndicator": false
+	},
+	{
+		"userFavoritesIdentifier": 564,
+		"userFavoritesName": "NY Times",
+		"userFavoritesURL": "https://www.nytimes.com/",
+		"applicationUserData": {
+			"applicationUserIdentifier": 5850
+		},
+		"defaultIndicator": false
+	},
+	{
+		"userFavoritesIdentifier": 609,
+		"userFavoritesName": "Washington Post",
+		"userFavoritesURL": "https://www.washingtonpost.com/",
+		"applicationUserData": {
+			"applicationUserIdentifier": 5850
+		},
+		"defaultIndicator": false
+	}
+]

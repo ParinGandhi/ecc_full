@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+
+
+	<!-- <sql-query name="getWorkspaceAndWidgetForWorker">
+       <![CDATA[
+    select		                                           
+		au.first_nm                                as "firstName",
+		au.middle_nm                               as "middleName",
+		au.last_nm                                 as "lastName",
+		au.email_address_tx                        as "emailAddressText",
+		'typePending'                              as "userType",
+		uw.user_workspace_id                       as "workspaceIdentifier",
+		uw.user_workspace_nm                       as "workspaceName",
+		uw.VIEW_LAYOUT_NM                          as "workspaceLayout",
+		uw.default_in                              as "workspaceDefaultIndicator",
+		uw.ORDER_SEQUENCE_NO                           as "workspaceOrder",
+			uww.fk_widget_id                            as "stndWidgetIdentifier",
+		uww.user_workspace_widget_id               as "widgetIdentifier",
+		uww.widget_position_tx 				  as "widgetPosition",
+		'categoryPending'                          as "widgetDescription",
+		sw.widget_nm                                 as "widgetCategory",
+		uww.widget_custom_nm                       as "widgetName",
+		uww.config_tx                              as "widgetConfigurationText",
+		(select description_tx from code_reference  where type_cd = 'HEIGHT_STR_INT_MAP' and value_tx = uww.widget_height_pixel_qt)               as "widgetHeight",
+		uww.WIDGET_COLOR_NM                             as "widgetColor",
+		sw.widget_nm               					as "widgetStndName",
+		( select value_tx from code_reference where type_cd = trim(uw.VIEW_LAYOUT_NM ) || '_MAPPING_FOR_WIDTH') as "workspaceStructureMapping",
+		uww.query_tx								as "dataUrlText"
+		
+		
+		from 
+		user_workspace uw, user_workspace_widget uww, application_user au, stnd_widget sw
+		where 
+		uww.fk_user_workspace_id(+) = uw.user_workspace_id and
+		sw.widget_id(+) = uww.fk_widget_id and
+		au.application_user_id = uw.fk_application_user_id and
+		au.application_user_id = :userId
+		order by uw.ORDER_SEQUENCE_NO  
+         
+        ]]>
+	</sql-query> -->
+	
+	
+	<sql-query name="getWorkspaceAndWidgetForWorker">
+       <![CDATA[
+    select		                                           
+		au.first_nm                                as "firstName",
+		au.middle_nm                               as "middleName",
+		au.last_nm                                 as "lastName",
+		au.email_address_tx                        as "emailAddressText",
+		'typePending'                              as "userType",
+		uw.user_workspace_id                       as "workspaceIdentifier",
+		uw.user_workspace_nm                       as "workspaceName",
+		uw.VIEW_LAYOUT_NM                          as "workspaceLayout",
+		uw.default_in                              as "workspaceDefaultIndicator",
+		uw.ORDER_SEQUENCE_NO                           as "workspaceOrder",
+			uww.fk_widget_id                            as "stndWidgetIdentifier",
+		uww.user_workspace_widget_id               as "widgetIdentifier",
+		uww.widget_position_tx 				  as "widgetPosition",
+		'categoryPending'                          as "widgetDescription",
+		sw.widget_nm                                 as "widgetCategory",
+		uww.widget_custom_nm                       as "widgetName",
+		uww.config_tx                              as "widgetConfigurationText",
+		(select description_tx from code_reference  where type_cd = 'HEIGHT_STR_INT_MAP' and value_tx = uww.widget_height_pixel_qt)               as "widgetHeight",
+		uww.WIDGET_COLOR_NM                             as "widgetColor",
+		sw.widget_nm               					as "widgetStndName",
+		( select value_tx from code_reference where type_cd = trim(uw.VIEW_LAYOUT_NM ) || '_MAPPING_FOR_WIDTH') as "workspaceStructureMapping",
+		uww.query_tx								as "dataUrlText"
+		
+		
+		from 
+		user_workspace uw left outer join user_workspace_widget uww on uww.fk_user_workspace_id = uw.user_workspace_id
+		left outer join stnd_widget sw on sw.widget_id = uww.fk_widget_id
+        , application_user au
+		where 
+		au.application_user_id = uw.fk_application_user_id and
+		au.application_user_id = :userId
+		order by uw.ORDER_SEQUENCE_NO 
+         
+        ]]>
+	</sql-query>
+
+
+	<sql-query name="fetchUserRoleForApplUserId">
+       <![CDATA[
+SELECT sur.user_role_nm AS "roleCode",
+  sur.description_tx    AS "roleDescription"
+FROM application_user au,
+  application_user_role aur,
+  stnd_user_role sur
+WHERE aur.fk_application_user_id = au.application_user_id
+AND sur.user_role_id             = aur.fk_user_role_id
+AND au.application_user_id = :userId
+	 ]]>
+	</sql-query>
+
+
+
+
+
+
+	<sql-query name="fetchStndWidgets">
+       <![CDATA[ 
+               	select 
+	 	sw.widget_id               as "identifier",
+     	sw.widget_nm               as "widgetName",
+		sw.note_tx                 as "noteText",
+		sw.config_tx               as "configText",
+		sw.display_order_sequence_no as "displayOrder",
+    sws.widget_subcategory_nm  as  "subCategoryName",
+    sws.widget_subcategory_id  as "subCategoryId"
+		from
+		stnd_widget sw, stnd_widget_subcategory sws
+		where
+    sw.end_effective_dt is null and
+    sw.fk_widget_subcategory_id = sws.widget_subcategory_id
+	 ]]>
+	</sql-query>
+
+
+
+	<!-- <sql-query name="getWorkspaceAndWidgetDetailsForWorkspaceId">
+       <![CDATA[
+    select		                                           
+		au.first_nm                                as "firstName",
+		au.middle_nm                               as "middleName",
+		au.last_nm                                 as "lastName",
+		au.email_address_tx                        as "emailAddressText",
+		'typePending'                              as "userType",
+		uw.user_workspace_id                       as "workspaceIdentifier",
+		uw.user_workspace_nm                       as "workspaceName",
+		VIEW_LAYOUT_NM                          as "workspaceLayout",
+		uw.default_in                              as "workspaceDefaultIndicator",
+		uw.ORDER_SEQUENCE_NO                           as "workspaceOrder",
+			uww.fk_widget_id                            as "stndWidgetIdentifier",
+		uww.user_workspace_widget_id               as "widgetIdentifier",
+		uww.widget_position_tx 				  as "widgetPosition",
+		'categoryPending'                          as "widgetDescription",
+		sw.widget_nm                                 as "widgetCategory",
+		uww.widget_custom_nm                       as "widgetName",
+		uww.config_tx                              as "widgetConfigurationText",
+		(select description_tx from code_reference  where type_cd = 'HEIGHT_STR_INT_MAP' and value_tx = uww.widget_height_pixel_qt)               as "widgetHeight",
+		uww.WIDGET_COLOR_NM                             as "widgetColor",
+		sw.widget_nm               					as "widgetStndName",
+		( select value_tx from code_reference where type_cd = trim(uw.VIEW_LAYOUT_NM ) || '_MAPPING_FOR_WIDTH') as "workspaceStructureMapping",
+			uww.query_tx								as "dataUrlText"
+		
+		
+		from 
+		user_workspace uw, user_workspace_widget uww, application_user au, stnd_widget sw
+		where 
+		uww.fk_user_workspace_id(+) = uw.user_workspace_id and
+		sw.widget_id(+) = uww.fk_widget_id and
+		au.application_user_id = uw.fk_application_user_id and
+		uw.user_workspace_id = :workspaceId
+		order by uw.ORDER_SEQUENCE_NO  
+         
+        ]]>
+	</sql-query> -->
+	
+	<!-- <sql-query name="getWorkspaceAndWidgetDetailsForWorkspaceId">
+       <![CDATA[
+    select		                                           
+		au.first_nm                                as "firstName",
+		au.middle_nm                               as "middleName",
+		au.last_nm                                 as "lastName",
+		au.email_address_tx                        as "emailAddressText",
+		'typePending'                              as "userType",
+		uw.user_workspace_id                       as "workspaceIdentifier",
+		uw.user_workspace_nm                       as "workspaceName",
+		VIEW_LAYOUT_NM                          as "workspaceLayout",
+		uw.default_in                              as "workspaceDefaultIndicator",
+		uw.ORDER_SEQUENCE_NO                           as "workspaceOrder",
+			uww.fk_widget_id                            as "stndWidgetIdentifier",
+		uww.user_workspace_widget_id               as "widgetIdentifier",
+		uww.widget_position_tx 				  as "widgetPosition",
+		'categoryPending'                          as "widgetDescription",
+		sw.widget_nm                                 as "widgetCategory",
+		uww.widget_custom_nm                       as "widgetName",
+		uww.config_tx                              as "widgetConfigurationText",
+		(select description_tx from code_reference  where type_cd = 'HEIGHT_STR_INT_MAP' and value_tx = uww.widget_height_pixel_qt)               as "widgetHeight",
+		uww.WIDGET_COLOR_NM                             as "widgetColor",
+		sw.widget_nm               					as "widgetStndName",
+		( select value_tx from code_reference where type_cd = trim(uw.VIEW_LAYOUT_NM ) || '_MAPPING_FOR_WIDTH') as "workspaceStructureMapping",
+			uww.query_tx								as "dataUrlText"
+		
+		
+		from 
+		user_workspace uw, user_workspace_widget uww, application_user au, stnd_widget sw
+		where 
+		uww.fk_user_workspace_id = uw.user_workspace_id and
+		sw.widget_id = uww.fk_widget_id and
+		au.application_user_id = uw.fk_application_user_id and
+		uw.user_workspace_id = :workspaceId
+		order by uw.ORDER_SEQUENCE_NO  
+         
+        ]]>
+	</sql-query> -->
+	
+	<sql-query name="getWorkspaceAndWidgetDetailsForWorkspaceId">
+       <![CDATA[
+	select		                                           
+		au.first_nm                                as "firstName",
+		au.middle_nm                               as "middleName",
+		au.last_nm                                 as "lastName",
+		au.email_address_tx                        as "emailAddressText",
+		'typePending'                              as "userType",
+		uw.user_workspace_id                       as "workspaceIdentifier",
+		uw.user_workspace_nm                       as "workspaceName",
+		VIEW_LAYOUT_NM                          as "workspaceLayout",
+		uw.default_in                              as "workspaceDefaultIndicator",
+		uw.ORDER_SEQUENCE_NO                           as "workspaceOrder",
+			uww.fk_widget_id                            as "stndWidgetIdentifier",
+		uww.user_workspace_widget_id               as "widgetIdentifier",
+		uww.widget_position_tx 				  as "widgetPosition",
+		'categoryPending'                          as "widgetDescription",
+		sw.widget_nm                                 as "widgetCategory",
+		uww.widget_custom_nm                       as "widgetName",
+		uww.config_tx                              as "widgetConfigurationText",
+		(select description_tx from code_reference  where type_cd = 'HEIGHT_STR_INT_MAP' and value_tx = uww.widget_height_pixel_qt)               as "widgetHeight",
+		uww.WIDGET_COLOR_NM                             as "widgetColor",
+		sw.widget_nm               					as "widgetStndName",
+		( select value_tx from code_reference where type_cd = trim(uw.VIEW_LAYOUT_NM ) || '_MAPPING_FOR_WIDTH') as "workspaceStructureMapping",
+			uww.query_tx								as "dataUrlText"
+		
+		from
+		user_workspace uw left outer join user_workspace_widget uww on uww.fk_user_workspace_id = uw.user_workspace_id
+		left outer join stnd_widget sw on sw.widget_id = uww.fk_widget_id
+        , application_user au
+		where 
+		au.application_user_id = uw.fk_application_user_id and
+		uw.user_workspace_id = :workspaceId
+		order by uw.ORDER_SEQUENCE_NO
+      ]]>
+	</sql-query>
+
+	<sql-query name="getWidgetPositionSummaryForWorkspaceId">
+       <![CDATA[ 
+       select		                                           
+		uw.user_workspace_id                       as "workspaceIdentifier",
+		uw.VIEW_LAYOUT_NM                          as "workspaceLayout",
+			uww.user_workspace_widget_id               as "widgetIdentifier",
+		uww.widget_position_tx 				  as "widgetPosition",
+			uww.widget_custom_nm                       as "widgetName",
+		( select value_tx from code_reference where type_cd = trim(uw.VIEW_LAYOUT_NM ) || '_MAPPING_FOR_WIDTH') as "workspaceStructureMapping"
+		from 
+		user_workspace uw, user_workspace_widget uww, application_user au, stnd_widget sw
+		where 
+		uww.fk_user_workspace_id(+) = uw.user_workspace_id and
+		sw.widget_id(+) = uww.fk_widget_id and
+		au.application_user_id = uw.fk_application_user_id and
+		uw.user_workspace_id = :workspaceId
+		order by uw.ORDER_SEQUENCE_NO 
+	 ]]>
+	</sql-query>
+
+
+
+	<sql-query name="getWorkspaceAndWidgetSummaryForWorkspaceId">
+       <![CDATA[
+   		select		                                           
+		uw.user_workspace_id                       as "workspaceIdentifier",
+		uw.VIEW_LAYOUT_NM                          as "workspaceLayout",
+		uww.user_workspace_widget_id               as "widgetIdentifier",
+		uww.widget_position_tx 				  as "widgetPosition",
+		uw.user_workspace_nm                       as "workspaceName"
+		from 
+		user_workspace uw left outer join user_workspace_widget uww on
+		uww.fk_user_workspace_id = uw.user_workspace_id and
+		uw.user_workspace_id = :workspaceId
+        ]]>
+	</sql-query>
+
+
+
+	<sql-query name="fetchAllWidgetsForThisWorkspaceId">
+       <![CDATA[
+       select	
+		uww.fk_widget_id                            as "stndWidgetIdentifier",
+		uww.user_workspace_widget_id               as "widgetIdentifier",
+		uww.widget_position_tx 				  as "widgetPosition",
+		'categoryPending'                          as "widgetDescription",
+		sw.widget_nm                                 as "widgetCategory",
+		uww.widget_custom_nm                       as "widgetName",
+		uww.config_tx                              as "widgetConfigurationText",
+		(select description_tx from code_reference  where type_cd = 'HEIGHT_STR_INT_MAP' and value_tx = uww.widget_height_pixel_qt)               as "widgetHeight",
+		uww.WIDGET_COLOR_NM                             as "widgetColor",
+		sw.widget_nm               					as "widgetStndName"
+		
+		
+		from 
+	user_workspace_widget uww, stnd_widget sw
+		where 
+		sw.widget_id = uww.fk_widget_id and
+    uww.fk_user_workspace_id = :workspaceId
+	 ]]>
+	</sql-query>
+
+
+	<!-- <sql-query name="fetchConfigForWidgetNameAndPosition">
+       <![CDATA[
+  select 
+ (select substr(value_tx, 3)  from code_reference cr1 where type_cd = (select view_layout_nm from user_workspace where user_workspace_id = :workspaceId) 
+ || '_CONFIG' and
+ value_tx like (select cr1.value_tx from code_reference cr1 where cr1.type_cd  = (select view_layout_nm from user_workspace where user_workspace_id = :workspaceId) 
+ || '_DEFAULT_ZONE') || '%') as "defaultZoneConfig"
+ ,
+ (select to_char(count(user_Workspace_widget_id))  from user_workspace_widget
+ where
+ fk_user_workspace_id = :workspaceId and fk_widget_id =  :widgetId) as "countOfWidgetsType"
+ ,
+ (select  to_char(count(user_workspace_widget_id)) 
+ from user_workspace_widget uww,
+ ( select substr(value_tx, instr(value_tx, '~') + 1, 4) as positionBegin from
+ (select cr1.value_tx from code_reference cr1 where type_cd =
+ (select view_layout_nm from user_workspace where user_workspace_id = :workspaceId) || '_CONFIG'  
+ and
+ cr1.value_tx like (select cr1.value_tx from code_reference cr1 where type_cd =
+ ((select view_layout_nm from user_workspace where user_workspace_id = :workspaceId) || '_DEFAULT_ZONE' )  
+ ) || '%'
+ ) ) positionLikeText
+ where uww.fk_user_workspace_id =  :workspaceId and uww.widget_position_tx like positionLikeText.positionBegin || '%') as "countOfWidgetsInDefault",
+ (select description_tx from code_reference  where type_cd = 'CREATE_WIDGET_DEFAULT' and value_tx = 'HEIGHT') as "defaultHeightNo",
+  (select description_tx from code_reference where value_tx = (
+ select description_tx from code_reference  where type_cd = 'CREATE_WIDGET_DEFAULT' and value_tx = 'HEIGHT') and type_cd = 'HEIGHT_STR_INT_MAP') as "defaultHeightText",
+ (select description_tx from code_reference  where type_cd = 'CREATE_WIDGET_DEFAULT' and value_tx = 'COLOR') as "defaultColor" ,
+  (select to_char(count(user_Workspace_widget_id))  from user_workspace_widget
+ where
+ fk_user_workspace_id = :workspaceId and upper(trim(widget_custom_nm)) =  :widgetName) as "countOfWidgetName",
+ (select to_char(widget_id) from stnd_widget where widget_nm = 'myFavorites') as "favoriteWidgetId",
+ (select link_url_tx from stnd_widget where widget_id = :widgetId) as "uriBegin",
+  (select to_char(count(uww.user_workspace_widget_id))  from user_workspace_widget uww, user_workspace uw
+ where
+ uw.user_workspace_id = uww.fk_user_workspace_id and 
+ uw.fk_application_user_id = :userId and 
+ uww.fk_widget_id = :widgetId) as "countOfWidgetsTypeForUser"
+ from dual
+
+    
+        ]]>
+	</sql-query> -->
+	
+	<sql-query name="fetchConfigForWidgetNameAndPosition">
+       <![CDATA[
+  select 
+   (select substr(value_tx, 3)  from code_reference cr1 where type_cd = concat((select view_layout_nm from user_workspace where user_workspace_id = :workspaceId) 
+ , '_CONFIG') and
+ value_tx like concat((select cr1.value_tx from code_reference cr1 where cr1.type_cd  = concat((select view_layout_nm from user_workspace where user_workspace_id = :workspaceId) 
+ , '_DEFAULT_ZONE')) , '%')) as "defaultZoneConfig"
+ ,
+ (select convert(count(user_Workspace_widget_id), char)  from user_workspace_widget
+ where
+ fk_user_workspace_id = :workspaceId and fk_widget_id =  :widgetId) as "countOfWidgetsType"
+ ,
+  (select  convert(count(user_workspace_widget_id), char) 
+ from user_workspace_widget uww,
+ ( select substr(value_tx, instr(value_tx, '~') + 1, 4) as positionBegin from
+ (select cr1.value_tx from code_reference cr1 where type_cd =
+ concat((select view_layout_nm from user_workspace where user_workspace_id = :workspaceId) , '_CONFIG') 
+ and
+ cr1.value_tx like concat((select cr1.value_tx from code_reference cr1 where type_cd =
+ (concat((select view_layout_nm from user_workspace where user_workspace_id = :workspaceId) , '_DEFAULT_ZONE' ))  
+ ) , '%')
+ ) valueTx ) positionLikeText
+ where uww.fk_user_workspace_id = :workspaceId and uww.widget_position_tx like concat(positionLikeText.positionBegin , '%')) as "countOfWidgetsInDefault",
+ (select description_tx from code_reference  where type_cd = 'CREATE_WIDGET_DEFAULT' and value_tx = 'HEIGHT') as "defaultHeightNo",
+  (select description_tx from code_reference where value_tx = (
+ select description_tx from code_reference  where type_cd = 'CREATE_WIDGET_DEFAULT' and value_tx = 'HEIGHT') and type_cd = 'HEIGHT_STR_INT_MAP') as "defaultHeightText",
+ (select description_tx from code_reference  where type_cd = 'CREATE_WIDGET_DEFAULT' and value_tx = 'COLOR') as "defaultColor" ,
+  (select convert(count(user_Workspace_widget_id), char)  from user_workspace_widget
+ where
+ fk_user_workspace_id = :workspaceId and upper(trim(widget_custom_nm)) =  :widgetName) as "countOfWidgetName",
+ (select convert(widget_id, char) from stnd_widget where widget_nm = 'myFavorites') as "favoriteWidgetId",
+ (select link_url_tx from stnd_widget where widget_id = :widgetId) as "uriBegin",
+  (select convert(count(uww.user_workspace_widget_id), char)  from user_workspace_widget uww, user_workspace uw
+ where
+ uw.user_workspace_id = uww.fk_user_workspace_id and 
+ uw.fk_application_user_id = :userId and 
+ uww.fk_widget_id = :widgetId) as "countOfWidgetsTypeForUser"
+ from dual
+    
+        ]]>
+	</sql-query>
+
+
+
+	<!-- <sql-query name="fetchWidgetZone">
+       <![CDATA[
+       
+          select substr(value_tx, 3, 4) as "zoneConfig", view_layout_nm as "structure",
+        (select value_tx from code_reference where type_cd = trim(view_layout_nm) || '_MAPPING_FOR_WIDTH') as "structureMap" 
+      from code_reference cr, (select view_layout_nm  from user_workspace where user_workspace_id = :workspaceId and rownum = 1)  struc      
+      where value_tx like '%' || :positionLike  and 
+      type_cd = struc.view_layout_nm  || '_CONFIG'
+        ]]>
+	</sql-query> -->
+	
+	<sql-query name="fetchWidgetZone">
+       <![CDATA[
+       
+          select substr(value_tx, 3, 4) as "zoneConfig", view_layout_nm as "structure",
+        (select value_tx from code_reference where type_cd = CONCAT(trim(view_layout_nm) , '_MAPPING_FOR_WIDTH')) as "structureMap" 
+      from code_reference cr, (select view_layout_nm  from user_workspace where user_workspace_id = :workspaceId LIMIT 1)  struc      
+      where value_tx like CONCAT('%' , :positionLike)  and 
+      type_cd = CONCAt(struc.view_layout_nm  , '_CONFIG')
+        ]]>
+	</sql-query>
+
+
+	<sql-query name="getWorkspaceAndWidgetDetailsForWorkspaceIdForZones">
+       <![CDATA[
+    select		                                           
+		au.first_nm                                as "firstName",
+		au.middle_nm                               as "middleName",
+		au.last_nm                                 as "lastName",
+		au.email_address_tx                        as "emailAddressText",
+		'typePending'                              as "userType",
+		uw.user_workspace_id                       as "workspaceIdentifier",
+		uw.user_workspace_nm                       as "workspaceName",
+		VIEW_LAYOUT_NM                          as "workspaceLayout",
+		uw.default_in                              as "workspaceDefaultIndicator",
+		uw.ORDER_SEQUENCE_NO                           as "workspaceOrder",
+			uww.fk_widget_id                            as "stndWidgetIdentifier",
+		uww.user_workspace_widget_id               as "widgetIdentifier",
+		uww.widget_position_tx 				  as "widgetPosition",
+		'categoryPending'                          as "widgetDescription",
+		sw.widget_nm                                 as "widgetCategory",
+		uww.widget_custom_nm                       as "widgetName",
+		uww.config_tx                              as "widgetConfigurationText",
+		(select description_tx from code_reference  where type_cd = 'HEIGHT_STR_INT_MAP' and value_tx = uww.widget_height_pixel_qt)               as "widgetHeight",
+		uww.WIDGET_COLOR_NM                             as "widgetColor",
+		sw.widget_nm               					as "widgetStndName",
+		( select value_tx from code_reference where type_cd = trim(uw.VIEW_LAYOUT_NM ) || '_MAPPING_FOR_ZONE') as "workspaceStructureMapping",
+			uww.query_tx								as "dataUrlText"
+		
+		
+		from 
+		user_workspace uw, user_workspace_widget uww, application_user au, stnd_widget sw
+		where 
+		uww.fk_user_workspace_id(+) = uw.user_workspace_id and
+		sw.widget_id(+) = uww.fk_widget_id and
+		au.application_user_id = uw.fk_application_user_id and
+		uw.user_workspace_id = :workspaceId
+		order by uw.ORDER_SEQUENCE_NO  
+         
+        ]]>
+	</sql-query>
+	
+	<sql-query name="getUserIdByWidgetId">
+       <![CDATA[
+	select uw.fk_application_user_id from user_workspace uw, 
+user_workspace_widget uww where uww.fk_user_workspace_id = uw.user_workspace_id and 
+uww.user_workspace_widget_id = :widgetId
+	 ]]>
+	</sql-query>	
+</hibernate-mapping>
+	

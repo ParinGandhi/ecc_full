@@ -1,0 +1,1820 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<sql-query name="getActiveAssigmentCount">
+	<![CDATA[
+	SELECT count(*) FROM PTAB_ASSIGNMENT where
+	 completion_dt is  NULL and fk_assignee_be_no =:beNumber
+	 ]]>
+	</sql-query>
+
+
+
+	<sql-query name="deletePtabAssignment">
+	<![CDATA[
+	UPDATE PTAB_ASSIGNMENT 
+	  set
+			COMPLETION_DT = sysdate,			
+			LAST_MODIFIED_TS = sysdate,
+			LAST_MODIFIED_USER_ID = :userId,
+			FK_ASSIGNMENT_STATUS_CD= 'D',
+			ACTIVE_IN='D'
+      	WHERE PTAB_ASSIGNMENT_ID = :ptabAssignmentId
+	 ]]>
+	</sql-query>
+
+
+
+
+	<sql-query name="activeAppealAssignment">
+	<![CDATA[
+	
+SELECT AA.SEQUENCE_NO             AS "sequenceNumber",
+  AA.FK_ASSIGNMENT_TYPE_ID        AS "assignmentTypeCode",
+  AA.ACTIVE_IN                    AS "activeIndicator",
+  AA.ASSIGNED_DT                  AS "assignedDate",
+  AA.COMPLETION_DT                AS "completionDate",
+  AA.PENDING_LOCATION_TX          AS "pendingLocationText",
+  AA.LAST_MODIFIED_TS             AS "lastModifiedTimestamp",
+  AA.LAST_MODIFIED_USER_ID        AS "lastModifiedUserIdentifier",
+  AA.FK_ASSIGNEE_BE_NO            AS "assigneeNumber",
+  AA.FK_AD_FK_APPEAL_NO           AS "appealNumber",
+  AA.FK_AD_FK_AA_SERIAL_NO        AS "serialNumber",
+  AA.FK_AD_SEQUENCE_NO            AS "adSequenceNumber",
+  AA.FK_AD_RECONSIDER_SEQUENCE_NO AS "reconsiderSequenceNumber",
+  AA.PALM_MAILED_DT               AS "mailDate", 
+  AA.TASK_TITLE_TX                AS "assignmentTitleText",
+  AA.TASK_DESC_TX                 AS "assignmentDescriptionText",
+  AA.FK_ASSIGNOR_BE_NO            AS "assignorNumber",
+  AA.CREATOR_USER_ID              AS "createUserIdentifier",
+  AA.CREATE_TS                    AS "createTimestamp",
+  AA.ASSIGNMENT_DUE_DT            AS "assignmentDueDate",
+  AA.FK_ASSIGNMENT_STATUS_CD      AS "assignmentStatusCode",
+  AA.PTAB_ASSIGNMENT_ID           AS "assignmentIdentifier",
+--   AA.FK_TASK_ASSIGNMENT_CT        AS "caseType",
+  AA.FK_TASK_CREATOR_USER_ID      AS "taskCreatorUserIdentifier",
+  AA.TASK_CREATED_TS              AS "taskCreateDate",
+  AA.LOCK_CONTROL_NO              AS "lockControlNumber",
+  AA.COMMENT_TX					  AS "notesText",
+  AA.PRIORITY_IN				  AS "priorityIndicator",
+  AA.FK_PREEXISTENT_ASSIGNMENT_ID AS "preExistentIdentifier",
+  AA.FK_COMPLETER_BE_NO			  AS "completerNumber"
+FROM PTAB_ASSIGNMENT AA
+WHERE AA.FK_AD_FK_AA_SERIAL_NO = :serialNumber
+AND AA.COMPLETION_DT is null
+
+		 ]]>
+	</sql-query>
+	
+	<sql-query name="getInactiveAssignments">
+	<![CDATA[
+	
+SELECT AA.SEQUENCE_NO             AS "sequenceNumber",
+  AA.FK_ASSIGNMENT_TYPE_ID        AS "assignmentTypeCode",
+  AA.ACTIVE_IN                    AS "activeIndicator",
+  AA.ASSIGNED_DT                  AS "assignedDate",
+  AA.COMPLETION_DT                AS "completionDate",
+  AA.PENDING_LOCATION_TX          AS "pendingLocationText",
+  AA.LAST_MODIFIED_TS             AS "lastModifiedTimestamp",
+  AA.LAST_MODIFIED_USER_ID        AS "lastModifiedUserIdentifier",
+  AA.FK_ASSIGNEE_BE_NO            AS "assigneeNumber",
+  AA.FK_AD_FK_APPEAL_NO           AS "appealNumber",
+  AA.FK_AD_FK_AA_SERIAL_NO        AS "serialNumber",
+  AA.FK_AD_SEQUENCE_NO            AS "adSequenceNumber",
+  AA.FK_AD_RECONSIDER_SEQUENCE_NO AS "reconsiderSequenceNumber",
+  AA.PALM_MAILED_DT               AS "mailDate", 
+  AA.TASK_TITLE_TX                AS "assignmentTitleText",
+  AA.TASK_DESC_TX                 AS "assignmentDescriptionText",
+  AA.FK_ASSIGNOR_BE_NO            AS "assignorNumber",
+  AA.CREATOR_USER_ID              AS "createUserIdentifier",
+  AA.CREATE_TS                    AS "createTimestamp",
+  AA.ASSIGNMENT_DUE_DT            AS "assignmentDueDate",
+  AA.FK_ASSIGNMENT_STATUS_CD      AS "assignmentStatusCode",
+  AA.PTAB_ASSIGNMENT_ID           AS "assignmentIdentifier",
+--   AA.FK_TASK_ASSIGNMENT_CT        AS "caseType",
+  AA.FK_TASK_CREATOR_USER_ID      AS "taskCreatorUserIdentifier",
+  AA.TASK_CREATED_TS              AS "taskCreateDate",
+  AA.LOCK_CONTROL_NO              AS "lockControlNumber",
+  AA.COMMENT_TX					  AS "notesText",
+  AA.PRIORITY_IN				  AS "priorityIndicator",
+  AA.FK_PREEXISTENT_ASSIGNMENT_ID AS "preExistentIdentifier",
+  AA.FK_COMPLETER_BE_NO			  AS "completerNumber"
+FROM PTAB_ASSIGNMENT AA
+WHERE AA.FK_AD_FK_AA_SERIAL_NO = :serialNumber
+AND AA.FK_AD_FK_APPEAL_NO = :appealNumber
+AND AA.fk_assignment_type_id = :typeIdentifier
+AND AA.COMPLETION_DT is not null
+
+		 ]]>
+	</sql-query>
+
+
+	<sql-query name="activeAppealAssignments">
+	<![CDATA[
+	
+SELECT AA.SEQUENCE_NO             AS "sequenceNumber",
+  AA.FK_ASSIGNMENT_TYPE_ID        AS "assignmentTypeCode",
+  AA.ACTIVE_IN                    AS "activeIndicator",
+  AA.ASSIGNED_DT                  AS "assignedDate",
+  AA.COMPLETION_DT                AS "completionDate",
+  AA.PENDING_LOCATION_TX          AS "pendingLocationText",
+  AA.LAST_MODIFIED_TS             AS "lastModifiedTimestamp",
+  AA.LAST_MODIFIED_USER_ID        AS "lastModifiedUserIdentifier",
+  AA.FK_ASSIGNEE_BE_NO            AS "assigneeNumber",
+  AA.FK_AD_FK_APPEAL_NO           AS "appealNumber",
+  AA.FK_AD_FK_AA_SERIAL_NO        AS "serialNumber",
+  AA.FK_AD_SEQUENCE_NO            AS "adSequenceNumber",
+  AA.FK_AD_RECONSIDER_SEQUENCE_NO AS "reconsiderSequenceNumber",
+  AA.PALM_MAILED_DT               AS "mailDate", 
+  AA.TASK_TITLE_TX                AS "assignmentTitleText",
+  AA.TASK_DESC_TX                 AS "assignmentDescriptionText",
+  AA.FK_ASSIGNOR_BE_NO            AS "assignorNumber",
+  AA.CREATOR_USER_ID              AS "createUserIdentifier",
+  AA.CREATE_TS                    AS "createTimestamp",
+  AA.ASSIGNMENT_DUE_DT            AS "assignmentDueDate",
+  AA.FK_ASSIGNMENT_STATUS_CD      AS "assignmentStatusCode",
+  AA.PTAB_ASSIGNMENT_ID           AS "assignmentIdentifier",
+--   AA.FK_TASK_ASSIGNMENT_CT        AS "caseType",
+  AA.FK_TASK_CREATOR_USER_ID      AS "taskCreatorUserIdentifier",
+  AA.TASK_CREATED_TS              AS "taskCreateDate",
+  AA.LOCK_CONTROL_NO              AS "lockControlNumber",
+  AA.COMMENT_TX					  AS "notesText",
+  AA.PRIORITY_IN				  AS "priorityIndicator",
+  AA.FK_PREEXISTENT_ASSIGNMENT_ID AS "preExistentIdentifier",
+  AA.FK_COMPLETER_BE_NO			  AS "completerNumber"
+FROM PTAB_ASSIGNMENT AA
+WHERE AA.FK_AD_FK_AA_SERIAL_NO = :serialNumber
+AND AA.FK_AD_FK_APPEAL_NO = :appealNumber
+AND AA.COMPLETION_DT is null
+
+		 ]]>
+	</sql-query>
+	
+
+	<sql-query name="activeAppealAssignmentByType">
+	<![CDATA[
+	
+SELECT AA.SEQUENCE_NO             AS "sequenceNumber",
+  AA.FK_ASSIGNMENT_TYPE_ID        AS "assignmentTypeIdentifier",
+  AA.ACTIVE_IN                    AS "activeIndicator",
+  AA.ASSIGNED_DT                  AS "assignedDate",
+  AA.COMPLETION_DT                AS "completionDate",
+  AA.PENDING_LOCATION_TX          AS "pendingLocationText",
+  AA.LAST_MODIFIED_TS             AS "lastModifiedTimestamp",
+  AA.LAST_MODIFIED_USER_ID        AS "lastModifiedUserIdentifier",
+  AA.FK_ASSIGNEE_BE_NO            AS "assigneeNumber",
+  AA.FK_AD_FK_APPEAL_NO           AS "appealNumber",
+  AA.FK_AD_FK_AA_SERIAL_NO        AS "serialNumber",
+  AA.FK_AD_SEQUENCE_NO            AS "adSequenceNumber",
+  AA.FK_AD_RECONSIDER_SEQUENCE_NO AS "reconsiderSequenceNumber",
+  AA.PALM_MAILED_DT               AS "mailDate", 
+  AA.TASK_TITLE_TX                AS "assignmentTitleText",
+  AA.TASK_DESC_TX                 AS "assignmentDescriptionText",
+  AA.FK_ASSIGNOR_BE_NO            AS "assignorNumber",
+  AA.CREATOR_USER_ID              AS "createUserIdentifier",
+  AA.CREATE_TS                    AS "createTimestamp",
+  AA.ASSIGNMENT_DUE_DT            AS "assignmentDueDate",
+  AA.FK_ASSIGNMENT_STATUS_CD      AS "assignmentStatusCode",
+  AA.PTAB_ASSIGNMENT_ID           AS "assignmentIdentifier",
+--   AA.FK_TASK_ASSIGNMENT_CT        AS "caseType",
+  AA.FK_TASK_CREATOR_USER_ID      AS "taskCreatorUserIdentifier",
+  AA.TASK_CREATED_TS              AS "taskCreateDate",
+  AA.LOCK_CONTROL_NO              AS "lockControlNumber",
+  AA.COMMENT_TX					  AS "notesText",
+  AA.PRIORITY_IN				  AS "priorityIndicator",
+  AA.FK_PREEXISTENT_ASSIGNMENT_ID AS "preExistentIdentifier",
+  AA.FK_COMPLETER_BE_NO			  AS "completerNumber"
+FROM PTAB_ASSIGNMENT AA
+WHERE AA.FK_AD_FK_AA_SERIAL_NO = :serialNumber
+AND AA.COMPLETION_DT is null
+AND AA.fk_ad_fk_appeal_no = :appealNumber
+AND AA.fk_assignment_type_id = :typeIdentifier
+
+		 ]]>
+	</sql-query>
+
+
+
+
+	<sql-query name="fetchAssigneeHistoryIds">
+	<![CDATA[
+SELECT ptab_assignment_id as "ptabAssignmentId"
+      FROM ptab_assignment
+      START WITH ptab_assignment_id= :ptabAssignmentId
+      CONNECT BY PRIOR  fk_preexistent_assignment_id=ptab_assignment_id
+
+	 ]]>
+	</sql-query>
+
+
+
+
+
+	<sql-query name="assignmentsAdvancedSearch">
+	<![CDATA[
+
+    select  
+
+AA.SEQUENCE_NO                    AS           "sequenceNo",
+  AA.FK_ASSIGNMENT_TYPE_CD        AS           "fkAssignmentTypeCd",
+  AA.ACTIVE_IN                    AS            "activeIn",
+  AA.ASSIGNED_DT                  AS            "assignedDt",
+  AA.COMPLETION_DT                AS             "completionDt",
+  AA.PENDING_LOCATION_TX          AS             "pendingLocationTx",
+  AA.LAST_MODIFIED_TS             AS             "lastModifiedTs",
+  AA.LAST_MODIFIED_USER_ID        AS              "lastModifiedUserId",
+  AA.FK_ASSIGNEE_BE_NO            AS               "fkAssigneeBeNo",
+  AA.FK_AD_FK_APPEAL_NO           AS                 "fkAdFkAppealNo",
+  AA.FK_AD_FK_AA_SERIAL_NO        AS                  "fkAdFkAaSerialNo",
+  AA.FK_AD_SEQUENCE_NO            AS                 "fkAdSequenceNo",
+  AA.FK_AD_RECONSIDER_SEQUENCE_NO AS                  "fkAdReconsiderSequenceNo",
+  AA.PALM_MAILED_DT               AS                  "palmMailedDt",  
+  AA.TASK_TITLE_TX                AS                    "taskTitleTx",
+  AA.TASK_DESC_TX                 AS                    "taskDescTx",
+  AA.FK_ASSIGNOR_BE_NO            AS                 "fkAssignorBeNo",
+  AA.CREATOR_USER_ID              AS                    "creatorUserId",
+  AA.CREATE_TS                    AS                        "createTs",
+  AA.ASSIGNMENT_DUE_DT            AS                        "assignmentDueDt",
+  AA.FK_ASSIGNMENT_STATUS_CD      AS                       "fkAssignmentStatusCd",
+  AA.PTAB_ASSIGNMENT_ID           AS                       "ptabAssignmentId",
+  AA.FK_TASK_ASSIGNMENT_CT        AS                        "fkTaskAssignmentCt",
+  AA.FK_TASK_CREATOR_USER_ID      AS                        "fkTaskCreatorUserId",
+  AA.TASK_CREATED_TS              AS                          "taskCreatedTs",
+  AA.LOCK_CONTROL_NO              AS                          "lockControlNo",
+  AA.COMMENT_TX					  AS                           "noteText",
+   AA.PRIORITY_IN				  AS 							"priorityIn",
+  AA.FK_PREEXISTENT_ASSIGNMENT_ID AS                       "fkPreExistentId",
+  SAT.description_tx              AS               "assignmentTypeDesciption"
+  from
+
+ptab_assignment AA,
+stnd_Assignment_type SAT
+
+where 
+
+AA.fk_assignee_be_no in :applicationUserId and
+
+AA.fk_assignment_type_cd=SAT.assignment_type_cd and
+SAT.TASK_ASSIGNMENT_CT=AA.FK_TASK_ASSIGNMENT_CT 
+
+	 ]]>
+	</sql-query>
+
+
+	<sql-query name="docketAssignment">
+	<![CDATA[
+SELECT 
+	 CASE WHEN PTAB_ASSIGNMENT.PRIORITY_IN ='Y' THEN 'PRIORITY' ELSE ' ' END || ',' ||
+ CASE WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNED_DT+2,'DD'),'DD-MM-YYYY') = TO_DATE(SYSDATE,'DD-MM-YYYY') THEN 'NEWINDICATOR'
+ WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNED_DT+1,'DD'),'DD-MM-YYYY') = TO_DATE(SYSDATE,'DD-MM-YYYY') THEN 'NEWINDICATOR'
+ WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNED_DT,'DD'),'DD-MM-YYYY') = TO_DATE(SYSDATE,'DD-MM-YYYY') THEN 'NEWINDICATOR' ELSE ' ' END ||  ',' ||  
+ CASE WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNMENT_DUE_DT,'DD'),'DD-MM-YYYY') = TO_DATE(SYSDATE,'DD-MM-YYYY') THEN 'DUEDAY' ELSE ' ' END ||  ',' ||
+ CASE WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNMENT_DUE_DT,'DD'),'DD-MM-YYYY') < TO_DATE(SYSDATE,'DD-MM-YYYY') THEN 'OVERDUE' ELSE ' ' END || ',' ||
+ CASE WHEN TO_DATE(TRUNC(
+         (SELECT END_EFFECTIVE_DT FROM APPLICATION_USER WHERE APPLICATION_USER_ID = PTAB_ASSIGNMENT.FK_ASSIGNEE_BE_NO)
+     ,'DD'),'DD-MM-YYYY') < TO_DATE(SYSDATE,'DD-MM-YYYY') THEN 'INACTIVEASSIGNEE' ELSE ' ' END || ',END' AS "alertText",
+ CASE WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNMENT_DUE_DT,'DD'),'DD-MM-YYYY') < TO_DATE(SYSDATE,'DD-MM-YYYY') THEN 'PASTDUE'
+      WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNMENT_DUE_DT,'DD'),'DD-MM-YYYY') = TO_DATE(SYSDATE,'DD-MM-YYYY') THEN 'TODAY'
+      WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNED_DT,'DD'),'DD-MM-YYYY') = TO_DATE(SYSDATE,'DD-MM-YYYY') THEN 'NEW' ELSE ' ' END AS  "dueDateStatus",
+ STND_ASSIGNMENT_TYPE.description_tx as "assignmentTypeDescription", 
+        AU.CFK_EMPLOYEE_ID as "assignorName" ,
+       (case when trim(AUA.first_nm) is not null
+       and trim(AUA.last_nm) is not null then
+       case when trim(AUA.middle_nm) is not null then
+       case when length(trim(AUA.middle_nm))=1 then
+       AUA.last_nm||', '||AUA.first_nm||' '||AUA.middle_nm||'.'
+       else
+       AUA.last_nm||', '||AUA.first_nm||' '||AUA.middle_nm
+       end
+       else AUA.last_nm||', '||AUA.first_nm
+       end 
+       else case when trim(AUA.first_nm) is not null
+       and trim(AUA.last_nm) is null then
+       case when trim(AUA.middle_nm) is not null then
+       case when length(trim(AUA.middle_nm))=1 then
+       AUA.first_nm||' '||AUA.middle_nm||'.'
+       else
+       AUA.first_nm||' '||AUA.middle_nm
+       end
+       else AUA.first_nm
+       end 
+       else case when trim(AUA.first_nm) is null
+       and trim(AUA.last_nm) is not null then
+       case when trim(AUA.middle_nm) is not null then
+       case when length(trim(AUA.middle_nm))=1 then
+       AUA.last_nm||', '||AUA.middle_nm||'.'
+       else
+       AUA.last_nm||', '||AUA.middle_nm
+       end
+       else AUA.last_nm
+       end 
+       else case when trim(AUA.first_nm) is null
+       and trim(AUA.last_nm) is null then
+       case when trim(AUA.middle_nm) is not null then
+       case when length(trim(AUA.middle_nm))=1 then
+       AUA.middle_nm||'.'
+       else
+       AUA.middle_nm
+       end
+       else null
+       end 
+       else null 
+       end 
+       end  
+       end 
+       end) as "creatorUserName" , 
+      AUB.CFK_EMPLOYEE_ID as "assigneeName" , 
+(case when trim(AUC.first_nm) is not null
+       and trim(AUC.last_nm) is not null then
+       case when trim(AUC.middle_nm) is not null then
+       case when length(trim(AUC.middle_nm))=1 then
+       AUC.last_nm||', '||AUC.first_nm||' '||AUC.middle_nm||'.'
+       else
+       AUC.last_nm||', '||AUC.first_nm||' '||AUC.middle_nm
+       end
+       else AUC.last_nm||', '||AUC.first_nm
+       end 
+       else case when trim(AUC.first_nm) is not null
+       and trim(AUC.last_nm) is null then
+       case when trim(AUC.middle_nm) is not null then
+       case when length(trim(AUC.middle_nm))=1 then
+       AUC.first_nm||' '||AUC.middle_nm||'.'
+       else
+       AUC.first_nm||' '||AUC.middle_nm
+       end
+       else AUC.first_nm
+       end 
+       else case when trim(AUC.first_nm) is null
+       and trim(AUC.last_nm) is not null then
+       case when trim(AUC.middle_nm) is not null then
+       case when length(trim(AUC.middle_nm))=1 then
+       AUC.last_nm||', '||AUC.middle_nm||'.'
+       else
+       AUC.last_nm||', '||AUC.middle_nm
+       end
+       else AUC.last_nm
+       end 
+       else case when trim(AUC.first_nm) is null
+       and trim(AUC.last_nm) is null then
+       case when trim(AUC.middle_nm) is not null then
+       case when length(trim(AUC.middle_nm))=1 then
+       AUC.middle_nm||'.'
+       else
+       AUC.middle_nm
+       end
+       else null
+       end 
+       else null 
+       end 
+       end  
+       end 
+       end) as "lastModifiedUserName" ,
+       (case when trim(AUD.first_nm) is not null
+       and trim(AUD.last_nm) is not null then
+       case when trim(AUD.middle_nm) is not null then
+       case when length(trim(AUD.middle_nm))=1 then
+       AUD.last_nm||', '||AUD.first_nm||' '||AUD.middle_nm||'.'
+       else
+       AUD.last_nm||', '||AUD.first_nm||' '||AUD.middle_nm
+       end
+       else AUD.last_nm||', '||AUD.first_nm
+       end 
+       else case when trim(AUD.first_nm) is not null
+       and trim(AUD.last_nm) is null then
+       case when trim(AUD.middle_nm) is not null then
+       case when length(trim(AUD.middle_nm))=1 then
+       AUD.first_nm||' '||AUD.middle_nm||'.'
+       else
+       AUD.first_nm||' '||AUD.middle_nm
+       end
+       else AUD.first_nm
+       end 
+       else case when trim(AUD.first_nm) is null
+       and trim(AUD.last_nm) is not null then
+       case when trim(AUD.middle_nm) is not null then
+       case when length(trim(AUD.middle_nm))=1 then
+       AUD.last_nm||', '||AUD.middle_nm||'.'
+       else
+       AUD.last_nm||', '||AUD.middle_nm
+       end
+       else AUD.last_nm
+       end 
+       else case when trim(AUD.first_nm) is null
+       and trim(AUD.last_nm) is null then
+       case when trim(AUD.middle_nm) is not null then
+       case when length(trim(AUD.middle_nm))=1 then
+       AUD.middle_nm||'.'
+       else
+       AUD.middle_nm
+       end
+       else null
+       end 
+       else null 
+       end 
+       end  
+       end 
+       end) as "appealPanelJudgeOne",
+       (case when trim(AUF.first_nm) is not null
+       and trim(AUF.last_nm) is not null then
+       case when trim(AUF.middle_nm) is not null then
+       case when length(trim(AUF.middle_nm))=1 then
+       AUF.last_nm||', '||AUF.first_nm||' '||AUF.middle_nm||'.'
+       else
+       AUF.last_nm||', '||AUF.first_nm||' '||AUF.middle_nm
+       end
+       else AUF.last_nm||', '||AUF.first_nm
+       end 
+       else case when trim(AUF.first_nm) is not null
+       and trim(AUF.last_nm) is null then
+       case when trim(AUF.middle_nm) is not null then
+       case when length(trim(AUF.middle_nm))=1 then
+       AUF.first_nm||' '||AUF.middle_nm||'.'
+       else
+       AUF.first_nm||' '||AUF.middle_nm
+       end
+       else AUF.first_nm
+       end 
+       else case when trim(AUF.first_nm) is null
+       and trim(AUF.last_nm) is not null then
+       case when trim(AUF.middle_nm) is not null then
+       case when length(trim(AUF.middle_nm))=1 then
+       AUF.last_nm||', '||AUF.middle_nm||'.'
+       else
+       AUF.last_nm||', '||AUF.middle_nm
+       end
+       else AUF.last_nm
+       end 
+       else case when trim(AUF.first_nm) is null
+       and trim(AUF.last_nm) is null then
+       case when trim(AUF.middle_nm) is not null then
+       case when length(trim(AUF.middle_nm))=1 then
+       AUF.middle_nm||'.'
+       else
+       AUF.middle_nm
+       end
+       else null
+       end 
+       else null 
+       end 
+       end  
+       end 
+       end) as "appealPanelJudgeTwo",
+       (case when trim(AUG.first_nm) is not null
+       and trim(AUG.last_nm) is not null then
+       case when trim(AUG.middle_nm) is not null then
+       case when length(trim(AUG.middle_nm))=1 then
+       AUG.last_nm||', '||AUG.first_nm||' '||AUG.middle_nm||'.'
+       else
+       AUG.last_nm||', '||AUG.first_nm||' '||AUG.middle_nm
+       end
+       else AUG.last_nm||', '||AUG.first_nm
+       end 
+       else case when trim(AUG.first_nm) is not null
+       and trim(AUG.last_nm) is null then
+       case when trim(AUG.middle_nm) is not null then
+       case when length(trim(AUG.middle_nm))=1 then
+       AUG.first_nm||' '||AUG.middle_nm||'.'
+       else
+       AUG.first_nm||' '||AUG.middle_nm
+       end
+       else AUG.first_nm
+       end 
+       else case when trim(AUG.first_nm) is null
+       and trim(AUG.last_nm) is not null then
+       case when trim(AUG.middle_nm) is not null then
+       case when length(trim(AUG.middle_nm))=1 then
+       AUG.last_nm||', '||AUG.middle_nm||'.'
+       else
+       AUG.last_nm||', '||AUG.middle_nm
+       end
+       else AUG.last_nm
+       end 
+       else case when trim(AUG.first_nm) is null
+       and trim(AUG.last_nm) is null then
+       case when trim(AUG.middle_nm) is not null then
+       case when length(trim(AUG.middle_nm))=1 then
+       AUG.middle_nm||'.'
+       else
+       AUG.middle_nm
+       end
+       else null
+       end 
+       else null 
+       end 
+       end  
+       end 
+       end) as "appealPanelJudgeThree",
+(CASE WHEN TO_DATE(TRUNC(AUB.END_EFFECTIVE_DT,'DD'),'DD-MM-YYYY') is null THEN 'Active' ELSE 'InActive' END) as "assigneeStatus" , 
+SAS.description_tx as "assignmentStatus", 
+  HEARING_ROOM_ROSTER.HEARING_TM,
+  (SELECT DESCRIPTION_TX
+  FROM code_reference
+  WHERE TYPE_CD='HEARING STATUS'
+  AND VALUE_TX =HEARING_ROOM_ROSTER.STATUS_CD
+  ) AS status,
+  STND_HEARING_LOCATION.DESCRIPTION_TX,
+PTAB_ASSIGNMENT.LOCK_CONTROL_NO
+      
+ FROM PTAB_ASSIGNMENT  PTAB_ASSIGNMENT
+ LEFT OUTER  JOIN APPLICATION_USER AU ON  PTAB_ASSIGNMENT.FK_ASSIGNOR_BE_NO= AU.APPLICATION_USER_ID
+ LEFT OUTER  JOIN APPLICATION_USER AUA ON  PTAB_ASSIGNMENT.CREATOR_USER_ID= AUA.USER_ID
+  LEFT OUTER  JOIN APPLICATION_USER AUB ON  PTAB_ASSIGNMENT.FK_ASSIGNEE_BE_NO= AUB.APPLICATION_USER_ID
+   LEFT OUTER  JOIN APPLICATION_USER AUC ON  PTAB_ASSIGNMENT.LAST_MODIFIED_USER_ID= AUC.USER_ID
+ 
+   LEFT OUTER  JOIN stnd_Assignment_status SAS ON  PTAB_ASSIGNMENT.FK_ASSIGNMENT_STATUS_CD= SAS.assignment_Status_Cd
+
+LEFT OUTER  JOIN DN_DOCKET ON  DN_DOCKET.PROCEEDING_CORE_ID=PTAB_ASSIGNMENT.FK_AD_FK_AA_SERIAL_NO
+  AND DN_DOCKET.PROCEEDING_SUPPLEMENTARY_ID =PTAB_ASSIGNMENT.FK_AD_FK_APPEAL_NO 
+  AND DN_DOCKET.PROCEEDING_TYPE_CT='APPEAL'
+   LEFT OUTER  JOIN APPLICATION_USER AUD ON  DN_DOCKET.APJ1_WORKER_ID= AUD.APPLICATION_USER_ID
+  LEFT OUTER  JOIN APPLICATION_USER AUF ON  DN_DOCKET.APJ2_WORKER_ID= AUF.APPLICATION_USER_ID
+   LEFT OUTER  JOIN APPLICATION_USER AUG ON  DN_DOCKET.APJ3_WORKER_ID= AUG.APPLICATION_USER_ID
+
+LEFT OUTER JOIN
+  (SELECT x.FK_APPEAL_FK_AA_SERIAL_NO ,
+    x.FK_APPEAL_NO,
+    x.DECISION_DUE_DT ,
+    x.LAST_MODIFIED_TS
+  FROM APPEAL_DECISION x
+  WHERE x.LAST_MODIFIED_TS =
+    (SELECT MAX(x1.LAST_MODIFIED_TS)
+    FROM APPEAL_DECISION x1
+    WHERE x1.FK_APPEAL_FK_AA_SERIAL_NO = x.FK_APPEAL_FK_AA_SERIAL_NO
+    AND x1.FK_APPEAL_NO                = x.FK_APPEAL_NO
+    )
+  ) APPEAL_DECISION
+ON APPEAL_DECISION.FK_APPEAL_FK_AA_SERIAL_NO =PTAB_ASSIGNMENT.FK_AD_FK_AA_SERIAL_NO
+AND APPEAL_DECISION.FK_APPEAL_NO             =PTAB_ASSIGNMENT.FK_AD_FK_APPEAL_NO
+LEFT OUTER JOIN STND_ASSIGNMENT_TYPE ON PTAB_ASSIGNMENT.FK_ASSIGNMENT_TYPE_ID=STND_ASSIGNMENT_TYPE.ASSIGNMENT_TYPE_ID 
+
+LEFT OUTER JOIN HEARING_ROOM_ROSTER
+ON HEARING_ROOM_ROSTER.FK_AD_FK_AA_SERIAL_NO = PTAB_ASSIGNMENT.FK_AD_FK_AA_SERIAL_NO
+AND HEARING_ROOM_ROSTER.FK_AD_FK_APPEAL_NO   = PTAB_ASSIGNMENT.FK_AD_FK_APPEAL_NO
+LEFT OUTER JOIN STND_HEARING_LOCATION
+ON HEARING_ROOM_ROSTER.FK_HEARING_LOCATION_ID=STND_HEARING_LOCATION.HEARING_LOCATION_ID
+
+LEFT OUTER JOIN APPEAL ON APPEAL.NO=PTAB_ASSIGNMENT.FK_AD_FK_APPEAL_NO AND APPEAL.FK_AA_SERIAL_NO=PTAB_ASSIGNMENT.FK_AD_FK_AA_SERIAL_NO
+
+    ]]>
+	</sql-query>
+
+	<sql-query name="Assignment">
+	<![CDATA[
+	SELECT
+	 CASE WHEN PTAB_ASSIGNMENT.PRIORITY_IN ='Y' THEN 'PRIORITY' ELSE ' ' END || ',' ||
+ CASE WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNED_DT+2,'DD'),'DD-MM-YYYY') = TO_DATE(SYSDATE,'DD-MM-YYYY') THEN 'NEWINDICATOR'
+  WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNED_DT+1,'DD'),'DD-MM-YYYY') = TO_DATE(SYSDATE,'DD-MM-YYYY') THEN 'NEWINDICATOR'
+  WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNED_DT,'DD'),'DD-MM-YYYY') = TO_DATE(SYSDATE,'DD-MM-YYYY') THEN 'NEWINDICATOR' ELSE ' ' END ||  ',' ||  
+ CASE WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNMENT_DUE_DT,'DD'),'DD-MM-YYYY') = TO_DATE(SYSDATE,'DD-MM-YYYY') THEN 'DUEDAY' ELSE ' ' END ||  ',' ||
+ CASE WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNMENT_DUE_DT,'DD'),'DD-MM-YYYY') < TO_DATE(SYSDATE,'DD-MM-YYYY') THEN 'OVERDUE' ELSE ' ' END || ',' ||
+ CASE WHEN TO_DATE(TRUNC(
+         (SELECT END_EFFECTIVE_DT FROM APPLICATION_USER WHERE APPLICATION_USER_ID = PTAB_ASSIGNMENT.FK_ASSIGNEE_BE_NO)
+     ,'DD'),'DD-MM-YYYY') < TO_DATE(SYSDATE,'DD-MM-YYYY') THEN 'INACTIVEASSIGNEE' ELSE ' ' END || ',END' AS "alertText",
+ CASE WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNMENT_DUE_DT,'DD'),'DD-MM-YYYY') < TO_DATE(SYSDATE,'DD-MM-YYYY') THEN 'PASTDUE'
+      WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNMENT_DUE_DT,'DD'),'DD-MM-YYYY') = TO_DATE(SYSDATE,'DD-MM-YYYY') THEN 'TODAY'
+      WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNED_DT,'DD'),'DD-MM-YYYY') = TO_DATE(SYSDATE,'DD-MM-YYYY') THEN 'NEW' ELSE ' ' END AS  "dueDateStatus"
+FROM PTAB_ASSIGNMENT PTAB_ASSIGNMENT
+ ]]>
+	</sql-query>
+
+	<sql-query name="getAssignmentWithPendingPanel">
+	<![CDATA[
+SELECT AA.SEQUENCE_NO             AS "sequenceNumber",
+  AA.FK_ASSIGNMENT_TYPE_ID        AS "assignmentTypeCode",
+  AA.ACTIVE_IN                    AS "activeIndicator",
+  AA.ASSIGNED_DT                  AS "assignedDate",
+  AA.COMPLETION_DT                AS "completionDate",
+  AA.PENDING_LOCATION_TX          AS "pendingLocationText",
+  AA.LAST_MODIFIED_TS             AS "lastModifiedTimestamp",
+  AA.LAST_MODIFIED_USER_ID        AS "lastModifiedUserIdentifier",
+  AA.FK_ASSIGNEE_BE_NO            AS "assigneeNumber",
+  AA.FK_AD_FK_APPEAL_NO           AS "appealNumber",
+  AA.FK_AD_FK_AA_SERIAL_NO        AS "serialNumber",
+  AA.FK_AD_SEQUENCE_NO            AS "adSequenceNumber",
+  AA.FK_AD_RECONSIDER_SEQUENCE_NO AS "reconsiderSequenceNumber",
+  AA.PALM_MAILED_DT               AS "mailDate",
+  AA.TASK_TITLE_TX                AS "assignmentTitleText",
+  AA.TASK_DESC_TX                 AS "assignmentDescriptionText",
+  AA.FK_ASSIGNOR_BE_NO            AS "assignorNumber",
+  AA.CREATOR_USER_ID              AS "createUserIdentifier",
+  AA.CREATE_TS                    AS "createTimestamp",
+  AA.ASSIGNMENT_DUE_DT            AS "assignmentDueDate",
+  AA.FK_ASSIGNMENT_STATUS_CD      AS "assignmentStatusCode",
+  AA.PTAB_ASSIGNMENT_ID           AS "assignmentIdentifier",
+  AA.FK_TASK_CREATOR_USER_ID      AS "taskCreatorUserIdentifier",
+  AA.TASK_CREATED_TS              AS "taskCreateDate",
+  AA.LOCK_CONTROL_NO              AS "lockControlNumber",
+  AA.COMMENT_TX                   AS "notesText",
+  AA.PRIORITY_IN                  AS "priorityIndicator",
+  AA.FK_PREEXISTENT_ASSIGNMENT_ID AS "preExistentIdentifier",
+  AA.FK_COMPLETER_BE_NO           AS "completerNumber"
+FROM PTAB_ASSIGNMENT AA
+LEFT OUTER JOIN STND_ASSIGNMENT_TYPE SAT
+ON AA.FK_ASSIGNMENT_TYPE_ID  =SAT.ASSIGNMENT_TYPE_ID
+WHERE SAT.assignment_type_cd = 'CPSH'
+AND AA.COMPLETION_DT is null
+AND AA.fk_ad_fk_aa_serial_no = :serialNumber
+AND AA.fk_ad_fk_appeal_no    = :appealNumber
+
+ ]]>
+	</sql-query>
+
+
+	<sql-query name="getAssignmentWithPanel">
+	<![CDATA[
+SELECT AA.SEQUENCE_NO             AS "sequenceNumber",
+  AA.FK_ASSIGNMENT_TYPE_ID        AS "assignmentTypeCode",
+  AA.ACTIVE_IN                    AS "activeIndicator",
+  AA.ASSIGNED_DT                  AS "assignedDate",
+  AA.COMPLETION_DT                AS "completionDate",
+  AA.PENDING_LOCATION_TX          AS "pendingLocationText",
+  AA.LAST_MODIFIED_TS             AS "lastModifiedTimestamp",
+  AA.LAST_MODIFIED_USER_ID        AS "lastModifiedUserIdentifier",
+  AA.FK_ASSIGNEE_BE_NO            AS "assigneeNumber",
+  AA.FK_AD_FK_APPEAL_NO           AS "appealNumber",
+  AA.FK_AD_FK_AA_SERIAL_NO        AS "serialNumber",
+  AA.FK_AD_SEQUENCE_NO            AS "adSequenceNumber",
+  AA.FK_AD_RECONSIDER_SEQUENCE_NO AS "reconsiderSequenceNumber",
+  AA.PALM_MAILED_DT               AS "mailDate",
+  AA.TASK_TITLE_TX                AS "assignmentTitleText",
+  AA.TASK_DESC_TX                 AS "assignmentDescriptionText",
+  AA.FK_ASSIGNOR_BE_NO            AS "assignorNumber",
+  AA.CREATOR_USER_ID              AS "createUserIdentifier",
+  AA.CREATE_TS                    AS "createTimestamp",
+  AA.ASSIGNMENT_DUE_DT            AS "assignmentDueDate",
+  AA.FK_ASSIGNMENT_STATUS_CD      AS "assignmentStatusCode",
+  AA.PTAB_ASSIGNMENT_ID           AS "assignmentIdentifier",
+  AA.FK_TASK_CREATOR_USER_ID      AS "taskCreatorUserIdentifier",
+  AA.TASK_CREATED_TS              AS "taskCreateDate",
+  AA.LOCK_CONTROL_NO              AS "lockControlNumber",
+  AA.COMMENT_TX                   AS "notesText",
+  AA.PRIORITY_IN                  AS "priorityIndicator",
+  AA.FK_PREEXISTENT_ASSIGNMENT_ID AS "preExistentIdentifier",
+  AA.FK_COMPLETER_BE_NO           AS "completerNumber"
+FROM PTAB_ASSIGNMENT AA
+LEFT OUTER JOIN STND_ASSIGNMENT_TYPE SAT
+ON AA.FK_ASSIGNMENT_TYPE_ID  =SAT.ASSIGNMENT_TYPE_ID
+WHERE SAT.assignment_type_cd = 'CP'
+AND AA.COMPLETION_DT is null
+AND AA.fk_ad_fk_aa_serial_no = :serialNumber
+AND AA.fk_ad_fk_appeal_no    = :appealNumber
+
+ ]]>
+	</sql-query>
+
+	<sql-query name="getAssignmentsWidgetData">
+	<![CDATA[
+SELECT PTAB_ASSIGNMENT.FK_ASSIGNMENT_TYPE_ID ,
+  PTAB_ASSIGNMENT.COMPLETION_DT ,
+  PTAB_ASSIGNMENT.LAST_MODIFIED_USER_ID AS "assignmentLastModifiedUids",
+  PTAB_ASSIGNMENT.LAST_MODIFIED_TS      AS "assignmentLastModifiedTs",
+  PTAB_ASSIGNMENT.FK_ASSIGNEE_BE_NO ,
+  PTAB_ASSIGNMENT.FK_AD_FK_APPEAL_NO ,
+  PTAB_ASSIGNMENT.FK_AD_FK_AA_SERIAL_NO ,
+  PTAB_ASSIGNMENT.PALM_MAILED_DT ,
+  PTAB_ASSIGNMENT.TASK_TITLE_TX ,
+  PTAB_ASSIGNMENT.LOCK_CONTROL_NO,
+  PTAB_ASSIGNMENT.PRIORITY_IN ,
+  PTAB_ASSIGNMENT.TASK_DESC_TX ,
+  PTAB_ASSIGNMENT.FK_ASSIGNOR_BE_NO ,
+  PTAB_ASSIGNMENT.ASSIGNMENT_DUE_DT ,
+  PTAB_ASSIGNMENT.FK_ASSIGNMENT_STATUS_CD ,
+  PTAB_ASSIGNMENT.COMMENT_TX ,
+  PTAB_ASSIGNMENT.CREATOR_USER_ID ,
+  PTAB_ASSIGNMENT.ASSIGNED_DT ,
+  PTAB_ASSIGNMENT.PTAB_ASSIGNMENT_ID AS "assignmentIdentifier",
+  PTAB_ASSIGNMENT.FK_PREEXISTENT_ASSIGNMENT_ID AS "preExistentIdentifier",
+  SAT.DISPLAY_NM                     AS "assignmentTypeDescription" ,
+  SAT.QUICK_COMPLETE_QUALIFIER       AS "quickComplete" ,
+    (SELECT DESCRIPTION_TX
+  FROM CODE_REFERENCE
+  WHERE TYPE_CD = 'BRIEF HEARING TYPE'
+  AND VALUE_TX  = APL.BRIEF_HEARING_TYPE_CD
+  ) AS "briefHearingType",  
+  (SELECT
+    CASE
+      WHEN COUNT(fk_aa_serial_no) > 1
+      THEN 'M'
+      ELSE ''
+    END
+  FROM APPEAL
+  WHERE APPEAL.NO = PTAB_ASSIGNMENT.FK_AD_FK_APPEAL_NO
+  ) AS combinedCase,
+  (
+  CASE
+    WHEN trim(AU.first_nm) IS NOT NULL
+    AND trim(AU.last_nm)   IS NOT NULL
+    THEN
+      CASE
+        WHEN trim(AU.middle_nm) IS NOT NULL
+        THEN
+          CASE
+            WHEN LENGTH(trim(AU.middle_nm))=1
+            THEN AU.last_nm
+              ||', '
+              ||AU.first_nm
+              ||' '
+              ||AU.middle_nm
+              ||'.'
+            ELSE AU.last_nm
+              ||', '
+              ||AU.first_nm
+              ||' '
+              ||AU.middle_nm
+          END
+        ELSE AU.last_nm
+          ||', '
+          ||AU.first_nm
+      END
+    ELSE
+      CASE
+        WHEN trim(AU.first_nm) IS NOT NULL
+        AND trim(AU.last_nm)   IS NULL
+        THEN
+          CASE
+            WHEN trim(AU.middle_nm) IS NOT NULL
+            THEN
+              CASE
+                WHEN LENGTH(trim(AU.middle_nm))=1
+                THEN AU.first_nm
+                  ||' '
+                  ||AU.middle_nm
+                  ||'.'
+                ELSE AU.first_nm
+                  ||' '
+                  ||AU.middle_nm
+              END
+            ELSE AU.first_nm
+          END
+        ELSE
+          CASE
+            WHEN trim(AU.first_nm) IS NULL
+            AND trim(AU.last_nm)   IS NOT NULL
+            THEN
+              CASE
+                WHEN trim(AU.middle_nm) IS NOT NULL
+                THEN
+                  CASE
+                    WHEN LENGTH(trim(AU.middle_nm))=1
+                    THEN AU.last_nm
+                      ||', '
+                      ||AU.middle_nm
+                      ||'.'
+                    ELSE AU.last_nm
+                      ||', '
+                      ||AU.middle_nm
+                  END
+                ELSE AU.last_nm
+              END
+            ELSE
+              CASE
+                WHEN trim(AU.first_nm) IS NULL
+                AND trim(AU.last_nm)   IS NULL
+                THEN
+                  CASE
+                    WHEN trim(AU.middle_nm) IS NOT NULL
+                    THEN
+                      CASE
+                        WHEN LENGTH(trim(AU.middle_nm))=1
+                        THEN AU.middle_nm
+                          ||'.'
+                        ELSE AU.middle_nm
+                      END
+                    ELSE NULL
+                  END
+                ELSE NULL
+              END
+          END
+      END
+  END) AS "assignorName" ,
+  (
+  CASE
+    WHEN trim(AUA.first_nm) IS NOT NULL
+    AND trim(AUA.last_nm)   IS NOT NULL
+    THEN
+      CASE
+        WHEN trim(AUA.middle_nm) IS NOT NULL
+        THEN
+          CASE
+            WHEN LENGTH(trim(AUA.middle_nm))=1
+            THEN AUA.last_nm
+              ||', '
+              ||AUA.first_nm
+              ||' '
+              ||AUA.middle_nm
+              ||'.'
+            ELSE AUA.last_nm
+              ||', '
+              ||AUA.first_nm
+              ||' '
+              ||AUA.middle_nm
+          END
+        ELSE AUA.last_nm
+          ||', '
+          ||AUA.first_nm
+      END
+    ELSE
+      CASE
+        WHEN trim(AUA.first_nm) IS NOT NULL
+        AND trim(AUA.last_nm)   IS NULL
+        THEN
+          CASE
+            WHEN trim(AUA.middle_nm) IS NOT NULL
+            THEN
+              CASE
+                WHEN LENGTH(trim(AUA.middle_nm))=1
+                THEN AUA.first_nm
+                  ||' '
+                  ||AUA.middle_nm
+                  ||'.'
+                ELSE AUA.first_nm
+                  ||' '
+                  ||AUA.middle_nm
+              END
+            ELSE AUA.first_nm
+          END
+        ELSE
+          CASE
+            WHEN trim(AUA.first_nm) IS NULL
+            AND trim(AUA.last_nm)   IS NOT NULL
+            THEN
+              CASE
+                WHEN trim(AUA.middle_nm) IS NOT NULL
+                THEN
+                  CASE
+                    WHEN LENGTH(trim(AUA.middle_nm))=1
+                    THEN AUA.last_nm
+                      ||', '
+                      ||AUA.middle_nm
+                      ||'.'
+                    ELSE AUA.last_nm
+                      ||', '
+                      ||AUA.middle_nm
+                  END
+                ELSE AUA.last_nm
+              END
+            ELSE
+              CASE
+                WHEN trim(AUA.first_nm) IS NULL
+                AND trim(AUA.last_nm)   IS NULL
+                THEN
+                  CASE
+                    WHEN trim(AUA.middle_nm) IS NOT NULL
+                    THEN
+                      CASE
+                        WHEN LENGTH(trim(AUA.middle_nm))=1
+                        THEN AUA.middle_nm
+                          ||'.'
+                        ELSE AUA.middle_nm
+                      END
+                    ELSE NULL
+                  END
+                ELSE NULL
+              END
+          END
+      END
+  END) AS "creatorUserName" ,
+  (
+  CASE
+    WHEN trim(AUB.first_nm) IS NOT NULL
+    AND trim(AUB.last_nm)   IS NOT NULL
+    THEN
+      CASE
+        WHEN trim(AUB.middle_nm) IS NOT NULL
+        THEN
+          CASE
+            WHEN LENGTH(trim(AUB.middle_nm))=1
+            THEN
+              CASE
+                WHEN AUB.user_ct LIKE 'WRKQUEUE%'
+                THEN AUB.first_nm
+                  ||' '
+                  ||AUB.last_nm
+                  ||' '
+                  ||AUB.middle_nm
+                  ||'.'
+                ELSE AUB.last_nm
+                  ||', '
+                  ||AUB.first_nm
+                  ||' '
+                  ||AUB.middle_nm
+                  ||'.'
+              END
+            ELSE
+              CASE
+                WHEN AUB.user_ct LIKE 'WRKQUEUE%'
+                THEN AUB.first_nm
+                  ||' '
+                  ||AUB.last_nm
+                  ||' '
+                  ||AUB.middle_nm
+                ELSE AUB.last_nm
+                  ||', '
+                  ||AUB.first_nm
+                  ||' '
+                  ||AUB.middle_nm
+              END
+          END
+        ELSE
+          CASE
+            WHEN AUB.user_ct LIKE 'WRKQUEUE%'
+            THEN AUB.first_nm
+              ||' '
+              ||AUB.last_nm
+            ELSE AUB.last_nm
+              ||', '
+              ||AUB.first_nm
+          END
+      END
+    ELSE
+      CASE
+        WHEN trim(AUB.first_nm) IS NOT NULL
+        AND trim(AUB.last_nm)   IS NULL
+        THEN
+          CASE
+            WHEN trim(AUB.middle_nm) IS NOT NULL
+            THEN
+              CASE
+                WHEN LENGTH(trim(AUB.middle_nm))=1
+                THEN AUB.first_nm
+                  ||' '
+                  ||AUB.middle_nm
+                  ||'.'
+                ELSE AUB.first_nm
+                  ||' '
+                  ||AUB.middle_nm
+              END
+            ELSE AUB.first_nm
+          END
+        ELSE
+          CASE
+            WHEN trim(AUB.first_nm) IS NULL
+            AND trim(AUB.last_nm)   IS NOT NULL
+            THEN
+              CASE
+                WHEN trim(AUB.middle_nm) IS NOT NULL
+                THEN
+                  CASE
+                    WHEN LENGTH(trim(AUB.middle_nm))=1
+                    THEN AUB.last_nm
+                      ||', '
+                      ||AUB.middle_nm
+                      ||'.'
+                    ELSE AUB.last_nm
+                      ||', '
+                      ||AUB.middle_nm
+                  END
+                ELSE AUB.last_nm
+              END
+            ELSE
+              CASE
+                WHEN trim(AUB.first_nm) IS NULL
+                AND trim(AUB.last_nm)   IS NULL
+                THEN
+                  CASE
+                    WHEN trim(AUB.middle_nm) IS NOT NULL
+                    THEN
+                      CASE
+                        WHEN LENGTH(trim(AUB.middle_nm))=1
+                        THEN AUB.middle_nm
+                          ||'.'
+                        ELSE AUB.middle_nm
+                      END
+                    ELSE NULL
+                  END
+                ELSE NULL
+              END
+          END
+      END
+  END) AS "assigneeName" ,
+  (
+  CASE
+    WHEN trim(AUC.first_nm) IS NOT NULL
+    AND trim(AUC.last_nm)   IS NOT NULL
+    THEN
+      CASE
+        WHEN trim(AUC.middle_nm) IS NOT NULL
+        THEN
+          CASE
+            WHEN LENGTH(trim(AUC.middle_nm))=1
+            THEN AUC.last_nm
+              ||', '
+              ||AUC.first_nm
+              ||' '
+              ||AUC.middle_nm
+              ||'.'
+            ELSE AUC.last_nm
+              ||', '
+              ||AUC.first_nm
+              ||' '
+              ||AUC.middle_nm
+          END
+        ELSE AUC.last_nm
+          ||', '
+          ||AUC.first_nm
+      END
+    ELSE
+      CASE
+        WHEN trim(AUC.first_nm) IS NOT NULL
+        AND trim(AUC.last_nm)   IS NULL
+        THEN
+          CASE
+            WHEN trim(AUC.middle_nm) IS NOT NULL
+            THEN
+              CASE
+                WHEN LENGTH(trim(AUC.middle_nm))=1
+                THEN AUC.first_nm
+                  ||' '
+                  ||AUC.middle_nm
+                  ||'.'
+                ELSE AUC.first_nm
+                  ||' '
+                  ||AUC.middle_nm
+              END
+            ELSE AUC.first_nm
+          END
+        ELSE
+          CASE
+            WHEN trim(AUC.first_nm) IS NULL
+            AND trim(AUC.last_nm)   IS NOT NULL
+            THEN
+              CASE
+                WHEN trim(AUC.middle_nm) IS NOT NULL
+                THEN
+                  CASE
+                    WHEN LENGTH(trim(AUC.middle_nm))=1
+                    THEN AUC.last_nm
+                      ||', '
+                      ||AUC.middle_nm
+                      ||'.'
+                    ELSE AUC.last_nm
+                      ||', '
+                      ||AUC.middle_nm
+                  END
+                ELSE AUC.last_nm
+              END
+            ELSE
+              CASE
+                WHEN trim(AUC.first_nm) IS NULL
+                AND trim(AUC.last_nm)   IS NULL
+                THEN
+                  CASE
+                    WHEN trim(AUC.middle_nm) IS NOT NULL
+                    THEN
+                      CASE
+                        WHEN LENGTH(trim(AUC.middle_nm))=1
+                        THEN AUC.middle_nm
+                          ||'.'
+                        ELSE AUC.middle_nm
+                      END
+                    ELSE NULL
+                  END
+                ELSE NULL
+              END
+          END
+      END
+  END) AS "lastModifiedUserName" ,
+  (
+  CASE
+    WHEN TO_DATE(TRUNC(AUB.END_EFFECTIVE_DT,'DD'),'DD-MM-YYYY') IS NULL
+    THEN 'Active'
+    ELSE 'InActive'
+  END)               AS "assigneeStatus" ,
+  SAS.description_tx AS "assignmentStatus",
+  (SELECT DESCRIPTION_TX
+  FROM CODE_REFERENCE
+  WHERE TYPE_CD = 'CASE DISCIPLINE'
+  AND VALUE_TX  = APL.CASE_DISCIPLINE_CD
+  ) AS "caseDiscipline",
+    (SELECT DESCRIPTION_TX
+  FROM CODE_REFERENCE
+  WHERE TYPE_CD = 'CASE DISCIPLINE'
+  AND VALUE_TX  = APL.FK_PROCEEDING_DISCIPLINE_CD
+  ) AS "panelingDiscipline",
+  CASE
+    WHEN PTAB_ASSIGNMENT.PRIORITY_IN ='Y'
+    THEN 'PRIORITY'
+    ELSE ' '
+  END
+  || ','
+  ||
+  CASE
+  WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNED_DT+2,'DD'),'DD-MM-YYYY') = TO_DATE(SYSDATE,'DD-MM-YYYY')
+    THEN 'NEWINDICATOR'
+    WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNED_DT+1,'DD'),'DD-MM-YYYY') = TO_DATE(SYSDATE,'DD-MM-YYYY')
+    THEN 'NEWINDICATOR'
+    WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNED_DT,'DD'),'DD-MM-YYYY') = TO_DATE(SYSDATE,'DD-MM-YYYY')
+    THEN 'NEWINDICATOR'
+    ELSE ' '
+  END
+  || ','
+  ||
+  CASE
+    WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNMENT_DUE_DT,'DD'),'DD-MM-YYYY') = TO_DATE(SYSDATE,'DD-MM-YYYY')
+    THEN 'DUEDAY'
+    ELSE ' '
+  END
+  || ','
+  ||
+  CASE
+    WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNMENT_DUE_DT,'DD'),'DD-MM-YYYY') < TO_DATE(SYSDATE,'DD-MM-YYYY')
+    THEN 'OVERDUE'
+    ELSE ' '
+  END
+  || ','
+  ||
+  CASE
+    WHEN TO_DATE(TRUNC(
+      (SELECT END_EFFECTIVE_DT
+      FROM APPLICATION_USER
+      WHERE APPLICATION_USER_ID = PTAB_ASSIGNMENT.FK_ASSIGNEE_BE_NO
+      ) ,'DD'),'DD-MM-YYYY')    < TO_DATE(SYSDATE,'DD-MM-YYYY')
+    THEN 'INACTIVEASSIGNEE'
+    ELSE ' '
+  END
+  || ',END' AS "alertText",
+  CASE
+    WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNMENT_DUE_DT,'DD'),'DD-MM-YYYY') < TO_DATE(SYSDATE,'DD-MM-YYYY')
+    THEN 'PASTDUE'
+    WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNMENT_DUE_DT,'DD'),'DD-MM-YYYY') = TO_DATE(SYSDATE,'DD-MM-YYYY')
+    THEN 'TODAY'
+    WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNED_DT,'DD'),'DD-MM-YYYY') = TO_DATE(SYSDATE,'DD-MM-YYYY')
+    THEN 'NEW'
+    ELSE ' '
+  END AS "dueDateStatus"
+FROM PTAB_ASSIGNMENT PTAB_ASSIGNMENT ,
+  APPEAL APL ,
+  stnd_Assignment_type SAT ,
+  APPLICATION_USER AU,
+  APPLICATION_USER AUA,
+  APPLICATION_USER AUB,
+  APPLICATION_USER AUC,
+  stnd_Assignment_status SAS
+WHERE PTAB_ASSIGNMENT.fk_assignment_type_id=SAT.assignment_type_id
+AND PTAB_ASSIGNMENT.FK_ASSIGNOR_BE_NO      = AU.APPLICATION_USER_ID
+AND PTAB_ASSIGNMENT.CREATOR_USER_ID        = AUA.USER_ID
+AND PTAB_ASSIGNMENT.FK_ASSIGNEE_BE_NO      = AUB.APPLICATION_USER_ID
+AND PTAB_ASSIGNMENT.LAST_MODIFIED_USER_ID  = AUC.USER_ID
+AND PTAB_ASSIGNMENT.FK_ASSIGNMENT_STATUS_CD= SAS.assignment_Status_Cd
+AND PTAB_ASSIGNMENT.fk_assignee_be_no     IN :assignees
+AND PTAB_ASSIGNMENT.completion_dt         IS NULL
+AND PTAB_ASSIGNMENT.active_in              ='A'
+AND PTAB_ASSIGNMENT.ASSIGNED_DT <= sysdate
+AND APL.NO                                 = PTAB_ASSIGNMENT.FK_AD_FK_APPEAL_NO
+AND APL.FK_AA_SERIAL_NO                    = PTAB_ASSIGNMENT.FK_AD_FK_AA_SERIAL_NO 
+ ]]>
+	</sql-query>
+
+	<sql-query name="getAssignmentsBasedDocketWidgetData">
+	<![CDATA[
+SELECT PTAB_ASSIGNMENT.ASSIGNMENT_DUE_DT,
+  PTAB_ASSIGNMENT.TASK_TITLE_TX,
+  PTAB_ASSIGNMENT.FK_AD_FK_APPEAL_NO,
+  PTAB_ASSIGNMENT.FK_AD_FK_AA_SERIAL_NO,
+  DN_DOCKET.PATENT_NO,
+  PTAB_ASSIGNMENT.ASSIGNED_DT,
+  PTAB_ASSIGNMENT.LOCK_CONTROL_NO,
+  DN_DOCKET.APJ1_WORKER_ID,
+  DN_DOCKET.APJ3_WORKER_ID,
+  STND_ASSIGNMENT_TYPE.DISPLAY_NM,
+  PTAB_ASSIGNMENT.ACTIVE_IN,
+  APPEAL_DECISION.DECISION_DUE_DT,
+  PTAB_ASSIGNMENT.FK_ASSIGNEE_BE_NO,
+  PTAB_ASSIGNMENT.PTAB_ASSIGNMENT_ID,
+  PTAB_ASSIGNMENT.FK_ASSIGNMENT_TYPE_ID,
+  PTAB_ASSIGNMENT.FK_ASSIGNOR_BE_NO,
+  PTAB_ASSIGNMENT.FK_ASSIGNMENT_STATUS_CD,
+  DN_DOCKET.ART_CLS_NO,
+  PTAB_ASSIGNMENT.COMPLETION_DT,
+  PTAB_ASSIGNMENT.CREATE_TS AS "assignmentCreateTs",
+  PTAB_ASSIGNMENT.CREATOR_USER_ID,
+  DN_DOCKET.HEARING_NOTICE_MAILED_DT,
+  PTAB_ASSIGNMENT.LAST_MODIFIED_TS      AS "assignmentLastModifiedTs",
+  PTAB_ASSIGNMENT.LAST_MODIFIED_USER_ID AS "assignmentLastModifiedUids",
+  PTAB_ASSIGNMENT.COMMENT_TX,
+  PTAB_ASSIGNMENT.PALM_MAILED_DT,
+  DN_DOCKET.PROCEEDING_TYPE_CT,
+  DN_DOCKET.SPECIAL_PROCEEDING_TYPE_NM,
+  DN_DOCKET.ART_SUBCLS_NO,
+  PTAB_ASSIGNMENT.TASK_DESC_TX,
+  PTAB_ASSIGNMENT.PTAB_ASSIGNMENT_ID AS "assignmentIdentifier",
+  PTAB_ASSIGNMENT.FK_PREEXISTENT_ASSIGNMENT_ID AS "preExistentIdentifier",
+  DN_DOCKET.APPEAL_FORWARDING_FEE_PAID_DT,
+  DN_DOCKET.APPLICANT_NAME_TX,
+  DN_DOCKET.INVENTION_TITLE_TX,
+  DN_DOCKET.ART_UNIT_NO,
+  DN_DOCKET.APPLICATION_TYPE_NM,
+  DN_DOCKET.INTERESTED_PARTY_NAME_TX,
+  DN_DOCKET.CASE_DISCIPLINE_NM,
+  DN_DOCKET.PROCEEDING_TYPE_NM,
+  DN_DOCKET.CONTINUITY_TYPE_CD,
+  DN_DOCKET.DOCKET_NOTICE_MAILED_DT,
+  DN_DOCKET.INVENTION_SUBJECT_MATTER_CD,
+  DN_DOCKET.LATEST_PALM_STATUS_CD,
+  DN_DOCKET.LATEST_PALM_DESCRIPTION_TX,
+  DN_DOCKET.LATEST_PALM_STATUS_NO,
+  DN_DOCKET.NEXT_DISPOSITION_DT,
+  DN_DOCKET.NEXT_DISPOSITION_NM,
+  DN_DOCKET.PROCEEDING_FILING_DT,
+  DN_DOCKET.PROCEEDING_NAME_TX,
+  DN_DOCKET.RESPONDENT_NAME_TX,
+  DN_DOCKET.PROCEEDING_STATUS_NM,
+  DN_DOCKET.ATTORNEY_WORKER_ID,
+  DN_DOCKET.ADDITIONAL_APJ_WORKER_ID_TX,
+  DN_DOCKET.INVENTOR_NAME_TX, 
+  HEARING_ROOM_ROSTER.HEARING_DT,
+  HEARING_ROOM_ROSTER.HEARING_TM,
+  (SELECT DESCRIPTION_TX
+  FROM code_reference
+  WHERE TYPE_CD='HEARING STATUS'
+  AND VALUE_TX =HEARING_ROOM_ROSTER.STATUS_CD
+  ) AS status,
+  STND_HEARING_LOCATION.DESCRIPTION_TX,
+  (SELECT
+    CASE
+      WHEN COUNT(fk_aa_serial_no) > 1
+      THEN 'M'
+      ELSE ''
+    END
+  FROM APPEAL
+  WHERE APPEAL.NO = PTAB_ASSIGNMENT.FK_AD_FK_APPEAL_NO
+  ) AS combinedCase,
+  (SELECT DESCRIPTION_TX
+  FROM CODE_REFERENCE
+  WHERE TYPE_CD = 'CASE DISCIPLINE'
+  AND VALUE_TX  = (SELECT FK_PROCEEDING_DISCIPLINE_CD
+  FROM APPEAL
+  WHERE APPEAL.NO = PTAB_ASSIGNMENT.FK_AD_FK_APPEAL_NO
+  AND APPEAL.FK_AA_SERIAL_NO = PTAB_ASSIGNMENT.FK_AD_FK_AA_SERIAL_NO)
+  ) AS "panelingDiscipline",
+  CASE
+    WHEN PTAB_ASSIGNMENT.PRIORITY_IN ='Y'
+    THEN 'PRIORITY'
+    ELSE ' '
+  END
+  || ','
+  ||
+  CASE
+  WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNED_DT+2,'DD'),'DD-MM-YYYY') = TO_DATE(SYSDATE,'DD-MM-YYYY')
+    THEN 'NEWINDICATOR'
+    WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNED_DT+1,'DD'),'DD-MM-YYYY') = TO_DATE(SYSDATE,'DD-MM-YYYY')
+    THEN 'NEWINDICATOR'
+    WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNED_DT,'DD'),'DD-MM-YYYY') = TO_DATE(SYSDATE,'DD-MM-YYYY')
+    THEN 'NEWINDICATOR'
+    ELSE ' '
+  END
+  || ','
+  ||
+  CASE
+    WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNMENT_DUE_DT,'DD'),'DD-MM-YYYY') = TO_DATE(SYSDATE,'DD-MM-YYYY')
+    THEN 'DUEDAY'
+    ELSE ' '
+  END
+  || ','
+  ||
+  CASE
+    WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNMENT_DUE_DT,'DD'),'DD-MM-YYYY') < TO_DATE(SYSDATE,'DD-MM-YYYY')
+    THEN 'OVERDUE'
+    ELSE ' '
+  END
+  || ','
+  ||
+  CASE
+    WHEN TO_DATE(TRUNC(
+      (SELECT END_EFFECTIVE_DT
+      FROM APPLICATION_USER
+      WHERE APPLICATION_USER_ID = PTAB_ASSIGNMENT.FK_ASSIGNEE_BE_NO
+      ) ,'DD'),'DD-MM-YYYY')    < TO_DATE(SYSDATE,'DD-MM-YYYY')
+    THEN 'INACTIVEASSIGNEE'
+    ELSE ' '
+  END
+  || ',END' AS "alertText",
+  CASE
+    WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNMENT_DUE_DT,'DD'),'DD-MM-YYYY') < TO_DATE(SYSDATE,'DD-MM-YYYY')
+    THEN 'PASTDUE'
+    WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNMENT_DUE_DT,'DD'),'DD-MM-YYYY') = TO_DATE(SYSDATE,'DD-MM-YYYY')
+    THEN 'TODAY'
+    WHEN TO_DATE(TRUNC(PTAB_ASSIGNMENT.ASSIGNED_DT,'DD'),'DD-MM-YYYY') = TO_DATE(SYSDATE,'DD-MM-YYYY')
+    THEN 'NEW'
+    ELSE ' '
+  END                AS "dueDateStatus",
+  AU.CFK_EMPLOYEE_ID AS "assignorName" ,
+  (
+  CASE
+    WHEN trim(AUA.first_nm) IS NOT NULL
+    AND trim(AUA.last_nm)   IS NOT NULL
+    THEN
+      CASE
+        WHEN trim(AUA.middle_nm) IS NOT NULL
+        THEN
+          CASE
+            WHEN LENGTH(trim(AUA.middle_nm))=1
+            THEN AUA.last_nm
+              ||', '
+              ||AUA.first_nm
+              ||' '
+              ||AUA.middle_nm
+              ||'.'
+            ELSE AUA.last_nm
+              ||', '
+              ||AUA.first_nm
+              ||' '
+              ||AUA.middle_nm
+          END
+        ELSE AUA.last_nm
+          ||', '
+          ||AUA.first_nm
+      END
+    ELSE
+      CASE
+        WHEN trim(AUA.first_nm) IS NOT NULL
+        AND trim(AUA.last_nm)   IS NULL
+        THEN
+          CASE
+            WHEN trim(AUA.middle_nm) IS NOT NULL
+            THEN
+              CASE
+                WHEN LENGTH(trim(AUA.middle_nm))=1
+                THEN AUA.first_nm
+                  ||' '
+                  ||AUA.middle_nm
+                  ||'.'
+                ELSE AUA.first_nm
+                  ||' '
+                  ||AUA.middle_nm
+              END
+            ELSE AUA.first_nm
+          END
+        ELSE
+          CASE
+            WHEN trim(AUA.first_nm) IS NULL
+            AND trim(AUA.last_nm)   IS NOT NULL
+            THEN
+              CASE
+                WHEN trim(AUA.middle_nm) IS NOT NULL
+                THEN
+                  CASE
+                    WHEN LENGTH(trim(AUA.middle_nm))=1
+                    THEN AUA.last_nm
+                      ||', '
+                      ||AUA.middle_nm
+                      ||'.'
+                    ELSE AUA.last_nm
+                      ||', '
+                      ||AUA.middle_nm
+                  END
+                ELSE AUA.last_nm
+              END
+            ELSE
+              CASE
+                WHEN trim(AUA.first_nm) IS NULL
+                AND trim(AUA.last_nm)   IS NULL
+                THEN
+                  CASE
+                    WHEN trim(AUA.middle_nm) IS NOT NULL
+                    THEN
+                      CASE
+                        WHEN LENGTH(trim(AUA.middle_nm))=1
+                        THEN AUA.middle_nm
+                          ||'.'
+                        ELSE AUA.middle_nm
+                      END
+                    ELSE NULL
+                  END
+                ELSE NULL
+              END
+          END
+      END
+  END)                AS "creatorUserName" ,
+  AUB.CFK_EMPLOYEE_ID AS "assigneeName" ,
+  (
+  CASE
+    WHEN trim(AUC.first_nm) IS NOT NULL
+    AND trim(AUC.last_nm)   IS NOT NULL
+    THEN
+      CASE
+        WHEN trim(AUC.middle_nm) IS NOT NULL
+        THEN
+          CASE
+            WHEN LENGTH(trim(AUC.middle_nm))=1
+            THEN AUC.last_nm
+              ||', '
+              ||AUC.first_nm
+              ||' '
+              ||AUC.middle_nm
+              ||'.'
+            ELSE AUC.last_nm
+              ||', '
+              ||AUC.first_nm
+              ||' '
+              ||AUC.middle_nm
+          END
+        ELSE AUC.last_nm
+          ||', '
+          ||AUC.first_nm
+      END
+    ELSE
+      CASE
+        WHEN trim(AUC.first_nm) IS NOT NULL
+        AND trim(AUC.last_nm)   IS NULL
+        THEN
+          CASE
+            WHEN trim(AUC.middle_nm) IS NOT NULL
+            THEN
+              CASE
+                WHEN LENGTH(trim(AUC.middle_nm))=1
+                THEN AUC.first_nm
+                  ||' '
+                  ||AUC.middle_nm
+                  ||'.'
+                ELSE AUC.first_nm
+                  ||' '
+                  ||AUC.middle_nm
+              END
+            ELSE AUC.first_nm
+          END
+        ELSE
+          CASE
+            WHEN trim(AUC.first_nm) IS NULL
+            AND trim(AUC.last_nm)   IS NOT NULL
+            THEN
+              CASE
+                WHEN trim(AUC.middle_nm) IS NOT NULL
+                THEN
+                  CASE
+                    WHEN LENGTH(trim(AUC.middle_nm))=1
+                    THEN AUC.last_nm
+                      ||', '
+                      ||AUC.middle_nm
+                      ||'.'
+                    ELSE AUC.last_nm
+                      ||', '
+                      ||AUC.middle_nm
+                  END
+                ELSE AUC.last_nm
+              END
+            ELSE
+              CASE
+                WHEN trim(AUC.first_nm) IS NULL
+                AND trim(AUC.last_nm)   IS NULL
+                THEN
+                  CASE
+                    WHEN trim(AUC.middle_nm) IS NOT NULL
+                    THEN
+                      CASE
+                        WHEN LENGTH(trim(AUC.middle_nm))=1
+                        THEN AUC.middle_nm
+                          ||'.'
+                        ELSE AUC.middle_nm
+                      END
+                    ELSE NULL
+                  END
+                ELSE NULL
+              END
+          END
+      END
+  END) AS "lastModifiedUserName" ,
+  (
+  CASE
+    WHEN trim(AUD.first_nm) IS NOT NULL
+    AND trim(AUD.last_nm)   IS NOT NULL
+    THEN
+      CASE
+        WHEN trim(AUD.middle_nm) IS NOT NULL
+        THEN
+          CASE
+            WHEN LENGTH(trim(AUD.middle_nm))=1
+            THEN AUD.last_nm
+              ||', '
+              ||AUD.first_nm
+              ||' '
+              ||AUD.middle_nm
+              ||'.'
+            ELSE AUD.last_nm
+              ||', '
+              ||AUD.first_nm
+              ||' '
+              ||AUD.middle_nm
+          END
+        ELSE AUD.last_nm
+          ||', '
+          ||AUD.first_nm
+      END
+    ELSE
+      CASE
+        WHEN trim(AUD.first_nm) IS NOT NULL
+        AND trim(AUD.last_nm)   IS NULL
+        THEN
+          CASE
+            WHEN trim(AUD.middle_nm) IS NOT NULL
+            THEN
+              CASE
+                WHEN LENGTH(trim(AUD.middle_nm))=1
+                THEN AUD.first_nm
+                  ||' '
+                  ||AUD.middle_nm
+                  ||'.'
+                ELSE AUD.first_nm
+                  ||' '
+                  ||AUD.middle_nm
+              END
+            ELSE AUD.first_nm
+          END
+        ELSE
+          CASE
+            WHEN trim(AUD.first_nm) IS NULL
+            AND trim(AUD.last_nm)   IS NOT NULL
+            THEN
+              CASE
+                WHEN trim(AUD.middle_nm) IS NOT NULL
+                THEN
+                  CASE
+                    WHEN LENGTH(trim(AUD.middle_nm))=1
+                    THEN AUD.last_nm
+                      ||', '
+                      ||AUD.middle_nm
+                      ||'.'
+                    ELSE AUD.last_nm
+                      ||', '
+                      ||AUD.middle_nm
+                  END
+                ELSE AUD.last_nm
+              END
+            ELSE
+              CASE
+                WHEN trim(AUD.first_nm) IS NULL
+                AND trim(AUD.last_nm)   IS NULL
+                THEN
+                  CASE
+                    WHEN trim(AUD.middle_nm) IS NOT NULL
+                    THEN
+                      CASE
+                        WHEN LENGTH(trim(AUD.middle_nm))=1
+                        THEN AUD.middle_nm
+                          ||'.'
+                        ELSE AUD.middle_nm
+                      END
+                    ELSE NULL
+                  END
+                ELSE NULL
+              END
+          END
+      END
+  END) AS "appealPanelJudgeOne",
+  (
+  CASE
+    WHEN trim(AUF.first_nm) IS NOT NULL
+    AND trim(AUF.last_nm)   IS NOT NULL
+    THEN
+      CASE
+        WHEN trim(AUF.middle_nm) IS NOT NULL
+        THEN
+          CASE
+            WHEN LENGTH(trim(AUF.middle_nm))=1
+            THEN AUF.last_nm
+              ||', '
+              ||AUF.first_nm
+              ||' '
+              ||AUF.middle_nm
+              ||'.'
+            ELSE AUF.last_nm
+              ||', '
+              ||AUF.first_nm
+              ||' '
+              ||AUF.middle_nm
+          END
+        ELSE AUF.last_nm
+          ||', '
+          ||AUF.first_nm
+      END
+    ELSE
+      CASE
+        WHEN trim(AUF.first_nm) IS NOT NULL
+        AND trim(AUF.last_nm)   IS NULL
+        THEN
+          CASE
+            WHEN trim(AUF.middle_nm) IS NOT NULL
+            THEN
+              CASE
+                WHEN LENGTH(trim(AUF.middle_nm))=1
+                THEN AUF.first_nm
+                  ||' '
+                  ||AUF.middle_nm
+                  ||'.'
+                ELSE AUF.first_nm
+                  ||' '
+                  ||AUF.middle_nm
+              END
+            ELSE AUF.first_nm
+          END
+        ELSE
+          CASE
+            WHEN trim(AUF.first_nm) IS NULL
+            AND trim(AUF.last_nm)   IS NOT NULL
+            THEN
+              CASE
+                WHEN trim(AUF.middle_nm) IS NOT NULL
+                THEN
+                  CASE
+                    WHEN LENGTH(trim(AUF.middle_nm))=1
+                    THEN AUF.last_nm
+                      ||', '
+                      ||AUF.middle_nm
+                      ||'.'
+                    ELSE AUF.last_nm
+                      ||', '
+                      ||AUF.middle_nm
+                  END
+                ELSE AUF.last_nm
+              END
+            ELSE
+              CASE
+                WHEN trim(AUF.first_nm) IS NULL
+                AND trim(AUF.last_nm)   IS NULL
+                THEN
+                  CASE
+                    WHEN trim(AUF.middle_nm) IS NOT NULL
+                    THEN
+                      CASE
+                        WHEN LENGTH(trim(AUF.middle_nm))=1
+                        THEN AUF.middle_nm
+                          ||'.'
+                        ELSE AUF.middle_nm
+                      END
+                    ELSE NULL
+                  END
+                ELSE NULL
+              END
+          END
+      END
+  END) AS "appealPanelJudgeTwo",
+  (
+  CASE
+    WHEN trim(AUG.first_nm) IS NOT NULL
+    AND trim(AUG.last_nm)   IS NOT NULL
+    THEN
+      CASE
+        WHEN trim(AUG.middle_nm) IS NOT NULL
+        THEN
+          CASE
+            WHEN LENGTH(trim(AUG.middle_nm))=1
+            THEN AUG.last_nm
+              ||', '
+              ||AUG.first_nm
+              ||' '
+              ||AUG.middle_nm
+              ||'.'
+            ELSE AUG.last_nm
+              ||', '
+              ||AUG.first_nm
+              ||' '
+              ||AUG.middle_nm
+          END
+        ELSE AUG.last_nm
+          ||', '
+          ||AUG.first_nm
+      END
+    ELSE
+      CASE
+        WHEN trim(AUG.first_nm) IS NOT NULL
+        AND trim(AUG.last_nm)   IS NULL
+        THEN
+          CASE
+            WHEN trim(AUG.middle_nm) IS NOT NULL
+            THEN
+              CASE
+                WHEN LENGTH(trim(AUG.middle_nm))=1
+                THEN AUG.first_nm
+                  ||' '
+                  ||AUG.middle_nm
+                  ||'.'
+                ELSE AUG.first_nm
+                  ||' '
+                  ||AUG.middle_nm
+              END
+            ELSE AUG.first_nm
+          END
+        ELSE
+          CASE
+            WHEN trim(AUG.first_nm) IS NULL
+            AND trim(AUG.last_nm)   IS NOT NULL
+            THEN
+              CASE
+                WHEN trim(AUG.middle_nm) IS NOT NULL
+                THEN
+                  CASE
+                    WHEN LENGTH(trim(AUG.middle_nm))=1
+                    THEN AUG.last_nm
+                      ||', '
+                      ||AUG.middle_nm
+                      ||'.'
+                    ELSE AUG.last_nm
+                      ||', '
+                      ||AUG.middle_nm
+                  END
+                ELSE AUG.last_nm
+              END
+            ELSE
+              CASE
+                WHEN trim(AUG.first_nm) IS NULL
+                AND trim(AUG.last_nm)   IS NULL
+                THEN
+                  CASE
+                    WHEN trim(AUG.middle_nm) IS NOT NULL
+                    THEN
+                      CASE
+                        WHEN LENGTH(trim(AUG.middle_nm))=1
+                        THEN AUG.middle_nm
+                          ||'.'
+                        ELSE AUG.middle_nm
+                      END
+                    ELSE NULL
+                  END
+                ELSE NULL
+              END
+          END
+      END
+  END) AS "appealPanelJudgeThree",
+  (
+  CASE
+    WHEN TO_DATE(TRUNC(AUB.END_EFFECTIVE_DT,'DD'),'DD-MM-YYYY') IS NULL
+    THEN 'Active'
+    ELSE 'InActive'
+  END)                                AS "assigneeStatus" ,
+  SAS.description_tx                  AS "assignmentStatus",
+  STND_ASSIGNMENT_TYPE.description_tx AS "assignmentTypeDescription"
+FROM PTAB_ASSIGNMENT PTAB_ASSIGNMENT
+LEFT OUTER JOIN APPLICATION_USER AU
+ON PTAB_ASSIGNMENT.FK_ASSIGNOR_BE_NO= AU.APPLICATION_USER_ID
+LEFT OUTER JOIN APPLICATION_USER AUA
+ON PTAB_ASSIGNMENT.CREATOR_USER_ID= AUA.USER_ID
+LEFT OUTER JOIN APPLICATION_USER AUB
+ON PTAB_ASSIGNMENT.FK_ASSIGNEE_BE_NO= AUB.APPLICATION_USER_ID
+LEFT OUTER JOIN APPLICATION_USER AUC
+ON PTAB_ASSIGNMENT.LAST_MODIFIED_USER_ID= AUC.USER_ID
+LEFT OUTER JOIN stnd_Assignment_status SAS
+ON PTAB_ASSIGNMENT.FK_ASSIGNMENT_STATUS_CD= SAS.assignment_Status_Cd
+LEFT OUTER JOIN DN_DOCKET
+ON DN_DOCKET.PROCEEDING_CORE_ID           =PTAB_ASSIGNMENT.FK_AD_FK_AA_SERIAL_NO
+AND DN_DOCKET.PROCEEDING_SUPPLEMENTARY_ID =PTAB_ASSIGNMENT.FK_AD_FK_APPEAL_NO
+AND DN_DOCKET.PROCEEDING_TYPE_CT          ='APPEAL'
+LEFT OUTER JOIN APPLICATION_USER AUD
+ON DN_DOCKET.APJ1_WORKER_ID= AUD.APPLICATION_USER_ID
+LEFT OUTER JOIN APPLICATION_USER AUF
+ON DN_DOCKET.APJ2_WORKER_ID= AUF.APPLICATION_USER_ID
+LEFT OUTER JOIN APPLICATION_USER AUG
+ON DN_DOCKET.APJ3_WORKER_ID= AUG.APPLICATION_USER_ID
+LEFT OUTER JOIN
+  (SELECT x.FK_APPEAL_FK_AA_SERIAL_NO ,
+    x.FK_APPEAL_NO,
+    x.DECISION_DUE_DT ,
+    x.LAST_MODIFIED_TS
+  FROM APPEAL_DECISION x
+  WHERE x.LAST_MODIFIED_TS =
+    (SELECT MAX(x1.LAST_MODIFIED_TS)
+    FROM APPEAL_DECISION x1
+    WHERE x1.FK_APPEAL_FK_AA_SERIAL_NO = x.FK_APPEAL_FK_AA_SERIAL_NO
+    AND x1.FK_APPEAL_NO                = x.FK_APPEAL_NO
+    )
+  ) APPEAL_DECISION
+ON APPEAL_DECISION.FK_APPEAL_FK_AA_SERIAL_NO =PTAB_ASSIGNMENT.FK_AD_FK_AA_SERIAL_NO
+AND APPEAL_DECISION.FK_APPEAL_NO             =PTAB_ASSIGNMENT.FK_AD_FK_APPEAL_NO
+LEFT OUTER JOIN STND_ASSIGNMENT_TYPE
+ON PTAB_ASSIGNMENT.FK_ASSIGNMENT_TYPE_ID=STND_ASSIGNMENT_TYPE.ASSIGNMENT_TYPE_ID
+LEFT OUTER JOIN HEARING_ROOM_ROSTER
+ON HEARING_ROOM_ROSTER.FK_AD_FK_AA_SERIAL_NO = PTAB_ASSIGNMENT.FK_AD_FK_AA_SERIAL_NO
+AND HEARING_ROOM_ROSTER.FK_AD_FK_APPEAL_NO   = PTAB_ASSIGNMENT.FK_AD_FK_APPEAL_NO
+LEFT OUTER JOIN STND_HEARING_LOCATION
+ON HEARING_ROOM_ROSTER.FK_HEARING_LOCATION_ID=STND_HEARING_LOCATION.HEARING_LOCATION_ID
+LEFT OUTER JOIN APPEAL
+ON APPEAL.NO                             =PTAB_ASSIGNMENT.FK_AD_FK_APPEAL_NO
+AND APPEAL.FK_AA_SERIAL_NO               =PTAB_ASSIGNMENT.FK_AD_FK_AA_SERIAL_NO
+WHERE PTAB_ASSIGNMENT.fk_assignee_be_no IN :assignees
+AND PTAB_ASSIGNMENT.completion_dt       IS NULL
+AND PTAB_ASSIGNMENT.active_in            ='A'
+AND PTAB_ASSIGNMENT.ASSIGNED_DT <= sysdate
+ORDER BY PTAB_ASSIGNMENT.ASSIGNMENT_DUE_DT
+	 ]]>
+	</sql-query>
+	
+		<sql-query name="getAssignmentDueDate">
+	<![CDATA[
+	
+	SELECT t1.assigned_dt
+FROM ptab_assignment t1,
+  (SELECT ptab_assignment_id,
+    SUBSTR ( sys_connect_by_path ( PTAB_ASSIGNMENT_id, ',' ), 2,instr(SUBSTR(sys_connect_by_path ( PTAB_ASSIGNMENT_id, ',' ),2),',' )-1) parent_id
+  FROM PTAB_ASSIGNMENT
+  WHERE FK_PREEXISTENT_ASSIGNMENT_ID                             IN(:preExistentIdentifier)
+  AND connect_by_root ( FK_PREEXISTENT_ASSIGNMENT_ID ) IS NULL
+    CONNECT BY prior PTAB_ASSIGNMENT_id                 = FK_PREEXISTENT_ASSIGNMENT_ID
+  ) t2
+WHERE t1.PTAB_ASSIGNMENT_id=t2.parent_id and rownum=1
+	 ]]>
+	</sql-query>
+	
+</hibernate-mapping>	

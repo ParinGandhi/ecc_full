@@ -1,0 +1,12 @@
+<div ng-controller="ToasterController" class="{{toastClass}} {{toastType}}" ng-click="tapToast()">
+  <div ng-switch on="allowHtml">
+    <button aria-hidden="true" autofocus="false" type="button" id="modalClose" class="close" ng-click="closeThisDialog()">
+      <i class="fas fa-times fa-sm"></i><span class="sr-only"> close toast message</span>
+    </button>
+    <div ng-switch-default ng-if="title" class="toast-containerData truncateTitle" aria-label="{{title}}">{{title}}</div>
+    <div ng-switch-default class="toast-containerData truncateTitle" aria-label="{{message}}">{{message}}</div>
+    <div ng-switch-when="true" ng-if="title" class="toast-containerData truncateTitle" ng-bind-html="title"></div>
+    <div ng-switch-when="true" class="toast-containerData truncateTitle" ng-bind-html="message"></div>
+  </div>
+  <button type="button" class="btn btn-link" ng-click="openToasterConsole()">View Details</button>
+</div>
