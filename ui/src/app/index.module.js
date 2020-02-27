@@ -1,4 +1,4 @@
-(function () {
+(function() {
   "use strict";
 
   angular
@@ -22,6 +22,7 @@
       "adf.widget.web",
       "adf.widget.search",
       "adf.widget.map",
+      "adf.widget.video",
       "ui.sortable",
       "ngDialog",
       "ui.grid",
@@ -39,7 +40,7 @@
       "angularjs-dropdown-multiselect",
       "ui.grid.cellNav"
     ])
-    .factory("context", function ($location, CONSTANTS) {
+    .factory("context", function($location, CONSTANTS) {
       // Revision 1711
 
       var protocol = $location.protocol() + "://";
@@ -48,8 +49,8 @@
       var base = CONSTANTS.URL.BASE;
 
       if ($location.host() === "localhost") {
-        return "http://localhost:8080"+base;
-        // return 'http://localhost:8080';
+        return "http://localhost:8080" + base;
+        // return "http://localhost:8080";
         // return 'https://ptab-services.sit.uspto.gov/PTABAppealsServices';
         // return 'https://ptab-services1.sit.uspto.gov/PTABAppealsServices';
         // return 'https://ptabe2eint-pvt.etc.uspto.gov/PTABAppealsServices';
@@ -60,8 +61,8 @@
         return protocol + host + ":" + port + base;
       }
     })
-    .factory("getURL", function (context) {
-      return function (url) {
+    .factory("getURL", function(context) {
+      return function(url) {
         return context + url;
       };
     });
