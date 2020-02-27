@@ -1,0 +1,11 @@
+<div id="scopeOfChannel" ng-controller="AudioChannelController">
+  <span ng-repeat="item in audioArray"><audio id="{{item.audioId}}" onloadeddata="angular.element(document.getElementById('scopeOfChannel')).scope().initAudio(this.id)" onplay="angular.element(document.getElementById('scopeOfChannel')).scope().onPlay(this.id)" controls>
+    <source src="{{item.audioUrl}}" type="audio/ogg">
+    <source src="{{item.audioUrl}}" type="audio/mpeg">
+      
+  Your browser does not support the audio element.
+  </audio> &nbsp;
+  <button ng-click="panner(item.audioId,-1)">left</button> 
+  <button ng-click="panner(item.audioId,1)">right</button> 
+</span>
+</div>
