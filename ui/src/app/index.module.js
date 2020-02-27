@@ -18,6 +18,7 @@
       "adf.widget.cnn",
       "adf.widget.bbc",
       "adf.widget.dataAnalytics",
+      "adf.widget.audioChannel",
       "adf.widget.web",
       "adf.widget.search",
       "adf.widget.map",
@@ -47,7 +48,7 @@
       var base = CONSTANTS.URL.BASE;
 
       if ($location.host() === "localhost") {
-        return "http://localhost:8080" + base;
+        return "http://localhost:8080"+base;
         // return 'http://localhost:8080';
         // return 'https://ptab-services.sit.uspto.gov/PTABAppealsServices';
         // return 'https://ptab-services1.sit.uspto.gov/PTABAppealsServices';
