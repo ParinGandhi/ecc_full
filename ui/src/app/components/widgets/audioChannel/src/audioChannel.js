@@ -55,7 +55,30 @@ $scope.onPlay= function(id){
   $scope[panner].connect(audioCtx.destination);
 }
 
+    vm.sample = "sdf";
+    $scope.sample = "sd";
+    var audioCtx;
+    $scope.initAudios = function() {
+      $scope.audioArray.forEach(function(each) {
+        $scope[each.audioId] = document.querySelector(each.audioId);
 
+        //pre.innerHTML = myScript.innerHTML;
+
+        $scope[each.audioId].addEventListener("play", function() {
+          // Create audio context if it doesn't already exist
+          if (!audioCtx) {
+            audioCtx = new window.AudioContext();
+          }
+
+          var source = audioCtx.createMediaElementSource($scope[each.audioId]);
+
+          $scope[each.pannerId] = audioCtx.createStereoPanner();
+
+          source.connect($scope[each.pannerId]);
+          $scope[each.pannerId].connect(audioCtx.destination);
+        });
+      });
+    };
 
 $scope.panner = function(id,value){
   var pannerId = id + "panner";
