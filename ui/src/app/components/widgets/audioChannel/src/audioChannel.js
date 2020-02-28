@@ -15,10 +15,13 @@ angular.module('adf.widget.audioChannel', ['adf.provider'])
 var vm = this;
 $scope.audioArray=[
 
-{"audioId":"audioTwo","channelName":"Channel one","audioUrl":"https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3","pannerId":"pannerTwo"},
-{"audioId":"audioThree","channelName":"Channel two","audioUrl":"http://www.music.helsinki.fi/tmt/opetus/uusmedia/esim/a2002011001-e02-128k.mp3","pannerId":"pannerTwo"}
+{"audioId":"audioTwo","channelName":"Channel one","audioUrl":"https://mobcup.net/d/mxq25i8c/mp3","pannerId":"pannerTwo"},
+{"audioId":"audioThree","channelName":"Channel two","audioUrl":"https://mobcup.net/d/u8fequ3t/mp3","pannerId":"pannerTwo"},
+{"audioId":"audioFour","channelName":"Channel three","audioUrl":"http://www.music.helsinki.fi/tmt/opetus/uusmedia/esim/a2002011001-e02-128k.mp3","pannerId":"pannerTwo"},
+{"audioId":"audioFive","channelName":"Channel four","audioUrl":"https://files1.mp3slash.xyz/stream/f56fd468db29d4ac24fee86e406a13b2","pannerId":"pannerTwo"},
+{"audioId":"audioSix","channelName":"Channel five","audioUrl":"http://par2.filemaple.site/download/zMsfs1MziNq-9yTje9z6Xw/1582859711/t/2011/3moonu/128/Why-this-kolaveri-di.mp3","pannerId":"pannerTwo"}
 ];
-
+$scope.widgetIdentifier = $scope.$parent.$parent.model.widgetIdentifier;
 vm.sample="sdf";
 $scope.sample="sd";
 
@@ -42,11 +45,12 @@ $scope.onPlay= function(id){
   if(!audioCtx) {
     audioCtx = new window.AudioContext();
   }
-
+  var panner= id + "panner";
+if(!$scope[panner]){
   $scope[id] = document.getElementById(id);
   var myaudio = $scope[id];
   var source = audioCtx.createMediaElementSource(myaudio);
-  var panner= id + "panner";
+  
   
   $scope[panner] = audioCtx.createStereoPanner();
 
@@ -55,33 +59,15 @@ $scope.onPlay= function(id){
   $scope[panner].connect(audioCtx.destination);
 }
 
-    vm.sample = "sdf";
-    $scope.sample = "sd";
-    var audioCtx;
-    $scope.initAudios = function() {
-      $scope.audioArray.forEach(function(each) {
-        $scope[each.audioId] = document.querySelector(each.audioId);
+  
+}
 
-        //pre.innerHTML = myScript.innerHTML;
-
-        $scope[each.audioId].addEventListener("play", function() {
-          // Create audio context if it doesn't already exist
-          if (!audioCtx) {
-            audioCtx = new window.AudioContext();
-          }
-
-          var source = audioCtx.createMediaElementSource($scope[each.audioId]);
-
-          $scope[each.pannerId] = audioCtx.createStereoPanner();
-
-          source.connect($scope[each.pannerId]);
-          $scope[each.pannerId].connect(audioCtx.destination);
-        });
-      });
-    };
+ 
 
 $scope.panner = function(id,value){
   var pannerId = id + "panner";
-$scope[pannerId].pan.value=value;
+  if(id && $scope[pannerId]){
+    $scope[pannerId].pan.value=value;
+  }
 }
   });
