@@ -11,8 +11,16 @@ angular.module('adf.widget.audioChannel', ['adf.provider'])
           templateUrl: '{widgetsPath}/audioChannel/src/edit.html'
         }
       });
-  }).controller('AudioChannelController', function ($scope,$sce) {
+  }).directive('audioChannel',function(){
+    return {
+      restrict: 'E',
+      templateUrl: 'app/components/widgets/audioChannel/src/audioChannelView.html',
+      bindToController: true
+    };
+  })
+  .controller('AudioChannelController', function ($scope,$sce) {
 var vm = this;
+
 $scope.audioArray=[
 
 {"audioId":"audioTwo","channelName":"Channel one","audioUrl":"https://mobcup.net/d/mxq25i8c/mp3","pannerId":"pannerTwo"},

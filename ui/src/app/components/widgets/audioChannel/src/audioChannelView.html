@@ -1,0 +1,18 @@
+<div id="scopeOfChannel" ng-controller="AudioChannelController">
+        <span ng-repeat="item in audioArray">
+      <p style="font-weight: bold;
+      margin-left: 1%;
+      font-size: medium;">{{item.channelName}} </p>
+          <audio id="{{item.audioId}}"  onplay="angular.element(document.getElementById('scopeOfChannel')).scope().onPlay(this.id)" controls>
+          <source src="{{item.audioUrl}}" type="audio/ogg">
+          <source src="{{item.audioUrl}}" type="audio/mpeg">
+            
+        Your browser does not support the audio element.
+        </audio> &nbsp;
+        <button class = "btn btn-default marginDrop" ng-click="panner(item.audioId,-1)">L</button> 
+        <button class="btn marginDrop" style="background-color: transparent; box-shadow: none; padding:0px;"><i class="fas fa-headphones fa-2x marginDrop" id="defaultWorkspace" style="cursor: pointer;" ng-click="panner(item.audioId,0)" aria-hidden="false"></i></button>
+        <button class = "btn btn-default marginDrop" ng-click="panner(item.audioId,1)">R</button> 
+      
+      </span>
+      </div>
+      
