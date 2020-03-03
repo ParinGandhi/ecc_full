@@ -1,23 +1,70 @@
+<head>
+        <script src="../angular-audio-recorder.min.js"></script>
+
+</head>
 <div id="scopeOfChannel" ng-controller="AudioChannelController">
         <span ng-repeat="item in audioArray">
       <p style="font-weight: bold;
       margin-left: 1%;
-      font-size: medium;">{{item.channelName}} </p>
-          <audio id="{{item.audioId}}" onpause="angular.element(document.getElementById('scopeOfChannel')).scope().onPause(this.id)" onplay="angular.element(document.getElementById('scopeOfChannel')).scope().onPlay(this.id)" controls>
+      font-size: medium;">{{item.channelName}}  </p>
+      <div class="col-md-12" style="width:110%; padding:0px;">
+          <div class="col-md-8">
+          <audio id="{{item.audioId}}"
+           onloadedmetadata="angular.element(document.getElementById('scopeOfChannel')).scope().onLoad(this.id)"
+          
+           onpause="angular.element(document.getElementById('scopeOfChannel')).scope().onPause(this.id)" 
+           onplay="angular.element(document.getElementById('scopeOfChannel')).scope().onPlay(this.id)" controls>
           <source src="{{item.audioUrl}}" type="audio/ogg">
           <source src="{{item.audioUrl}}" type="audio/mpeg">
             
         Your browser does not support the audio element.
-        </audio> &nbsp;
-        <!-- <button class="btn marginDrop" style="background-color: transparent; box-shadow: none; padding:0px;"><i class="fas fa-headphones fa-2x marginDrop" id="defaultWorkspace" style="cursor: pointer;" ng-click="panner(item.audioId,0)" aria-hidden="false"></i></button> -->
-        <!-- <form style="width:20%">
-               
-                <input type="range" class="custom-range" id="customRange">
-            </form> -->
-        <button class = "btn btn-default marginDrop" ng-click="panner(item.audioId,-1)">L</button> 
-        <button class="btn marginDrop" style="background-color: transparent; box-shadow: none; padding:0px;"><i class="fas fa-headphones fa-2x marginDrop" id="defaultWorkspace" style="cursor: pointer;" ng-click="panner(item.audioId,0)" aria-hidden="false"></i></button>
-        <button class = "btn btn-default marginDrop" ng-click="panner(item.audioId,1)">R</button> 
+        </audio> 
+    </div>
+        <div class ="col-md-4">
+                <button class="btn marginDrop"  style="background-color: transparent; box-shadow: none; padding:0px;"><i class="fas fa-headphones fa-2x marginDrop" id="defaultWorkspace" style="cursor: pointer;" ng-click="panner(item.audioId,0)" aria-hidden="false"></i></button>
+                    <button id="{{item.audioId}}l" class = "btn btn-default marginDrop" ng-click="panner(item.audioId,-1)">L</button> 
+                    
+                    <button id="{{item.audioId}}r" class = "btn btn-default marginDrop" ng-click="panner(item.audioId,1)">R</button>     
+                <div class="row" style="padding-top: 11%;">
+                        <input style="width: 70%;"type="range" class="custom-range" min="-1" max="1" step="0.1" value="0" oninput="angular.element(document.getElementById('scopeOfChannel')).scope().pannerSlider(this.id,this.value)" id="custom-panner-{{item.audioId}}">
+                </div>        
+                </div>
+    </div>
+   
+   
+          
+    
+            <hr/>
+    
       
       </span>
       </div>
+      <!-- <ng-audio-recorder id='audioInput' show-player="false"  audio-model='recordedInput'>
+           Start controls, exposed via recorder
+            <div ng-if="recorder.isAvailable">
+              <button ng-click="recorder.startRecord()" type="button" ng-disabled="recorder.status.isRecording">
+                  Start Record
+              </button>
+              <button ng-click="recorder.stopRecord()" type="button" ng-disabled="recorder.status.isRecording === false">
+                  Stop Record
+              </button>
+              <button ng-click="recorder.playbackRecording()" type="button"
+                      ng-disabled="recorder.status.isRecording || !recorder.audioModel">
+                  Play Back
+              </button>
+            </div>
+          
+            <div ng-if="!recorder.isAvailable">
+              Message for users when recording is not possible.
+            </div>
+             End controls
+          </ng-audio-recorder>
+          <div ng-if="recorder.audioModel">
+            <audio controls>
+                    <source src="{{recordedInput}}" type="audio/ogg">
+                    <source src="{{recordedInput}}" type="audio/mpeg">
+                  Your browser does not support the audio element.
+                  </audio></div> 
+                  -->
+          
       
