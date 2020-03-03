@@ -16,6 +16,7 @@
         'BASE': '/SkyTechUIDemo',
         'WHO_AM_I': '/kerb/who-am-i',
         'DEFAULTS': 'defaults',
+        'CHANNELINFO':'/user-management/channel-info',
         'USER_WORKSPACE': '/user-workspaces/',
         'USER_WORKSPACE_WITH_PARAM': '/user-workspaces?',
         'WIDGETS': '/widgets',

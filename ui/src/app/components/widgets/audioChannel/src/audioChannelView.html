@@ -1,12 +1,23 @@
-<head>
+<!-- <head>
         <script src="../angular-audio-recorder.min.js"></script>
 
-</head>
+</head> -->
+<style>
+.secondary{
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+</style>
 <div id="scopeOfChannel" ng-controller="AudioChannelController">
         <span ng-repeat="item in audioArray">
       <p style="font-weight: bold;
       margin-left: 1%;
-      font-size: medium;">{{item.channelName}}  </p>
+      font-size: medium;">{{item.channelName}} &nbsp; <button ng-class="{'btn-success':isPushSuccess && $index == selectedIndex,'secondary': $index != selectedIndex ||($index == selectedIndex && !isPushSuccess)}" 
+       ng-disabled="isPushClicked" ng-click="pushToTalk(item,$index)" class="btn "> <span ng-if=" $index != selectedIndex">push to talk <i  class="fas fa-microphone-alt fa-1x "  aria-hidden="false"></i></span>  
+    <span ng-if="$index == selectedIndex && !isPushSuccess">Connecting<i  class="fas fa-spinner fa-spin "  aria-hidden="false"></i></span>
+<span ng-if="isPushSuccess && $index == selectedIndex ">Connected</span>
+</button></p>
       <div class="col-md-12" style="width:110%; padding:0px;">
           <div class="col-md-8">
           <audio id="{{item.audioId}}"
@@ -25,7 +36,7 @@
                     <button id="{{item.audioId}}l" class = "btn btn-default marginDrop" ng-click="panner(item.audioId,-1)">L</button> 
                     
                     <button id="{{item.audioId}}r" class = "btn btn-default marginDrop" ng-click="panner(item.audioId,1)">R</button>     
-                <div class="row" style="padding-top: 11%;">
+                <div class="row" style="padding-top:8px;">
                         <input style="width: 70%;"type="range" class="custom-range" min="-1" max="1" step="0.1" value="0" oninput="angular.element(document.getElementById('scopeOfChannel')).scope().pannerSlider(this.id,this.value)" id="custom-panner-{{item.audioId}}">
                 </div>        
                 </div>
