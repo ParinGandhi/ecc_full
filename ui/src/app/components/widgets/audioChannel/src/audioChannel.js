@@ -18,9 +18,11 @@ angular.module('adf.widget.audioChannel', ['adf.provider'])
       bindToController: true
     };
   })
-  .controller('AudioChannelController', function ($scope,$sce) {
+  .controller('AudioChannelController', function ($scope,$sce,HttpFactory,$timeout,CONSTANTS) {
 var vm = this;
 $scope.recordedInput;
+$scope.selectedIndex=10000000;
+$scope.isPushSuccess =false;
 $scope.audioArray=[
 
 {"audioId":"audioTwo","channelName":"Channel one","audioUrl":"http://s-a7564316.mp3pro.xyz/070a3f7059ff4b3c63ce4/Justin%20Bieber%20%E2%80%93%20Despacito%20%F0%9F%8E%A4%20ft.%20Luis%20Fonsi%20%26%20Daddy%20Yankee%20%5BPop%5D.mp3","pannerId":"pannerTwo"},
@@ -32,7 +34,8 @@ $scope.audioArray=[
 $scope.widgetIdentifier = $scope.$parent.$parent.model.widgetIdentifier;
 vm.sample="sdf";
 $scope.sample="sd";
-
+$scope.pushToTalkName = "push to talk";
+$scope.isPushClicked = false;
 //  $scope.initAudio =function(each){
   
 //     $scope[each] = document.querySelector(each);
@@ -92,7 +95,29 @@ ele.style.outlineStyle = "none";
 ele.style.outlineWidth= "initial";
 
 }
- 
+ $scope.pushToTalk=function(item,index){
+   $scope.selectedIndex=index;
+   $scope.isPushClicked =true;
+   $scope.isPushSuccess =false;
+   $scope.pushToTalkName="Connecting";
+   var data = {
+     "channelName":item.channelName ,
+     "channelId":item.audioId
+   }
+  HttpFactory.postActions(CONSTANTS.URL.CHANNELINFO, data)
+  .then(function (successResponse) {
+  
+      $scope.isPushClicked =false;
+      $scope.isPushSuccess =true;
+     
+    
+  
+   
+  }, function (failureResponse) {
+    $scope.isPushClicked =false;
+  });
+
+ }
 $scope.pannerSlider=function(id,value){
   $scope.panner(id.split('-').pop(),value);
 }
