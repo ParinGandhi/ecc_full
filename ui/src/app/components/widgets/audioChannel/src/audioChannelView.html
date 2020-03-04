@@ -13,7 +13,9 @@
         <span ng-repeat="item in audioArray">
       <p style="font-weight: bold;
       margin-left: 1%;
-      font-size: medium;">{{item.channelName}} &nbsp; <button ng-class="{'btn-success':isPushSuccess && $index == selectedIndex,'secondary': $index != selectedIndex ||($index == selectedIndex && !isPushSuccess)}" 
+      font-size: medium;">{{item.channelName}} &nbsp; <button ng-class="{'btn-success':isPushSuccess && $index == selectedIndex,
+      'secondary': $index != selectedIndex ,
+    'btn-warning':$index == selectedIndex && !isPushSuccess}" 
        ng-disabled="isPushClicked" ng-click="pushToTalk(item,$index)" class="btn "> <span ng-if=" $index != selectedIndex">push to talk <i  class="fas fa-microphone-alt fa-1x "  aria-hidden="false"></i></span>  
     <span ng-if="$index == selectedIndex && !isPushSuccess">Connecting<i  class="fas fa-spinner fa-spin "  aria-hidden="false"></i></span>
 <span ng-if="isPushSuccess && $index == selectedIndex ">Connected</span>
