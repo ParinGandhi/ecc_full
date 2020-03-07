@@ -23,6 +23,7 @@ var vm = this;
 $scope.recordedInput;
 $scope.selectedIndex=10000000;
 $scope.isPushSuccess =false;
+$scope.recorderComplete=false;
 $scope.audioArray=[
 
 {"audioId":"audioTwo","channelName":"Channel one","audioUrl":"http://streamingv2.shoutcast.com/boleros-para-enamorarse?lang=en-US%2cen%3bq%3d0.9","pannerId":"pannerTwo"},
@@ -147,4 +148,77 @@ if(value==1){
     $scope[pannerId].pan.value=value;
   }
 }
-  });
+var timeoutId;
+        $scope.seconds = 0;
+        $scope.minutes = 0;
+        $scope.running = false;
+        function convertDataURIToBinary(dataURI) {
+          var BASE64_MARKER = ';base64,';
+          var base64Index = dataURI.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
+          var base64 = dataURI.substring(base64Index);
+          var raw = window.atob(base64);
+          var rawLength = raw.length;
+          var array = new Uint8Array(new ArrayBuffer(rawLength));
+        
+          for(i = 0; i < rawLength; i++) {
+            array[i] = raw.charCodeAt(i);
+          }
+          return array;
+        }
+        $scope.stop = function(audioModel) {
+        //  var binary =convertDataURIToBinary(audioModel);
+          var blobl = new Blob([audioModel],{type:'audio/ogg'});
+          $scope.recordedUrl =URL.createObjectURL(blobl);
+          $scope.isrec =false;
+          $scope.recorderComplete=true;
+          $timeout.cancel(timeoutId);
+          $scope.running = false;
+          $scope.clear();
+        };
+        $scope.completedConv =function(){
+          $scope.con=true;
+        }
+        $scope.start = function(rec) {
+          $scope.recordedInput =null;
+          $scope.isrec =true;
+          $scope.recorderComplete=false;
+          timer();
+          $scope.running = true;
+        };
+        
+        $scope.clear = function() {
+          $scope.seconds = 0;
+          $scope.minutes = 0;
+        };
+        
+        function timer() {
+          timeoutId = $timeout(function() {
+            updateTime(); // update Model
+            timer();
+          }, 1000);
+        }
+        
+        function updateTime() {
+          $scope.seconds++;
+          if ($scope.seconds === 60) {
+            $scope.seconds = 0;
+            $scope.minutes++;
+          }
+        }
+      
+  }).
+  filter('numberpad', function() {
+    return function(input, places) {
+      var out = "";
+      if (places) {
+        var placesLength = parseInt(places, 10);
+        var inputLength = input.toString().length;
+      
+        for (var i = 0; i < (placesLength - inputLength); i++) {
+          out = '0' + out;
+        }
+        out = out + input;
+      }
+      return out;
+    };
+  }); ;
